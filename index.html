@@ -33,7 +33,15 @@ table{width:100%;border-collapse:collapse}th,td{padding:12px 8px;border-bottom:1
 </div>
 <div class="layout">
 <aside id="hostPanel">
-  <div id="setupArea">
+  <div id="loginArea" class="card" style="margin-top:0">
+    <h2>👑 Host Login</h2>
+    <div class="muted">Sign in to control the live scoreboard.</div>
+    <label>Email</label><input id="loginEmail" type="email" autocomplete="username" placeholder="Host email">
+    <label>Password</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Password">
+    <button class="primary" style="width:100%;margin-top:12px" onclick="hostLogin()">Start Game</button>
+    <div id="loginMsg" class="notice hidden"></div>
+  </div>
+  <div id="setupArea" class="hidden">
     <label>Game</label><select id="game" onchange="selectGame(this.value)"></select>
     <label>Current player</label><select id="current" onchange="selectPlayer(this.value)"></select>
     <label>Add player</label><div class="row"><input id="newPlayer" placeholder="Name"><button class="primary" onclick="addPlayer()">Add</button></div>
@@ -76,13 +84,13 @@ table{width:100%;border-collapse:collapse}th,td{padding:12px 8px;border-bottom:1
    Host writes; viewers read only. See SETUP.md.
    ========================================================= */
 const FIREBASE_CONFIG = {
-  apiKey: "PASTE_API_KEY",
-  authDomain: "PASTE_PROJECT.firebaseapp.com",
-  databaseURL: "PASTE_DATABASE_URL",
-  projectId: "PASTE_PROJECT",
-  storageBucket: "PASTE_PROJECT.appspot.com",
-  messagingSenderId: "PASTE_SENDER_ID",
-  appId: "PASTE_APP_ID"
+  apiKey: "AIzaSyARI0-zN4pIu8NVU9g8v-lKzots4NogNys",
+  authDomain: "bandhu-balaga.firebaseapp.com",
+  databaseURL: "https://bandhu-balaga-default-rtdb.firebaseio.com",
+  projectId: "bandhu-balaga",
+  storageBucket: "bandhu-balaga.firebasestorage.app",
+  messagingSenderId: "209041712015",
+  appId: "1:209041712015:web:74e683a8ee3e654d9d21fa"
 };
 
 const games=[["🐝","Boxes & Bees"],["🃏","Card & Dice"],["🔤","Scrabble"],["🪙","Colour Coin Hunt"],["✏️","Draw & Guess"],["🎯","Dart + Balloon Finale"]];
@@ -140,25 +148,56 @@ function applyState(s){
  renderPlayers();render();
 }
 async function setupFirebase(){
- const configured=!FIREBASE_CONFIG.apiKey.startsWith("PASTE_") && !FIREBASE_CONFIG.databaseURL.startsWith("PASTE_");
- if(!configured){$("syncStatus").textContent=viewer?"Viewer mode — waiting for a shared online session.":"Local mode — add Firebase config to enable live sharing.";return}
- try{
-  const {initializeApp}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js");
-  const {getDatabase,ref,onValue,set}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js");
-  const {getAuth,signInAnonymously,onAuthStateChanged}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js");
-  const app=initializeApp(FIREBASE_CONFIG);db=getDatabase(app);dbRef=ref;const auth=getAuth(app);
-  await signInAnonymously(auth);onAuthStateChanged(auth,user=>{hostUid=user?.uid||null});
-  sessionId=new URLSearchParams(location.search).get("session")||"family-night";
-  onValue(ref(db,"sessions/"+sessionId),snap=>{const data=snap.val();if(data){applyState(data);$("syncStatus").textContent="🟢 LIVE — synced to family phones and TV";}});
- }catch(e){console.error(e);$("syncStatus").textContent="Firebase setup needs attention. Local mode still works."}
+  try{
+    const {initializeApp}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js");
+    const {getDatabase,ref,onValue,set}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js");
+    const {getAuth,signInAnonymously,signInWithEmailAndPassword,onAuthStateChanged}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js");
+    const app=initializeApp(FIREBASE_CONFIG);
+    db=getDatabase(app); dbRef=ref; window.__set=set; window.__onValue=onValue;
+    const auth=getAuth(app); window.__auth=auth; window.__signIn=signInWithEmailAndPassword;
+    sessionId=new URLSearchParams(location.search).get("session")||"sept-2026";
+
+    onAuthStateChanged(auth, async user=>{
+      if(viewer){
+        if(!user){ try{await signInAnonymously(auth)}catch(e){console.error(e)} }
+        $("syncStatus").textContent="🟢 LIVE — view only";
+        startRealtimeListener();
+      } else if(user && !user.isAnonymous){
+        hostUid=user.uid;
+        $("loginArea").classList.add("hidden");
+        $("setupArea").classList.remove("hidden");
+        $("topControls").innerHTML='<button onclick="copyViewerLink()">🔗 Copy viewer link</button><button onclick="toggleFullscreen()">⛶ TV fullscreen</button><button onclick="hostLogout()">Log out</button>';
+        $("syncStatus").textContent="🟢 HOST CONNECTED — live sync enabled";
+        startRealtimeListener();
+      } else {
+        $("loginArea").classList.remove("hidden");
+        $("setupArea").classList.add("hidden");
+      }
+    });
+  }catch(e){
+    console.error(e);
+    $("loginMsg").textContent="Firebase could not load. Check your internet connection.";
+    $("loginMsg").classList.remove("hidden");
+  }
 }
-async function pushState(){
- localStorage.setItem("familyGameNightState",JSON.stringify(localState()));
- if(db&&dbRef&&sessionId&&!viewer){try{const {set}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js");await set(dbRef(db,"sessions/"+sessionId),localState())}catch(e){toast("Could not sync; local score saved")}}
+function startRealtimeListener(){
+  if(!db||!dbRef||!sessionId||!window.__onValue)return;
+  window.__onValue(dbRef(db,"sessions/"+sessionId),snap=>{
+    const data=snap.val();
+    if(data) applyState(data);
+  });
 }
+async function hostLogin(){
+  const email=$("loginEmail").value.trim(), password=$("loginPassword").value;
+  if(!email||!password){showLoginMsg("Enter your host email and password.");return}
+  try{ await window.__signIn(window.__auth,email,password); }
+  catch(e){ console.error(e); showLoginMsg("Login failed. Check your email/password and Email/Password authentication."); }
+}
+async function hostLogout(){try{await window.__auth.signOut()}catch(e){}}
+function showLoginMsg(msg){$("loginMsg").textContent=msg;$("loginMsg").classList.remove("hidden")}
 function loadLocal(){try{let s=JSON.parse(localStorage.getItem("familyGameNightState"));if(s)applyState(s)}catch(e){}}
-renderGameOptions();renderPlayers();loadLocal();render();updateTimer();setupFirebase();
-window.selectGame=selectGame;window.selectPlayer=selectPlayer;window.changeScore=changeScore;window.saveScore=saveScore;window.undo=undo;window.addPlayer=addPlayer;window.removePlayer=removePlayer;window.renamePlayer=renamePlayer;window.nextGame=nextGame;window.newGame=newGame;window.startTimer=startTimer;window.pauseTimer=pauseTimer;window.resetTimer=resetTimer;window.setTime=setTime;window.toggleFullscreen=toggleFullscreen;window.copyViewerLink=copyViewerLink;
+renderGameOptions();renderPlayers();if(!viewer)loadLocal();render();updateTimer();setupFirebase();
+window.hostLogin=hostLogin;window.hostLogout=hostLogout;window.selectGame=selectGame;window.selectPlayer=selectPlayer;window.changeScore=changeScore;window.saveScore=saveScore;window.undo=undo;window.addPlayer=addPlayer;window.removePlayer=removePlayer;window.renamePlayer=renamePlayer;window.nextGame=nextGame;window.newGame=newGame;window.startTimer=startTimer;window.pauseTimer=pauseTimer;window.resetTimer=resetTimer;window.setTime=setTime;window.toggleFullscreen=toggleFullscreen;window.copyViewerLink=copyViewerLink;
 </script>
 </body>
 </html>
