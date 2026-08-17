@@ -20,6 +20,8 @@ table{width:100%;border-collapse:collapse}th,td{padding:12px 8px;border-bottom:1
 .viewer-badge{background:#26305a;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:900}
 @media(max-width:900px){.layout{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line)}.scorebuttons{grid-template-columns:repeat(3,1fr)}.hero{align-items:center}.timer{font-size:32px}}
 @media(max-width:600px){.podium{grid-template-columns:repeat(2,1fr)}}
+#viewerLiveBar{border:2px solid rgba(255,255,255,.18)}
+@media(max-width:600px){#viewerLiveBar #viewerTimer{font-size:68px}}
 </style>
 </head>
 <body>
@@ -102,7 +104,7 @@ let db=null, dbRef=null, hostUid=null, sessionId=null;
 const $=id=>document.getElementById(id);
 const viewer=new URLSearchParams(location.search).get("view")==="1";
 $("modeBadge").innerHTML=viewer?'<span class="viewer-badge">VIEW ONLY</span>':'<span class="viewer-badge">HOST</span>';
-if(viewer){$("hostPanel").classList.add("hidden");$("topControls").innerHTML='<button onclick="toggleFullscreen()">⛶ Fullscreen</button>'; $("currentHint").textContent="Live viewer — host controls are disabled.";}
+if(viewer){$("hostPanel").classList.add("hidden");$("topControls").innerHTML='<button onclick="toggleFullscreen()">⛶ Fullscreen</button>'; $("currentHint").textContent="Game is in progress";}
 
 function renderGameOptions(){ $("game").innerHTML=games.map((g,i)=>`<option value="${i}">${g[0]} ${g[1]}</option>`).join(""); }
 function renderPlayers(){
@@ -112,7 +114,16 @@ function renderPlayers(){
 }
 function totals(){return players.map((_,i)=>scores[i].reduce((a,b)=>a+b,0))}
 function sorted(){return totals().map((total,i)=>({name:players[i],total,i})).sort((a,b)=>b.total-a.total)}
-function render(){
+function updateViewerLiveUI(){
+  if(!viewer)return;
+  const bar=$("viewerLiveBar");
+  if(bar)bar.classList.remove("hidden");
+  const name=(games[game]&&games[game].name)||"Game";
+  const title=$("viewerGameTitle"); if(title)title.textContent=name;
+  const hint=$("currentHint"); if(hint)hint.textContent="Game "+name+" is in progress";
+  const vt=$("viewerTimer"); if(vt)vt.textContent=formatTimeValue(seconds);
+}
+function render(){updateViewerLiveUI();
  $("game").value=game; $("current").value=current; $("gameLabel").textContent=games[game][0]+"  "+games[game][1];
  $("currentName").textContent=players[current]||"—"; $("currentScore").textContent=draft;
  const t=sorted();
@@ -131,45 +142,96 @@ function renamePlayer(i,n){if(viewer)return;if(n.trim())players[i]=n.trim();rend
 function nextGame(){if(viewer)return;if(game<games.length-1){game++;draft=scores[current][game];resetTimer();render();pushState();toast("Next: "+games[game][1])}else showFinal()}
 function newGame(){if(viewer)return;if(!confirm("Start a new game and clear all scores?"))return;players=["Player 1","Player 2","Player 3","Player 4"];scores=players.map(()=>games.map(()=>0));current=0;game=0;draft=0;finalShown=false;renderPlayers();render();pushState()}
 function showFinal(){finalShown=true;let t=sorted();$("screen").innerHTML=`<div class="card final"><div class="crown">🏆</div><div class="muted">ಬಂಧು ಬಳಗ (Kitty) - Sept 2026 CHAMPION</div><h1>${esc(t[0]?.name||"—")}</h1><div class="winnerScore">${t[0]?.total||0}</div><div class="muted">TOTAL POINTS</div><div class="podium" style="margin-top:25px">${t.slice(1,7).map((p,i)=>`<div class="pod"><div>${["🥈","🥉","4️⃣","5️⃣","6️⃣"][i]}</div><b>${esc(p.name)}</b><div class="pts">${p.total}</div></div>`).join("")}</div></div>`}
-function startTimer(){if(timerId||viewer)return;timerId=setInterval(()=>{if(seconds>0){seconds--;updateTimer();}else{pauseTimer();toast("⏰ TIME!");}},1000)}
-function pauseTimer(){clearInterval(timerId);timerId=null}
-function resetTimer(){pauseTimer();seconds=60;updateTimer()}
-function setTime(s){pauseTimer();seconds=s;updateTimer()}
-function updateTimer(){$("timer").textContent=String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0")}
-function toast(x){$("toast").textContent=x;$("toast").style.display="block";clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>{$("toast").style.display="none"},1700)}
-function toggleFullscreen(){document.documentElement.requestFullscreen?.()}
-async function copyViewerLink(){let url=location.href.split("?")[0]+"?view=1";await navigator.clipboard?.writeText(url);toast("Viewer link copied — paste into WhatsApp")}
-function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
-
-/* ---- Local + optional Firebase realtime layer ---- */
-function localState(){return {players,scores,current,game}}
-function applyState(s){
- if(!s)return;players=s.players||players;scores=s.scores||scores;current=Number(s.current||0);game=Number(s.game||0);draft=scores[current]?.[game]||0;
- renderPlayers();render();
+function startTimer(){
+  if(timerId||viewer)return;
+  pushState();
+  timerId=setInterval(()=>{
+    if(seconds>0){seconds--;updateTimer();pushState();}
+    else{pauseTimer();toast("⏰ TIME!");pushState();}
+  },1000);
 }
+function pauseTimer(){
+  clearInterval(timerId);timerId=null;
+  if(!viewer)pushState();
+}
+function resetTimer(){
+  pauseTimer();seconds=60;updateTimer();
+  if(!viewer)pushState();
+}
+function setTime(s){
+  pauseTimer();seconds=s;updateTimer();
+  if(!viewer)pushState();
+}
+function updateTimer(){
+  const text=formatTimeValue(seconds);
+  if($("timer"))$("timer").textContent=text;
+  if(viewer&&$("viewerTimer"))$("viewerTimer").textContent=text;
+}
+function localState(){return {players,scores,current,game,seconds}}}
+function applyState(s){
+  if(!s)return;
+  players=Array.isArray(s.players)?s.players:players;
+  scores=Array.isArray(s.scores)?s.scores:scores;
+  current=s.current!==undefined?Number(s.current):current;
+  game=s.game!==undefined?Number(s.game):game;
+  if(s.seconds!==undefined)seconds=Math.max(0,Number(s.seconds)||0);
+  renderPlayers();render();updateTimer();
+}
+let firebaseReady=false;
+let firebaseListenerStarted=false;
+
+
+function startRealtimeListener(){
+  if(!db||!dbRef||!sessionId||!window.__onValue||firebaseListenerStarted)return;
+  firebaseListenerStarted=true;
+  window.__onValue(dbRef(db,"sessions/"+sessionId),snap=>{
+    const data=snap.val();
+    if(data){
+      applyState(data);
+      if($("syncStatus"))$("syncStatus").textContent=viewer?"🟢 LIVE — view only":"🟢 CONNECTED — cloud scores loaded";
+    }else if(!viewer){
+      pushState();
+    }else if($("syncStatus")){
+      $("syncStatus").textContent="🟡 Waiting for host to start this game";
+    }
+  },err=>{
+    console.error("Firebase read failed:",err);
+    if($("syncStatus"))$("syncStatus").textContent="🔴 Firebase connection failed";
+  });
+}
+
 async function setupFirebase(){
   try{
     const {initializeApp}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js");
     const {getDatabase,ref,onValue,set}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js");
     const {getAuth,signInAnonymously,signInWithEmailAndPassword,onAuthStateChanged}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js");
     const app=initializeApp(FIREBASE_CONFIG);
-    db=getDatabase(app); dbRef=ref; window.__set=set; window.__onValue=onValue;
-    const auth=getAuth(app); window.__auth=auth; window.__signIn=signInWithEmailAndPassword;
+    db=getDatabase(app); dbRef=ref;
+    window.__set=set; window.__onValue=onValue;
+    const auth=getAuth(app);
+    window.__auth=auth; window.__signIn=signInWithEmailAndPassword;
     sessionId=new URLSearchParams(location.search).get("session")||"sept-2026";
 
-    onAuthStateChanged(auth, async user=>{
+    onAuthStateChanged(auth,async user=>{
       if(viewer){
-        if(!user){ try{await signInAnonymously(auth)}catch(e){console.error(e)} }
-        $("syncStatus").textContent="🟢 LIVE — view only";
-        startRealtimeListener();
-      } else if(user && !user.isAnonymous){
+        try{
+          if(!user)await signInAnonymously(auth);
+          if($("syncStatus"))$("syncStatus").textContent="🟡 CONNECTING — view only";
+          startRealtimeListener();
+        }catch(e){
+          console.error(e);
+          if($("syncStatus"))$("syncStatus").textContent="🔴 Viewer connection failed";
+        }
+        return;
+      }
+      if(user&&!user.isAnonymous){
         hostUid=user.uid;
         $("loginArea").classList.add("hidden");
         $("setupArea").classList.remove("hidden");
         $("topControls").innerHTML='<button onclick="copyViewerLink()">🔗 Copy viewer link</button><button onclick="toggleFullscreen()">⛶ TV fullscreen</button><button onclick="hostLogout()">Log out</button>';
-        $("syncStatus").textContent="🟢 HOST CONNECTED — live sync enabled";
+        $("syncStatus").textContent="🟡 CONNECTING TO CLOUD…";
         startRealtimeListener();
-      } else {
+      }else{
         $("loginArea").classList.remove("hidden");
         $("setupArea").classList.add("hidden");
       }
@@ -180,21 +242,31 @@ async function setupFirebase(){
     $("loginMsg").classList.remove("hidden");
   }
 }
-function startRealtimeListener(){
-  if(!db||!dbRef||!sessionId||!window.__onValue)return;
-  window.__onValue(dbRef(db,"sessions/"+sessionId),snap=>{
-    const data=snap.val();
-    if(data) applyState(data);
-  });
-}
 async function hostLogin(){
-  const email=$("loginEmail").value.trim(), password=$("loginPassword").value;
+  const email=$("loginEmail").value.trim(),password=$("loginPassword").value;
   if(!email||!password){showLoginMsg("Enter your host email and password.");return}
-  try{ await window.__signIn(window.__auth,email,password); }
-  catch(e){ console.error(e); showLoginMsg("Login failed. Check your email/password and Email/Password authentication."); }
+  try{await window.__signIn(window.__auth,email,password)}
+  catch(e){console.error(e);showLoginMsg("Login failed. Check your email/password and Email/Password authentication.")}
 }
 async function hostLogout(){try{await window.__auth.signOut()}catch(e){}}
 function showLoginMsg(msg){$("loginMsg").textContent=msg;$("loginMsg").classList.remove("hidden")}
+async function pushState(){
+  const state=localState();
+  localStorage.setItem("familyGameNightState",JSON.stringify(state));
+  if(db&&dbRef&&sessionId&&!viewer&&window.__set){
+    try{
+      await window.__set(dbRef(db,"sessions/"+sessionId),state);
+      firebaseReady=true;
+      if($("syncStatus"))$("syncStatus").textContent="🟢 SAVED TO CLOUD — live sync enabled";
+      return true;
+    }catch(e){
+      console.error("Firebase write failed:",e);
+      if($("syncStatus"))$("syncStatus").textContent="🔴 Firebase save failed — local copy kept";
+      toast("Cloud save failed");
+    }
+  }
+  return false;
+}
 function loadLocal(){try{let s=JSON.parse(localStorage.getItem("familyGameNightState"));if(s)applyState(s)}catch(e){}}
 renderGameOptions();renderPlayers();if(!viewer)loadLocal();render();updateTimer();setupFirebase();
 window.hostLogin=hostLogin;window.hostLogout=hostLogout;window.selectGame=selectGame;window.selectPlayer=selectPlayer;window.changeScore=changeScore;window.saveScore=saveScore;window.undo=undo;window.addPlayer=addPlayer;window.removePlayer=removePlayer;window.renamePlayer=renamePlayer;window.nextGame=nextGame;window.newGame=newGame;window.startTimer=startTimer;window.pauseTimer=pauseTimer;window.resetTimer=resetTimer;window.setTime=setTime;window.toggleFullscreen=toggleFullscreen;window.copyViewerLink=copyViewerLink;
