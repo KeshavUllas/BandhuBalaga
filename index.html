@@ -167,7 +167,7 @@ html.tv-mode.tv-lucky #viewerLiveBar,html.tv-mode.tv-lucky #currentCard,html.tv-
 /* TV after lucky-dip: replace the candidate list with the selected winner. */
 html.tv-mode.tv-winner main#screen{grid-template-columns:1fr;grid-template-rows:auto minmax(130px,.45fr) minmax(0,1fr);grid-template-areas:"hero" "winner" "guide"}
 html.tv-mode.tv-winner #viewerLuckyListCard{display:none!important}
-html.tv-mode.tv-winner #luckyWinnerBanner{grid-area:winner;display:flex!important;align-items:center;justify-content:center;margin:0;padding:12px 24px;min-height:0;overflow:hidden;font-size:clamp(22px,2.8vw,44px)}
+html.tv-mode.tv-winner #luckyWinnerBanner:not(.hidden){grid-area:winner;display:flex!important;align-items:center;justify-content:center;margin:0;padding:12px 24px;min-height:0;overflow:hidden;font-size:clamp(22px,2.8vw,44px)}
 html.tv-mode.tv-winner #luckyWinnerBanner .luckyWinnerRibbon{font-size:clamp(11px,1.1vw,18px);margin:0 10px 0 0}
 html.tv-mode.tv-winner #gameGuideCard{grid-area:guide;margin:0;min-height:0;overflow:hidden}
 html.tv-mode.tv-winner #gameGuideGrid{height:calc(100% - 62px)}
@@ -631,28 +631,35 @@ function renderPlayers(){
     if(other)$("pairB").value=String(other.i);
   }
 }
+function resolveLuckyWinner(){
+  // The winner is part of luckyDraw itself. Do not depend on luckyWinner being
+  // synchronized as a separate Firebase property.
+  let w=String(luckyWinner||"").trim();
+  if(!w && luckyDraw && luckyDraw.winnerRevealed && Array.isArray(luckyDraw.names) && luckyDraw.names.length){
+    const wi=Math.max(0,Math.min(luckyDraw.names.length-1,Number(luckyDraw.winnerIndex)||0));
+    w=String(luckyDraw.names[wi]||"").trim();
+    if(w) luckyWinner=w;
+  }
+  return w;
+}
 function syncTvLayout(){
   if(!tvMode)return;
   const completedCount=gameStatus.filter(s=>s==="ended").length;
-  const luckyDrawActive=!!luckyDraw;
-  // Always derive the winner directly from the synchronized draw record.
-  // Firebase can deliver luckyDraw and luckyWinner as separate fields; if the
-  // winner field arrives a render cycle later, TV must still switch layouts
-  // immediately instead of leaving an empty lucky-list panel on screen.
-  let resolvedLuckyWinner=String(luckyWinner||"");
-  if(!resolvedLuckyWinner && luckyDraw && luckyDraw.winnerRevealed && Array.isArray(luckyDraw.names)){
-    const wi=Math.max(0,Math.min(luckyDraw.names.length-1,Number(luckyDraw.winnerIndex)||0));
-    resolvedLuckyWinner=String(luckyDraw.names[wi]||"");
-    if(resolvedLuckyWinner) luckyWinner=resolvedLuckyWinner;
-  }
-  const luckyWinnerActive=!!resolvedLuckyWinner;
-  const luckyListActive=!!luckyNames.length && !gameStarted && !luckyDrawActive && !luckyWinnerActive;
-  document.documentElement.classList.toggle("tv-live",!!gameStarted);
-  document.documentElement.classList.toggle("tv-live-top6",!!gameStarted && completedCount>0);
-  document.documentElement.classList.toggle("tv-complete",!gameStarted && completedCount>0);
-  document.documentElement.classList.toggle("tv-lucky",!gameStarted && completedCount===0 && luckyListActive);
-  document.documentElement.classList.toggle("tv-winner",!gameStarted && completedCount===0 && luckyWinnerActive);
-  document.documentElement.classList.toggle("tv-pregame",!gameStarted && completedCount===0 && !luckyListActive && !luckyWinnerActive);
+  const resolvedLuckyWinner=resolveLuckyWinner();
+  const drawCompleted=!!(luckyDraw && luckyDraw.winnerRevealed);
+  const luckyListActive=!!luckyNames.length && !gameStarted && !drawCompleted && !resolvedLuckyWinner;
+  const luckyWinnerActive=!gameStarted && completedCount===0 && !!resolvedLuckyWinner;
+
+  // Set every mutually-exclusive TV state on every render. This prevents a
+  // stale tv-winner class from surviving a Firebase update and exposing an
+  // empty winner card.
+  const root=document.documentElement;
+  root.classList.toggle("tv-live",!!gameStarted);
+  root.classList.toggle("tv-live-top6",!!gameStarted && completedCount>0);
+  root.classList.toggle("tv-complete",!gameStarted && completedCount>0);
+  root.classList.toggle("tv-lucky",!gameStarted && completedCount===0 && luckyListActive);
+  root.classList.toggle("tv-winner",luckyWinnerActive);
+  root.classList.toggle("tv-pregame",!gameStarted && completedCount===0 && !luckyListActive && !luckyWinnerActive);
 }
 function render(){
   syncTvLayout();
@@ -837,15 +844,16 @@ function renderViewerLuckyList(){
 }
 function renderLuckyWinner(){
   const el=$("luckyWinnerBanner"); if(!el)return;
-  // V24 safety fallback for any viewer that has the completed draw but not the
-  // denormalized winner field yet.
-  if(!luckyWinner && luckyDraw && luckyDraw.winnerRevealed && Array.isArray(luckyDraw.names)){
-    const wi=Math.max(0,Math.min(luckyDraw.names.length-1,Number(luckyDraw.winnerIndex)||0));
-    luckyWinner=String(luckyDraw.names[wi]||"");
+  const winner=resolveLuckyWinner();
+  if(winner){
+    el.classList.remove("hidden");
+    el.innerHTML=`<span class="luckyWinnerRibbon">NEXT KITTY HOST</span><br>🎉 <b>The Lucky winner is ${esc(winner)}, Congratulations!!</b> 🎉`;
+  }else{
+    // Important: remove the contents as well as the hidden class. TV CSS must
+    // never be able to show an empty winner card.
+    el.innerHTML="";
+    el.classList.add("hidden");
   }
-  if(luckyWinner){el.classList.remove("hidden");el.innerHTML=`<span class="luckyWinnerRibbon">NEXT KITTY HOST</span><br>🎉 <b>The Lucky winner is ${esc(luckyWinner)}, Congratulations!!</b> 🎉`;}
-  else el.classList.add("hidden");
-  // Keep the layout state in lock-step with the rendered winner.
   syncTvLayout();
 }
 
