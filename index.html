@@ -150,6 +150,8 @@ html.tv-mode.tv-pregame #viewerLuckyListCard,html.tv-mode.tv-pregame #luckyWinne
 /* TV state after the host enters the Lucky Dip list: list + one selected guide. */
 html.tv-mode.tv-lucky main#screen{grid-template-columns:minmax(280px,.72fr) minmax(0,1.28fr);grid-template-rows:auto minmax(0,1fr);grid-template-areas:"hero hero" "lucky guide"}
 html.tv-mode.tv-lucky #viewerLuckyListCard{grid-area:lucky;display:block!important;margin:0;min-height:0;height:calc(100vh - 92px);overflow:hidden}
+html.tv-mode.tv-lucky #viewerLuckyListCard.hidden{display:block!important}
+html.tv-mode.tv-winner #viewerLuckyListCard.hidden{display:none!important}
 html.tv-mode.tv-lucky #gameGuideCard{grid-area:guide;margin:0;height:calc(100vh - 92px);overflow:hidden}
 html.tv-mode.tv-lucky #gameGuideCard .gameGuideCardHeader{display:block}
 html.tv-mode.tv-lucky #gameGuideCard .gameGuideChooser{display:flex;max-width:100%;margin-top:8px}
@@ -633,9 +635,17 @@ function syncTvLayout(){
   if(!tvMode)return;
   const completedCount=gameStatus.filter(s=>s==="ended").length;
   const luckyDrawActive=!!luckyDraw;
-  // Only enter the TV winner layout when an actual winner name exists.
-  // A completed draw record without a winner name must never create a blank panel.
-  const luckyWinnerActive=!!luckyWinner;
+  // Always derive the winner directly from the synchronized draw record.
+  // Firebase can deliver luckyDraw and luckyWinner as separate fields; if the
+  // winner field arrives a render cycle later, TV must still switch layouts
+  // immediately instead of leaving an empty lucky-list panel on screen.
+  let resolvedLuckyWinner=String(luckyWinner||"");
+  if(!resolvedLuckyWinner && luckyDraw && luckyDraw.winnerRevealed && Array.isArray(luckyDraw.names)){
+    const wi=Math.max(0,Math.min(luckyDraw.names.length-1,Number(luckyDraw.winnerIndex)||0));
+    resolvedLuckyWinner=String(luckyDraw.names[wi]||"");
+    if(resolvedLuckyWinner) luckyWinner=resolvedLuckyWinner;
+  }
+  const luckyWinnerActive=!!resolvedLuckyWinner;
   const luckyListActive=!!luckyNames.length && !gameStarted && !luckyDrawActive && !luckyWinnerActive;
   document.documentElement.classList.toggle("tv-live",!!gameStarted);
   document.documentElement.classList.toggle("tv-live-top6",!!gameStarted && completedCount>0);
@@ -808,7 +818,9 @@ function showFinal(){const t=sorted();$("screen").innerHTML=`<div class="card" s
 
 function renderViewerLuckyList(){
   if(!viewer||!$("viewerLuckyListCard")||!$("viewerLuckyList"))return;
-  const visible=!!luckyNames.length && !luckyDraw;
+  // A completed draw replaces the candidate list everywhere, including TV.
+  const completedWinner=!!(luckyDraw && luckyDraw.winnerRevealed);
+  const visible=!!luckyNames.length && !luckyDraw && !completedWinner && !luckyWinner;
   $("viewerLuckyListCard").classList.toggle("hidden",!visible);
   $("viewerLuckyReview").classList.toggle("hidden",!visible || !!luckyWinner);
   const displayNames=sortedLuckyNames();
@@ -833,6 +845,8 @@ function renderLuckyWinner(){
   }
   if(luckyWinner){el.classList.remove("hidden");el.innerHTML=`<span class="luckyWinnerRibbon">NEXT KITTY HOST</span><br>🎉 <b>The Lucky winner is ${esc(luckyWinner)}, Congratulations!!</b> 🎉`;}
   else el.classList.add("hidden");
+  // Keep the layout state in lock-step with the rendered winner.
+  syncTvLayout();
 }
 
 function renderLuckyNames(){
