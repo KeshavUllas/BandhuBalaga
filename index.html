@@ -1,38 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Family Game Night Live</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ಬಂಧು ಬಳಗ (Kitty) - Sept 2026</title>
 <style>
-:root{--bg:#090b16;--panel:#15192a;--line:#303650;--text:#fff;--muted:#aeb5cb;--accent:#6978ff;--gold:#f2bd42;--green:#31c48d}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#20264a 0,#090b16 55%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 14px;background:#2a3150;color:#fff;font-weight:800}button:hover{filter:brightness(1.12)}button.primary{background:var(--accent)}button.green{background:#167b55}button.gold{background:#956b16}button.red{background:#652638}
-.app{min-height:100vh}.hostbar{position:sticky;top:0;z-index:5;background:#101427ee;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:10px;align-items:center;justify-content:space-between}.hostbar .brand{font-weight:900}.host-controls{display:flex;gap:7px;flex-wrap:wrap}
-.layout{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 58px)}aside{background:#12162a;border-right:1px solid var(--line);padding:18px;overflow:auto}main{padding:28px;max-width:1500px;width:100%;margin:auto}
-label{display:block;color:var(--muted);font-size:12px;margin:13px 0 6px}input,select{width:100%;background:#0c1020;border:1px solid #3a4261;color:#fff;border-radius:10px;padding:11px}.row{display:flex;gap:7px}.row>*{flex:1}.players{margin-top:8px}.player{display:flex;gap:6px;margin:7px 0}.player input{flex:1}.muted{color:var(--muted)}.hidden{display:none!important}
-.hero{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}.kicker{color:#8f9cff;font-weight:900;font-size:14px}.title{font-size:clamp(28px,5vw,58px);font-weight:950;letter-spacing:-1px}.timer{font-size:46px;font-weight:950}
-.card{background:#151a2dca;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 18px 60px #0004;margin-top:18px}.current{text-align:center}.current .playername{font-size:clamp(28px,5vw,48px);font-weight:950}.score{font-size:clamp(60px,10vw,100px);font-weight:950;line-height:1}.scorebuttons{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:15px}.scorebuttons button{padding:15px 4px}
-table{width:100%;border-collapse:collapse}th,td{padding:12px 8px;border-bottom:1px solid var(--line);text-align:left}th:last-child,td:last-child{text-align:right}.rank{font-weight:950}.leader{overflow:auto}
-.notice{padding:12px 14px;border-radius:12px;background:#222944;color:#dfe3ff;margin-top:10px}.toast{position:fixed;right:20px;bottom:20px;background:#fff;color:#111;border-radius:14px;padding:14px 18px;font-weight:900;display:none;z-index:20;box-shadow:0 15px 50px #0008}
-.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.pod{text-align:center;background:#222844;border-radius:16px;padding:18px}.pod .pts{font-size:30px;font-weight:950}
-.final{text-align:center;padding:50px 20px}.final .crown{font-size:80px}.final h1{font-size:clamp(40px,8vw,80px);margin:8px 0}.final .winnerScore{font-size:80px;font-weight:950}
-.viewer-badge{background:#26305a;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:900}
-@media(max-width:900px){.layout{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line)}.scorebuttons{grid-template-columns:repeat(3,1fr)}.hero{align-items:center}.timer{font-size:32px}}
-@media(max-width:600px){.podium{grid-template-columns:repeat(2,1fr)}}
-#viewerLiveBar{border:2px solid rgba(255,255,255,.18)}
-@media(max-width:600px){#viewerLiveBar #viewerTimer{font-size:68px}}
+:root{--bg:#090b16;--panel:#15192a;--line:#303650;--text:#fff;--muted:#aeb5cb;--accent:#6978ff;--gold:#c89222;--green:#16845a;--red:#8a2940}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#20264a 0,#090b16 58%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:10px 13px;background:#2a3150;color:#fff;font-weight:800}button:hover{filter:brightness(1.1)}button.primary{background:var(--accent)}button.green{background:var(--green)}button.gold{background:var(--gold)}button.red{background:var(--red)}button:disabled{opacity:.45;cursor:not-allowed}
+.hidden{display:none!important}.app{min-height:100vh}.hostbar{position:sticky;top:0;z-index:10;background:#101427ee;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:10px;align-items:center;justify-content:space-between}.brand{font-weight:950}.host-controls{display:flex;gap:7px;flex-wrap:wrap}
+.layout{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 58px)}aside{background:#12162a;border-right:1px solid var(--line);padding:16px;overflow:auto}main{padding:24px;max-width:1500px;width:100%;margin:auto}
+label{display:block;color:var(--muted);font-size:12px;margin:12px 0 6px}input,select{width:100%;background:#0c1020;border:1px solid #3a4261;color:#fff;border-radius:10px;padding:10px}.row{display:flex;gap:7px}.row>*{flex:1}.card{background:#151a2dca;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 18px 60px #0004;margin-top:16px}.notice{padding:11px 13px;border-radius:12px;background:#222944;color:#dfe3ff;margin-top:10px}.muted{color:var(--muted)}.viewer-badge{background:#26305a;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900}
+.hero{display:flex;justify-content:space-between;align-items:center;gap:20px}.kicker{color:#8f9cff;font-weight:900}.title{font-size:clamp(28px,5vw,58px);font-weight:950;letter-spacing:-1px}.timer{font-size:48px;font-weight:950;font-variant-numeric:tabular-nums}
+.current{text-align:center}.current .playername{font-size:clamp(28px,5vw,48px);font-weight:950}.score{font-size:clamp(60px,10vw,100px);font-weight:950;line-height:1}.scorebuttons{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}.players .player{display:flex;gap:6px;margin:7px 0}.players .player input{flex:1}
+table{width:100%;border-collapse:collapse}th,td{padding:10px 7px;border-bottom:1px solid var(--line);text-align:left}th:last-child,td:last-child{text-align:right}.leader{overflow:auto}.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.pod{text-align:center;background:#222844;border-radius:14px;padding:15px}.pts{font-size:28px;font-weight:950}.toast{position:fixed;right:18px;bottom:18px;background:#fff;color:#111;border-radius:13px;padding:12px 16px;font-weight:900;display:none;z-index:30}
+#viewerLiveBar{border:2px solid rgba(255,255,255,.18);text-align:center}.viewerPrompt{font-size:clamp(48px,10vw,110px);font-weight:950;line-height:1;margin:12px 0}.viewerRoundTimer{font-size:clamp(42px,8vw,78px);font-weight:950;font-variant-numeric:tabular-nums}.promptList{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.viewerLuckyList{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px}.viewerLuckyName{background:#222844;border:1px solid #343d62;border-radius:12px;padding:10px 12px;font-weight:850;text-align:center}.promptItem{background:#222844;border-radius:10px;padding:9px}.urgent{animation:pulse .7s infinite alternate}@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.04)}}
+.pairGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pairRow{display:flex;gap:7px;align-items:center;padding:8px;border-bottom:1px solid var(--line)}.pairRow select{flex:1}
+.luckyOverlay{position:fixed;inset:0;background:radial-gradient(circle at center,#2b315d 0,#080b16 72%);z-index:35;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px}.luckyBox{width:min(1100px,96vw);padding:35px;border:1px solid #59618a;border-radius:28px;background:#11162bef;box-shadow:0 30px 100px #0009}.luckyKicker{font-size:18px;font-weight:900;color:#aeb8ff;letter-spacing:2px;text-transform:uppercase}.luckyTitle{font-size:clamp(34px,6vw,76px);font-weight:1000;line-height:1;margin:8px 0 18px}.luckyName{font-size:clamp(52px,12vw,150px);font-weight:1000;min-height:1.1em;line-height:1.05;letter-spacing:-2px}.luckyTimer{font-size:clamp(26px,5vw,56px);font-weight:950;font-variant-numeric:tabular-nums}.luckySub{color:#c0c7df;font-size:18px;margin-top:12px}.luckySpark{font-size:clamp(28px,5vw,60px);margin:10px}.winnerPop{animation:winnerPop 1s cubic-bezier(.2,.9,.2,1)}@keyframes winnerPop{0%{transform:scale(.4);opacity:.1}60%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}.luckySpin{animation:luckySpin .18s linear infinite alternate}@keyframes luckySpin{from{transform:translateY(-3px) rotate(-1deg)}to{transform:translateY(3px) rotate(1deg)}}
+.soundOverlay{position:fixed;inset:0;background:#080b16ee;z-index:40;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px}.soundOverlay .box{max-width:430px;background:#151a2d;border:1px solid var(--line);border-radius:22px;padding:28px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line)}.scorebuttons{grid-template-columns:repeat(3,1fr)}.hero{align-items:center}.timer{font-size:34px}.promptList{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.podium{grid-template-columns:repeat(2,1fr)}.pairGrid{grid-template-columns:1fr}.viewerPrompt{font-size:54px}}
 </style>
 </head>
 <body>
 <div class="app">
-<div class="hostbar">
+<header class="hostbar">
   <div class="brand">🎉 ಬಂಧು ಬಳಗ (Kitty) - Sept 2026 <span id="modeBadge"></span></div>
   <div class="host-controls" id="topControls">
     <button onclick="copyViewerLink()">🔗 Copy viewer link</button>
     <button onclick="toggleFullscreen()">⛶ TV fullscreen</button>
   </div>
-</div>
+</header>
+
 <div class="layout">
 <aside id="hostPanel">
   <div id="loginArea" class="card" style="margin-top:0">
@@ -43,29 +42,83 @@ table{width:100%;border-collapse:collapse}th,td{padding:12px 8px;border-bottom:1
     <button class="primary" style="width:100%;margin-top:12px" onclick="hostLogin()">Start Game</button>
     <div id="loginMsg" class="notice hidden"></div>
   </div>
+
   <div id="setupArea" class="hidden">
     <label>Game</label><select id="game" onchange="selectGame(this.value)"></select>
     <label>Current player</label><select id="current" onchange="selectPlayer(this.value)"></select>
     <label>Add player</label><div class="row"><input id="newPlayer" placeholder="Name"><button class="primary" onclick="addPlayer()">Add</button></div>
     <div id="players" class="players"></div>
-    <label>Score controls</label>
-    <div class="scorebuttons">
-      <button onclick="changeScore(1)">+1</button><button onclick="changeScore(5)">+5</button><button onclick="changeScore(10)">+10</button>
-      <button onclick="changeScore(-1)">−1</button><button onclick="changeScore(-5)">−5</button><button onclick="changeScore(-10)">−10</button>
+
+    <div id="individualScoreBox">
+      <label>Individual score controls</label>
+      <div class="scorebuttons">
+        <button onclick="changeScore(1)">+1</button><button onclick="changeScore(5)">+5</button><button onclick="changeScore(10)">+10</button>
+        <button onclick="changeScore(-1)">−1</button><button onclick="changeScore(-5)">−5</button><button onclick="changeScore(-10)">−10</button>
+      </div>
+      <div class="row" style="margin-top:8px"><button class="green" onclick="saveScore()">✓ Save score</button><button onclick="undo()">Undo</button></div>
     </div>
-    <div class="row" style="margin-top:8px"><button class="green" onclick="saveScore()">✓ Save score</button><button onclick="undo()">Undo</button></div>
-    <label>Timer</label>
+
+    <div id="pairBox" class="card hidden">
+      <h3 style="margin-top:0">👥 Rapid Draw & Guess — Pair</h3>
+      <div class="muted">Pair players manually. The host enters one pair score; the app adds half to each player's individual score.</div>
+      <div class="pairGrid" style="margin-top:10px">
+        <div><label>Player A</label><select id="pairA"></select></div>
+        <div><label>Player B</label><select id="pairB"></select></div>
+      </div>
+      <label>Pair score</label><input id="pairScore" type="number" min="0" step="1" placeholder="e.g. 42">
+      <div class="row" style="margin-top:8px"><button class="green" onclick="applyPairScore()">✓ Add Pair Score</button><button onclick="clearPair()">Clear</button></div>
+      <div id="pairHistory" class="notice"></div>
+    </div>
+
+    <div id="rapidBox" class="card hidden">
+      <h3 style="margin-top:0">✏️ Rapid Draw — 60 seconds</h3>
+      <div class="muted">15 random prompts, one every 4 seconds. The same locked sequence is shown to host and viewers.</div>
+      <div class="row" style="margin-top:10px"><button class="primary" onclick="startRapidRound()">▶ Start Rapid Draw</button><button onclick="stopRapidRound()">⏹ Stop</button></div>
+      <div id="rapidStatus" class="notice">Select the pair above, then start the round.</div>
+      <div id="hostPrompt" class="viewerPrompt"></div>
+      <div id="hostRapidTimer" class="viewerRoundTimer"></div>
+      <div id="hostPromptList" class="promptList"></div>
+    </div>
+
+    <div id="luckyBox" class="card">
+      <h3 style="margin-top:0">🎲 Next Kitty host</h3>
+      <div class="muted">Only the host can manage this separate lucky-dip list. These names are independent of the players.</div>
+      <label>Add potential host</label><div class="row"><input id="luckyNewName" placeholder="Name"><button class="primary" onclick="addLuckyName()">Add</button></div>
+      <div id="luckyNamesList" class="players" style="margin-top:8px"></div>
+      <div class="row" style="margin-top:8px"><button class="gold" onclick="startLuckyDraw()">🎲 Pick Next Kitty Host</button><button onclick="clearLuckyNames()">Clear list</button></div>
+      <div class="notice" id="luckyStatus">Add names, then start the 20-second lucky dip when you're ready.</div>
+    </div>
+
+    <label>Global Timer</label>
     <div class="row"><button class="primary" onclick="startTimer()">▶</button><button onclick="pauseTimer()">⏸</button><button onclick="resetTimer()">↺</button></div>
     <div class="row" style="margin-top:7px"><button onclick="setTime(60)">60 sec</button><button onclick="setTime(120)">120 sec</button></div>
+    <div class="notice">🔊 Timer sounds are global: tick each second, intensified final 10 seconds, final time-up sound.</div>
+
     <label>Game control</label><div class="row"><button class="gold" onclick="nextGame()">Next game</button><button class="red" onclick="newGame()">New game</button></div>
-    <div class="notice" id="syncStatus">Local mode — scores stay on this device.</div>
+    <div class="notice" id="syncStatus">Connecting…</div>
   </div>
 </aside>
+
 <main id="screen">
   <div class="hero">
     <div><div class="kicker" id="gameLabel"></div><div class="title">ಬಂಧು ಬಳಗ (Kitty) - Sept 2026</div></div>
     <div class="timer" id="timer">01:00</div>
   </div>
+
+  <div id="viewerLiveBar" class="card hidden">
+    <div class="muted">NOW PLAYING</div>
+    <div id="viewerGameTitle" style="font-size:28px;font-weight:950">Game is in progress</div>
+    <div id="viewerPrompt" class="viewerPrompt">Get ready!</div>
+    <div id="viewerTimer" class="viewerRoundTimer">01:00</div>
+    <div id="viewerRoundStatus" class="muted"></div>
+  </div>
+
+  <div id="viewerLuckyListCard" class="card hidden">
+    <div style="font-size:24px;font-weight:950">🎲 Next Kitty host — Lucky Dip List</div>
+    <div class="muted" style="margin-top:6px">Please review this list. If anyone is missing, tell the host before the lucky dip starts.</div>
+    <div id="viewerLuckyList" class="viewerLuckyList"></div>
+  </div>
+
   <div class="card current">
     <div class="muted">CURRENT PLAYER</div>
     <div class="playername" id="currentName">Player 1</div>
@@ -77,109 +130,312 @@ table{width:100%;border-collapse:collapse}th,td{padding:12px 8px;border-bottom:1
 </main>
 </div>
 </div>
+
+<div id="luckyOverlay" class="luckyOverlay hidden" aria-live="polite">
+  <div class="luckyBox">
+    <div class="luckySpark">🎉 🎲 🎉</div>
+    <div class="luckyKicker">Next Kitty host</div>
+    <div class="luckyTitle" id="luckyOverlayTitle">And the next host is...</div>
+    <div class="luckyName" id="luckyOverlayName">Get ready!</div>
+    <div class="luckyTimer" id="luckyOverlayTimer">20</div>
+    <div class="luckySub" id="luckyOverlaySub">The draw is in progress…</div>
+  </div>
+</div>
+
+<div id="soundOverlay" class="soundOverlay hidden">
+  <div class="box">
+    <h2>🔊 Enable Game Sounds</h2>
+    <p class="muted">Tap once to hear the live countdown ticks and time-up sound on this device.</p>
+    <button class="primary" onclick="enableSounds()">🔊 Enable Sounds</button>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script type="module">
-/* =========================================================
-   ಬಂಧು ಬಳಗ (Kitty) - Sept 2026 v2
-   Firebase-ready: paste your Firebase web config below.
-   Host writes; viewers read only. See SETUP.md.
-   ========================================================= */
-const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyARI0-zN4pIu8NVU9g8v-lKzots4NogNys",
-  authDomain: "bandhu-balaga.firebaseapp.com",
-  databaseURL: "https://bandhu-balaga-default-rtdb.firebaseio.com",
-  projectId: "bandhu-balaga",
-  storageBucket: "bandhu-balaga.firebasestorage.app",
-  messagingSenderId: "209041712015",
-  appId: "1:209041712015:web:74e683a8ee3e654d9d21fa"
+const FIREBASE_CONFIG={
+  apiKey:"AIzaSyARI0-zN4pIu8NVU9g8v-lKzots4NogNys",
+  authDomain:"bandhu-balaga.firebaseapp.com",
+  databaseURL:"https://bandhu-balaga-default-rtdb.firebaseio.com",
+  projectId:"bandhu-balaga",
+  storageBucket:"bandhu-balaga.firebasestorage.app",
+  messagingSenderId:"209041712015",
+  appId:"1:209041712015:web:74e683a8ee3e654d9d21fa"
 };
+const games=[
+  ["🐝","Boxes & Bees"],["🃏","Card & Dice"],["🔤","Scrabble"],["🪙","Colour Coin Hunt"],
+  ["✏️","Rapid Draw & Guess"],["🎯","Dart + Balloon Finale"]
+];
+const PROMPTS=[
+"Lion","Car","Volcano","Elephant","Pizza","Rocket","Castle","Butterfly","Palm Tree","Umbrella",
+"Guitar","Crocodile","Balloon","House","Wizard","Monkey","Bicycle","Rainbow","Ice Cream","Robot",
+"Fish","Mountain","Sun","Moon","Cake","Camera","Clock","Crown","Pirate","Ghost","Alien","Superhero",
+"Penguin","Snake","Turtle","Giraffe","Burger","Banana","Watermelon","Donut","Lollipop","Beach",
+"Tree","Mermaid","Monster","Train","Boat","Airplane","Dog","Cat","Horse","Kite","Fire","Snowman",
+"Flower","Mango","Drum","Pencil","Book","Phone","Sunglasses","Cup","Key","Door","Chair","Table",
+"Football","Cricket Bat","Tennis Racket","Basket","Gift","Toothbrush","Comb","Hat","Shoe","Watch"
+];
 
-const games=[["🐝","Boxes & Bees"],["🃏","Card & Dice"],["🔤","Scrabble"],["🪙","Colour Coin Hunt"],["✏️","Draw & Guess"],["🎯","Dart + Balloon Finale"]];
 let players=["Player 1","Player 2","Player 3","Player 4"];
 let scores=players.map(()=>games.map(()=>0));
-let current=0,game=0,draft=0,seconds=60,timerId=null,history=[],finalShown=false;
-let db=null, dbRef=null, hostUid=null, sessionId=null;
-
-const $=id=>document.getElementById(id);
+let current=0,game=0,draft=0,seconds=60,timerId=null,history=[];
+let pairRecords=[],rapidRound=null,luckyNames=[],luckyDraw=null;
+let db=null,dbRef=null,sessionId=null,firebaseListenerStarted=false;
+let soundEnabled=false,audioCtx=null,lastTimerSecond=null,lastRapidSecond=null,lastLuckySecond=null;
 const viewer=new URLSearchParams(location.search).get("view")==="1";
-$("modeBadge").innerHTML=viewer?'<span class="viewer-badge">VIEW ONLY</span>':'<span class="viewer-badge">HOST</span>';
-if(viewer){$("hostPanel").classList.add("hidden");$("topControls").innerHTML='<button onclick="toggleFullscreen()">⛶ Fullscreen</button>'; $("currentHint").textContent="Game is in progress";}
+const $=id=>document.getElementById(id);
 
-function renderGameOptions(){ $("game").innerHTML=games.map((g,i)=>`<option value="${i}">${g[0]} ${g[1]}</option>`).join(""); }
+$("modeBadge").innerHTML=viewer?'<span class="viewer-badge">VIEW ONLY</span>':'<span class="viewer-badge">HOST</span>';
+if(viewer){
+  $("hostPanel").classList.add("hidden");
+  $("topControls").innerHTML='<button onclick="toggleFullscreen()">⛶ Fullscreen</button>';
+  $("soundOverlay").classList.remove("hidden");
+}
+
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+function fmt(sec){sec=Math.max(0,Math.floor(Number(sec)||0));return String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0");}
+function toast(msg){const t=$("toast");t.textContent=msg;t.style.display="block";clearTimeout(toast._t);toast._t=setTimeout(()=>t.style.display="none",1800);}
+function sorted(){return players.map((name,i)=>({name,total:scores[i].reduce((a,b)=>a+b,0),i})).sort((a,b)=>b.total-a.total);}
+function renderGameOptions(){$("game").innerHTML=games.map((g,i)=>`<option value="${i}">${g[0]} ${g[1]}</option>`).join("");}
 function renderPlayers(){
- if(viewer)return;
- $("players").innerHTML=players.map((p,i)=>`<div class="player"><input value="${esc(p)}" onchange="renamePlayer(${i},this.value)"><button class="red" onclick="removePlayer(${i})">×</button></div>`).join("");
- $("current").innerHTML=players.map((p,i)=>`<option value="${i}" ${i===current?"selected":""}>${esc(p)}</option>`).join("");
+  if(viewer)return;
+  $("players").innerHTML=players.map((p,i)=>`<div class="player"><input value="${esc(p)}" onchange="renamePlayer(${i},this.value)"><button class="red" onclick="removePlayer(${i})">×</button></div>`).join("");
+  $("current").innerHTML=players.map((p,i)=>`<option value="${i}" ${i===current?"selected":""}>${esc(p)}</option>`).join("");
+  $("pairA").innerHTML=players.map((p,i)=>`<option value="${i}">${esc(p)}</option>`).join("");
+  $("pairB").innerHTML=players.map((p,i)=>`<option value="${i}">${esc(p)}</option>`).join("");
+  if(players.length>1&&Number($("pairB").value)===Number($("pairA").value))$("pairB").value="1";
 }
-function totals(){return players.map((_,i)=>scores[i].reduce((a,b)=>a+b,0))}
-function sorted(){return totals().map((total,i)=>({name:players[i],total,i})).sort((a,b)=>b.total-a.total)}
-function updateViewerLiveUI(){
+function render(){
+  if($("game"))$("game").value=game;
+  if($("current"))$("current").value=current;
+  $("gameLabel").textContent=games[game][0]+"  "+games[game][1];
+  $("currentName").textContent=players[current]||"—";
+  $("currentScore").textContent=draft;
+  const t=sorted();
+  $("leaderboard").innerHTML=`<table><thead><tr><th>Rank</th><th>Player</th>${games.map(g=>`<th>${g[0]}</th>`).join("")}<th>TOTAL</th></tr></thead><tbody>`+
+    t.map((p,r)=>`<tr><td>${r<3?["🥇","🥈","🥉"][r]:r+1}</td><td><b>${esc(p.name)}</b></td>${games.map((_,gi)=>`<td>${scores[p.i][gi]}</td>`).join("")}<td><b>${p.total}</b></td></tr>`).join("")+"</tbody></table>";
+  $("podium").innerHTML=t.slice(0,6).map((p,i)=>`<div class="pod"><div style="font-size:28px">${["🥇","🥈","🥉","4️⃣","5️⃣","6️⃣"][i]}</div><b>${esc(p.name)}</b><div class="pts">${p.total}</div></div>`).join("");
+  updateGamePanels();
+  updateViewer();
+}
+function updateGamePanels(){
+  if(viewer)return;
+  const rapid=game===4;
+  $("individualScoreBox").classList.toggle("hidden",rapid);
+  $("pairBox").classList.toggle("hidden",!rapid);
+  $("rapidBox").classList.toggle("hidden",!rapid);
+  renderPairHistory();
+}
+function updateViewer(){
   if(!viewer)return;
-  const bar=$("viewerLiveBar");
-  if(bar)bar.classList.remove("hidden");
-  const name=(games[game]&&games[game].name)||"Game";
-  const title=$("viewerGameTitle"); if(title)title.textContent=name;
-  const hint=$("currentHint"); if(hint)hint.textContent="Game "+name+" is in progress";
-  const vt=$("viewerTimer"); if(vt)vt.textContent=formatTimeValue(seconds);
+  $("viewerLiveBar").classList.remove("hidden");
+  const name=games[game]?.[1]||"Game";
+  $("viewerGameTitle").textContent="Game "+name+" is in progress";
+  $("viewerTimer").textContent=rapidRound?rapidDisplay().time:fmt(seconds);
+  $("viewerPrompt").textContent=rapidRound?rapidDisplay().prompt:"";
+  $("viewerRoundStatus").textContent=rapidRound?rapidDisplay().status:"";
 }
-function render(){updateViewerLiveUI();
- $("game").value=game; $("current").value=current; $("gameLabel").textContent=games[game][0]+"  "+games[game][1];
- $("currentName").textContent=players[current]||"—"; $("currentScore").textContent=draft;
- const t=sorted();
- $("leaderboard").innerHTML=`<table><thead><tr><th>Rank</th><th>Player</th>${games.map(g=>`<th>${g[0]}</th>`).join("")}<th>TOTAL</th></tr></thead><tbody>`+
- t.map((p,r)=>`<tr><td class="rank">${r===0?"🥇":r===1?"🥈":r===2?"🥉":r+1}</td><td><b>${esc(p.name)}</b></td>${games.map((_,gi)=>`<td>${scores[p.i][gi]}</td>`).join("")}<td><b>${p.total}</b></td></tr>`).join("")+"</tbody></table>";
- $("podium").innerHTML=t.slice(0,6).map((p,i)=>`<div class="pod"><div style="font-size:30px">${["🥇","🥈","🥉"][i]}</div><b>${esc(p.name)}</b><div class="pts">${p.total}</div></div>`).join("");
+function selectGame(v){if(viewer)return;game=Number(v);draft=scores[current][game]||0;render();pushState();}
+function selectPlayer(v){if(viewer)return;current=Number(v);draft=scores[current][game]||0;render();}
+function changeScore(n){if(viewer||game===4)return;history.push({i:current,g:game,old:draft});draft=Math.max(0,draft+n);render();toast((n>0?"+":"")+n+" points");}
+function saveScore(){if(viewer||game===4)return;scores[current][game]=draft;history=[];pushState();toast(`${players[current]} scored ${draft}`);}
+function undo(){if(viewer||game===4)return;const h=history.pop();if(!h)return;current=h.i;game=h.g;draft=h.old;render();}
+function addPlayer(){if(viewer)return;const n=$("newPlayer").value.trim();if(!n)return;players.push(n);scores.push(games.map(()=>0));$("newPlayer").value="";current=players.length-1;draft=0;renderPlayers();render();pushState();}
+function removePlayer(i){if(viewer||players.length<=1)return;if(!confirm("Remove "+players[i]+"?"))return;players.splice(i,1);scores.splice(i,1);current=Math.min(current,players.length-1);draft=scores[current][game]||0;renderPlayers();render();pushState();}
+function renamePlayer(i,n){if(viewer)return;if(n.trim())players[i]=n.trim();render();pushState();}
+function nextGame(){if(viewer)return;if(game<games.length-1){game++;draft=scores[current][game]||0;resetTimer();render();pushState();toast("Next: "+games[game][1]);}else showFinal();}
+function newGame(){if(viewer)return;if(!confirm("Start a new game and clear all scores?"))return;players=["Player 1","Player 2","Player 3","Player 4"];scores=players.map(()=>games.map(()=>0));current=0;game=0;draft=0;pairRecords=[];rapidRound=null;luckyDraw=null;resetTimer();renderPlayers();render();pushState();}
+function showFinal(){const t=sorted();$("screen").innerHTML=`<div class="card" style="text-align:center;padding:50px 20px"><div style="font-size:80px">🏆</div><div class="muted">ಬಂಧು ಬಳಗ (Kitty) - Sept 2026 CHAMPION</div><h1 style="font-size:clamp(40px,8vw,80px);margin:8px 0">${esc(t[0]?.name||"—")}</h1><div style="font-size:80px;font-weight:950">${t[0]?.total||0}</div><div class="muted">TOTAL POINTS</div><div class="podium" style="margin-top:25px">${t.slice(1,6).map((p,i)=>`<div class="pod"><div>${["🥈","🥉","4️⃣","5️⃣","6️⃣"][i]}</div><b>${esc(p.name)}</b><div class="pts">${p.total}</div></div>`).join("")}</div></div>`;}
+
+function renderViewerLuckyList(){
+  if(!viewer||!$("viewerLuckyListCard")||!$("viewerLuckyList"))return;
+  $("viewerLuckyListCard").classList.remove("hidden");
+  $("viewerLuckyList").innerHTML=luckyNames.length?luckyNames.map(n=>`<div class="viewerLuckyName">${esc(n)}</div>`).join(""):'<div class="notice" style="grid-column:1/-1">No potential hosts have been added yet.</div>';
 }
-function selectGame(v){game=+v;draft=scores[current][game];render();pushState()}
-function selectPlayer(v){current=+v;draft=scores[current][game];render()}
-function changeScore(n){if(viewer)return;history.push({i:current,g:game,old:draft});draft=Math.max(0,draft+n);render();toast((n>0?"+":"")+n+" points")}
-function saveScore(){if(viewer)return;scores[current][game]=draft;history=[];pushState();toast(`${players[current]} scored ${draft}!`)}
-function undo(){if(viewer)return;let h=history.pop();if(!h)return;current=h.i;game=h.g;draft=h.old;render()}
-function addPlayer(){if(viewer)return;let n=$("newPlayer").value.trim();if(!n)return;players.push(n);scores.push(games.map(()=>0));$("newPlayer").value="";current=players.length-1;draft=0;renderPlayers();render();pushState()}
-function removePlayer(i){if(viewer||players.length<=1)return;if(!confirm("Remove "+players[i]+"?"))return;players.splice(i,1);scores.splice(i,1);current=Math.min(current,players.length-1);draft=scores[current][game];renderPlayers();render();pushState()}
-function renamePlayer(i,n){if(viewer)return;if(n.trim())players[i]=n.trim();render();pushState()}
-function nextGame(){if(viewer)return;if(game<games.length-1){game++;draft=scores[current][game];resetTimer();render();pushState();toast("Next: "+games[game][1])}else showFinal()}
-function newGame(){if(viewer)return;if(!confirm("Start a new game and clear all scores?"))return;players=["Player 1","Player 2","Player 3","Player 4"];scores=players.map(()=>games.map(()=>0));current=0;game=0;draft=0;finalShown=false;renderPlayers();render();pushState()}
-function showFinal(){finalShown=true;let t=sorted();$("screen").innerHTML=`<div class="card final"><div class="crown">🏆</div><div class="muted">ಬಂಧು ಬಳಗ (Kitty) - Sept 2026 CHAMPION</div><h1>${esc(t[0]?.name||"—")}</h1><div class="winnerScore">${t[0]?.total||0}</div><div class="muted">TOTAL POINTS</div><div class="podium" style="margin-top:25px">${t.slice(1,7).map((p,i)=>`<div class="pod"><div>${["🥈","🥉","4️⃣","5️⃣","6️⃣"][i]}</div><b>${esc(p.name)}</b><div class="pts">${p.total}</div></div>`).join("")}</div></div>`}
+
+function renderLuckyNames(){
+  if(viewer||!$("luckyNamesList"))return;
+  $("luckyNamesList").innerHTML=luckyNames.length?luckyNames.map((n,i)=>`<div class="player"><input value="${esc(n)}" onchange="renameLuckyName(${i},this.value)"><button class="red" onclick="removeLuckyName(${i})">×</button></div>`).join(""):"<div class=\"notice\">No potential hosts added yet.</div>";
+  $("luckyStatus").textContent=luckyDraw?"Lucky dip is in progress…":"Add names, then start the 20-second lucky dip when you're ready.";
+}
+function addLuckyName(){if(viewer||luckyDraw)return;const n=$("luckyNewName").value.trim();if(!n)return;if(luckyNames.some(x=>x.toLowerCase()===n.toLowerCase())){toast("That name is already on the list");return;}luckyNames.push(n);$("luckyNewName").value="";renderLuckyNames();pushState();}
+function renameLuckyName(i,n){if(viewer||luckyDraw)return;n=n.trim();if(!n)return;if(luckyNames.some((x,j)=>j!==i&&x.toLowerCase()===n.toLowerCase())){toast("That name is already on the list");renderLuckyNames();return;}luckyNames[i]=n;renderLuckyNames();pushState();}
+function removeLuckyName(i){if(viewer||luckyDraw)return;luckyNames.splice(i,1);renderLuckyNames();pushState();}
+function clearLuckyNames(){if(viewer||luckyDraw)return;if(!luckyNames.length)return;if(!confirm("Clear the Next Kitty host list?"))return;luckyNames=[];renderLuckyNames();pushState();}
+function startLuckyDraw(){
+  if(viewer||luckyDraw)return;
+  if(luckyNames.length<2){toast("Add at least 2 potential hosts");return;}
+  const winnerIndex=Math.floor(Math.random()*luckyNames.length);
+  luckyDraw={names:[...luckyNames],winnerIndex,startAt:Date.now(),duration:20000};
+  lastLuckySecond=null;renderLuckyOverlay();pushState();
+  if(!soundEnabled)tryEnableHostSound();
+  toast("🎲 Next Kitty host draw started!");
+}
+function tryEnableHostSound(){try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();audioCtx.resume();soundEnabled=true;}catch(e){}}
+function luckyDisplay(){
+  if(!luckyDraw)return {left:0,done:true,name:"",status:""};
+  const elapsed=Math.max(0,Date.now()-luckyDraw.startAt),left=Math.max(0,Math.ceil((luckyDraw.duration-elapsed)/1000)),done=elapsed>=luckyDraw.duration;
+  if(done)return {left:0,done:true,name:luckyDraw.names[luckyDraw.winnerIndex],status:"Congratulations!"};
+  const speed=Math.max(65,260-elapsed/110),idx=Math.floor(elapsed/speed)%luckyDraw.names.length;
+  return {left,name:luckyDraw.names[idx],done:false,status:"Selecting the next Kitty host…"};
+}
+function renderLuckyOverlay(){
+  if(!luckyDraw){$("luckyOverlay").classList.add("hidden");return;}
+  $("luckyOverlay").classList.remove("hidden");const d=luckyDisplay();
+  $("luckyOverlayTimer").textContent=d.left;$("luckyOverlayName").textContent=d.name;$("luckyOverlaySub").textContent=d.status;
+  if(d.done){$("luckyOverlayTitle").textContent="Congratulations!";$("luckyOverlayName").classList.add("winnerPop");$("luckyOverlayName").classList.remove("luckySpin");}
+  else{$("luckyOverlayTitle").textContent="And the next host is...";$("luckyOverlayName").classList.remove("winnerPop");$("luckyOverlayName").classList.add("luckySpin");}
+}
+function tickLucky(){
+  if(!luckyDraw)return;const d=luckyDisplay();renderLuckyOverlay();const sec=d.left;
+  if(sec!==lastLuckySecond){
+    if(!d.done)playLuckyTick(sec<=5);
+    if(d.done){playCelebration();setTimeout(()=>{if(luckyDraw){luckyDraw=null;renderLuckyOverlay();if(!viewer)pushState();}},5000);toast("🎉 Congratulations — "+d.name+"!");}
+    lastLuckySecond=sec;
+  }
+}
+
+function renderPairHistory(){
+  if(viewer||!$("pairHistory"))return;
+  const mine=pairRecords.filter(r=>r.game===4);
+  $("pairHistory").innerHTML=mine.length?mine.slice().reverse().map((r,i)=>{
+    const a=players[r.a]||"—",b=players[r.b]||"—";
+    return `<div><b>${esc(a)} + ${esc(b)}</b> — Pair ${r.pairScore} → <b>+${r.each} each</b></div>`;
+  }).join(""):"No pair scores entered yet.";
+}
+function clearPair(){$("pairScore").value="";}
+function applyPairScore(){
+  if(viewer||game!==4)return;
+  const a=Number($("pairA").value),b=Number($("pairB").value),raw=Number($("pairScore").value);
+  if(a===b){toast("Choose two different players");return;}
+  if(!Number.isFinite(raw)||raw<0){toast("Enter a valid pair score");return;}
+  const each=raw/2;
+  scores[a][4]+=each;scores[b][4]+=each;
+  pairRecords.push({game:4,a,b,pairScore:raw,each,at:Date.now()});
+  $("pairScore").value="";render();pushState();
+  toast(`${raw} pair points → +${each} each`);
+}
+
+function choosePrompts(){
+  const pool=[...PROMPTS];
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  return pool.slice(0,15);
+}
+function startRapidRound(){
+  if(viewer||game!==4)return;
+  const a=Number($("pairA").value),b=Number($("pairB").value);
+  if(a===b){toast("Choose two different players");return;}
+  rapidRound={a,b,prompts:choosePrompts(),startAt:Date.now(),duration:60000};
+  lastRapidSecond=null;
+  renderRapidHost();
+  pushState();
+  toast("Rapid Draw started!");
+}
+function stopRapidRound(){if(viewer)return;rapidRound=null;renderRapidHost();pushState();}
+function rapidDisplay(){
+  if(!rapidRound)return {prompt:"",time:60,status:"Waiting"};
+  const elapsed=Math.max(0,Date.now()-rapidRound.startAt);
+  const left=Math.max(0,Math.ceil((rapidRound.duration-elapsed)/1000));
+  const index=Math.min(14,Math.floor(elapsed/4000));
+  const done=elapsed>=rapidRound.duration;
+  return {prompt:done?"TIME!":rapidRound.prompts[index],time:done?0:left,status:done?"Round complete":`${players[rapidRound.a]} + ${players[rapidRound.b]} • Item ${index+1} of 15`};
+}
+function renderRapidHost(){
+  if(viewer)return;
+  if(!rapidRound){
+    $("rapidStatus").textContent="Select the pair above, then start the round.";
+    $("hostPrompt").textContent="";$("hostRapidTimer").textContent="";
+    $("hostPromptList").innerHTML="";return;
+  }
+  const d=rapidDisplay();
+  $("rapidStatus").textContent=d.status;
+  $("hostPrompt").textContent=d.prompt;
+  $("hostRapidTimer").textContent=fmt(d.time);
+  $("hostPromptList").innerHTML=rapidRound.prompts.map((p,i)=>`<div class="promptItem"><b>${i+1}.</b> ${esc(p)}</div>`).join("");
+  if(d.time<=10&&d.time>0)$("hostRapidTimer").classList.add("urgent");else $("hostRapidTimer").classList.remove("urgent");
+}
+function tickRapid(){
+  if(!rapidRound)return;
+  const d=rapidDisplay();
+  if(!viewer)renderRapidHost(); else updateViewer();
+  const sec=d.time;
+  if(sec!==lastRapidSecond){
+    if(sec>0 && sec<=10)playTick(true);
+    else if(sec>10)playTick(false);
+    if(sec===0){playTimeUp();rapidRound=null; if(!viewer)pushState(); toast("⏰ RAPID DRAW TIME!");}
+    lastRapidSecond=sec;
+  }
+}
+
 function startTimer(){
-  if(timerId||viewer)return;
+  if(viewer||timerId)return;
+  if(seconds<=0)seconds=60;
+  lastTimerSecond=seconds+1;
+  playTick(false);
   pushState();
   timerId=setInterval(()=>{
-    if(seconds>0){seconds--;updateTimer();pushState();}
-    else{pauseTimer();toast("⏰ TIME!");pushState();}
+    seconds=Math.max(0,seconds-1);updateTimer();
+    if(seconds>0){
+      playTick(seconds<=10);
+      pushState();
+    }else{
+      pauseTimer();playTimeUp();toast("⏰ TIME!");pushState();
+    }
   },1000);
 }
-function pauseTimer(){
-  clearInterval(timerId);timerId=null;
-  if(!viewer)pushState();
+function pauseTimer(){if(timerId){clearInterval(timerId);timerId=null;}if(!viewer)pushState();}
+function resetTimer(){pauseTimer();seconds=60;updateTimer();if(!viewer)pushState();}
+function setTime(v){pauseTimer();seconds=Number(v)||60;updateTimer();if(!viewer)pushState();}
+function updateTimer(){const t=fmt(seconds);$("timer").textContent=t;if(viewer)$("viewerTimer").textContent=rapidRound?rapidDisplay().time:t;}
+
+function enableSounds(){
+  try{
+    audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+    audioCtx.resume();soundEnabled=true;$("soundOverlay").classList.add("hidden");playTick(false);toast("Sounds enabled");
+  }catch(e){toast("Sound could not be enabled");}
 }
-function resetTimer(){
-  pauseTimer();seconds=60;updateTimer();
-  if(!viewer)pushState();
+function beep(freq,dur,vol){
+  if(!soundEnabled||!audioCtx)return;
+  const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+  o.type="sine";o.frequency.value=freq;g.gain.setValueAtTime(vol,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur);
+  o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur);
 }
-function setTime(s){
-  pauseTimer();seconds=s;updateTimer();
-  if(!viewer)pushState();
-}
-function updateTimer(){
-  const text=formatTimeValue(seconds);
-  if($("timer"))$("timer").textContent=text;
-  if(viewer&&$("viewerTimer"))$("viewerTimer").textContent=text;
-}
-function localState(){return {players,scores,current,game,seconds}}}
+function playTick(urgent){beep(urgent?900:650,urgent?.13:.08,urgent?.07:.045);}
+function playTimeUp(){beep(1000,.18,.12);setTimeout(()=>beep(650,.35,.12),120);}
+function playLuckyTick(urgent){beep(urgent?1100:760,urgent?.12:.06,urgent?.055:.035);}
+function playCelebration(){if(!soundEnabled||!audioCtx)return;const notes=[523.25,659.25,783.99,1046.5,783.99,1046.5];notes.forEach((f,i)=>setTimeout(()=>beep(f,.22,.09),i*150));}
+function toggleFullscreen(){document.documentElement.requestFullscreen?.();}
+async function copyViewerLink(){const url=location.href.split("?")[0]+"?view=1&session="+encodeURIComponent(sessionId||"sept-2026");try{await navigator.clipboard.writeText(url);}catch(e){}toast("Viewer link copied");}
+
+function localState(){return {players,scores,current,game,seconds,pairRecords,rapidRound,luckyNames,luckyDraw};}
 function applyState(s){
   if(!s)return;
   players=Array.isArray(s.players)?s.players:players;
   scores=Array.isArray(s.scores)?s.scores:scores;
-  current=s.current!==undefined?Number(s.current):current;
-  game=s.game!==undefined?Number(s.game):game;
-  if(s.seconds!==undefined)seconds=Math.max(0,Number(s.seconds)||0);
-  renderPlayers();render();updateTimer();
+  current=Number.isFinite(Number(s.current))?Number(s.current):current;
+  game=Number.isFinite(Number(s.game))?Number(s.game):game;
+  seconds=s.seconds!==undefined?Math.max(0,Number(s.seconds)||0):seconds;
+  pairRecords=Array.isArray(s.pairRecords)?s.pairRecords:[];
+  rapidRound=s.rapidRound||null;
+  luckyNames=Array.isArray(s.luckyNames)?s.luckyNames:[];
+  luckyDraw=s.luckyDraw||null;
+  if(!viewer){renderPlayers();renderPairHistory();renderLuckyNames();}
+  renderViewerLuckyList();
+  renderLuckyOverlay();
+  render();updateTimer();
 }
-let firebaseReady=false;
-let firebaseListenerStarted=false;
-
+let pushLock=false;
+async function pushState(){
+  const state=localState();
+  localStorage.setItem("familyGameNightState",JSON.stringify(state));
+  if(!db||!dbRef||!sessionId||viewer||!window.__set)return;
+  try{
+    await window.__set(dbRef(db,"sessions/"+sessionId),state);
+    if($("syncStatus"))$("syncStatus").textContent="🟢 SAVED TO CLOUD — live sync enabled";
+  }catch(e){
+    console.error(e);
+    if($("syncStatus"))$("syncStatus").textContent="🔴 Firebase save failed";
+  }
+}
 
 function startRealtimeListener(){
   if(!db||!dbRef||!sessionId||!window.__onValue||firebaseListenerStarted)return;
@@ -189,87 +445,49 @@ function startRealtimeListener(){
     if(data){
       applyState(data);
       if($("syncStatus"))$("syncStatus").textContent=viewer?"🟢 LIVE — view only":"🟢 CONNECTED — cloud scores loaded";
-    }else if(!viewer){
-      pushState();
-    }else if($("syncStatus")){
-      $("syncStatus").textContent="🟡 Waiting for host to start this game";
-    }
+    }else if(!viewer)pushState();
+    else if($("syncStatus"))$("syncStatus").textContent="🟡 Waiting for host";
   },err=>{
-    console.error("Firebase read failed:",err);
-    if($("syncStatus"))$("syncStatus").textContent="🔴 Firebase connection failed";
+    console.error(err);if($("syncStatus"))$("syncStatus").textContent="🔴 Firebase connection failed";
   });
 }
-
 async function setupFirebase(){
   try{
     const {initializeApp}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js");
     const {getDatabase,ref,onValue,set}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js");
     const {getAuth,signInAnonymously,signInWithEmailAndPassword,onAuthStateChanged}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js");
-    const app=initializeApp(FIREBASE_CONFIG);
-    db=getDatabase(app); dbRef=ref;
-    window.__set=set; window.__onValue=onValue;
-    const auth=getAuth(app);
-    window.__auth=auth; window.__signIn=signInWithEmailAndPassword;
+    const app=initializeApp(FIREBASE_CONFIG);db=getDatabase(app);dbRef=ref;window.__set=set;window.__onValue=onValue;
+    const auth=getAuth(app);window.__auth=auth;window.__signIn=signInWithEmailAndPassword;window.__anon=signInAnonymously;
     sessionId=new URLSearchParams(location.search).get("session")||"sept-2026";
-
     onAuthStateChanged(auth,async user=>{
       if(viewer){
-        try{
-          if(!user)await signInAnonymously(auth);
-          if($("syncStatus"))$("syncStatus").textContent="🟡 CONNECTING — view only";
-          startRealtimeListener();
-        }catch(e){
-          console.error(e);
-          if($("syncStatus"))$("syncStatus").textContent="🔴 Viewer connection failed";
-        }
-        return;
-      }
-      if(user&&!user.isAnonymous){
-        hostUid=user.uid;
-        $("loginArea").classList.add("hidden");
-        $("setupArea").classList.remove("hidden");
+        try{if(!user)await signInAnonymously(auth);startRealtimeListener();}catch(e){console.error(e);$("viewerRoundStatus").textContent="Viewer connection failed";}
+      }else if(user&&!user.isAnonymous){
+        $("loginArea").classList.add("hidden");$("setupArea").classList.remove("hidden");
         $("topControls").innerHTML='<button onclick="copyViewerLink()">🔗 Copy viewer link</button><button onclick="toggleFullscreen()">⛶ TV fullscreen</button><button onclick="hostLogout()">Log out</button>';
-        $("syncStatus").textContent="🟡 CONNECTING TO CLOUD…";
-        startRealtimeListener();
-      }else{
-        $("loginArea").classList.remove("hidden");
-        $("setupArea").classList.add("hidden");
-      }
+        $("syncStatus").textContent="🟡 CONNECTING TO CLOUD…";startRealtimeListener();
+      }else{$("loginArea").classList.remove("hidden");$("setupArea").classList.add("hidden");}
     });
-  }catch(e){
-    console.error(e);
-    $("loginMsg").textContent="Firebase could not load. Check your internet connection.";
-    $("loginMsg").classList.remove("hidden");
-  }
+  }catch(e){console.error(e);$("loginMsg").textContent="Firebase could not load."; $("loginMsg").classList.remove("hidden");}
 }
 async function hostLogin(){
   const email=$("loginEmail").value.trim(),password=$("loginPassword").value;
-  if(!email||!password){showLoginMsg("Enter your host email and password.");return}
-  try{await window.__signIn(window.__auth,email,password)}
-  catch(e){console.error(e);showLoginMsg("Login failed. Check your email/password and Email/Password authentication.")}
+  if(!email||!password){showLoginMsg("Enter host email and password.");return;}
+  try{await window.__signIn(window.__auth,email,password);}catch(e){console.error(e);showLoginMsg("Login failed. Check email/password.");}
 }
-async function hostLogout(){try{await window.__auth.signOut()}catch(e){}}
-function showLoginMsg(msg){$("loginMsg").textContent=msg;$("loginMsg").classList.remove("hidden")}
-async function pushState(){
-  const state=localState();
-  localStorage.setItem("familyGameNightState",JSON.stringify(state));
-  if(db&&dbRef&&sessionId&&!viewer&&window.__set){
-    try{
-      await window.__set(dbRef(db,"sessions/"+sessionId),state);
-      firebaseReady=true;
-      if($("syncStatus"))$("syncStatus").textContent="🟢 SAVED TO CLOUD — live sync enabled";
-      return true;
-    }catch(e){
-      console.error("Firebase write failed:",e);
-      if($("syncStatus"))$("syncStatus").textContent="🔴 Firebase save failed — local copy kept";
-      toast("Cloud save failed");
-    }
-  }
-  return false;
-}
-function loadLocal(){try{let s=JSON.parse(localStorage.getItem("familyGameNightState"));if(s)applyState(s)}catch(e){}}
-renderGameOptions();renderPlayers();if(!viewer)loadLocal();render();updateTimer();setupFirebase();
-window.hostLogin=hostLogin;window.hostLogout=hostLogout;window.selectGame=selectGame;window.selectPlayer=selectPlayer;window.changeScore=changeScore;window.saveScore=saveScore;window.undo=undo;window.addPlayer=addPlayer;window.removePlayer=removePlayer;window.renamePlayer=renamePlayer;window.nextGame=nextGame;window.newGame=newGame;window.startTimer=startTimer;window.pauseTimer=pauseTimer;window.resetTimer=resetTimer;window.setTime=setTime;window.toggleFullscreen=toggleFullscreen;window.copyViewerLink=copyViewerLink;
+async function hostLogout(){try{await window.__auth.signOut();}catch(e){}}
+function showLoginMsg(m){$("loginMsg").textContent=m;$("loginMsg").classList.remove("hidden");}
+
+window.hostLogin=hostLogin;window.hostLogout=hostLogout;window.selectGame=selectGame;window.selectPlayer=selectPlayer;
+window.changeScore=changeScore;window.saveScore=saveScore;window.undo=undo;window.addPlayer=addPlayer;window.removePlayer=removePlayer;window.renamePlayer=renamePlayer;
+window.nextGame=nextGame;window.newGame=newGame;window.startTimer=startTimer;window.pauseTimer=pauseTimer;window.resetTimer=resetTimer;window.setTime=setTime;
+window.toggleFullscreen=toggleFullscreen;window.copyViewerLink=copyViewerLink;window.enableSounds=enableSounds;
+window.applyPairScore=applyPairScore;window.clearPair=clearPair;window.startRapidRound=startRapidRound;window.stopRapidRound=stopRapidRound;window.addLuckyName=addLuckyName;window.renameLuckyName=renameLuckyName;window.removeLuckyName=removeLuckyName;window.clearLuckyNames=clearLuckyNames;window.startLuckyDraw=startLuckyDraw;
+
+renderGameOptions();renderPlayers();renderLuckyNames();renderViewerLuckyList();render();updateTimer();setupFirebase();
+
+setInterval(()=>{if(rapidRound)tickRapid();if(luckyDraw)tickLucky();},100);
+setInterval(()=>{if(viewer&&rapidRound)updateViewer();},250);
 </script>
 </body>
 </html>
