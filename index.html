@@ -633,7 +633,9 @@ function syncTvLayout(){
   if(!tvMode)return;
   const completedCount=gameStatus.filter(s=>s==="ended").length;
   const luckyDrawActive=!!luckyDraw;
-  const luckyWinnerActive=!!luckyDraw?.winnerRevealed || !!luckyWinner;
+  // Only enter the TV winner layout when an actual winner name exists.
+  // A completed draw record without a winner name must never create a blank panel.
+  const luckyWinnerActive=!!luckyWinner;
   const luckyListActive=!!luckyNames.length && !gameStarted && !luckyDrawActive && !luckyWinnerActive;
   document.documentElement.classList.toggle("tv-live",!!gameStarted);
   document.documentElement.classList.toggle("tv-live-top6",!!gameStarted && completedCount>0);
@@ -823,6 +825,12 @@ function renderViewerLuckyList(){
 }
 function renderLuckyWinner(){
   const el=$("luckyWinnerBanner"); if(!el)return;
+  // V24 safety fallback for any viewer that has the completed draw but not the
+  // denormalized winner field yet.
+  if(!luckyWinner && luckyDraw && luckyDraw.winnerRevealed && Array.isArray(luckyDraw.names)){
+    const wi=Math.max(0,Math.min(luckyDraw.names.length-1,Number(luckyDraw.winnerIndex)||0));
+    luckyWinner=String(luckyDraw.names[wi]||"");
+  }
   if(luckyWinner){el.classList.remove("hidden");el.innerHTML=`<span class="luckyWinnerRibbon">NEXT KITTY HOST</span><br>🎉 <b>The Lucky winner is ${esc(luckyWinner)}, Congratulations!!</b> 🎉`;}
   else el.classList.add("hidden");
 }
@@ -1109,6 +1117,13 @@ function applyState(s){
   luckyDraw=s.luckyDraw||null;
   if(luckyDraw && luckyDraw.winnerRevealed && !luckyDraw.revealAt) luckyDraw.revealAt=0;
   luckyWinner=String(s.luckyWinner||"");
+  // V24 safety: if a viewer receives a completed lucky-dip state without the
+  // separate luckyWinner field, derive the winner from the synchronized draw
+  // record so TV never renders an empty winner panel.
+  if(!luckyWinner && luckyDraw && luckyDraw.winnerRevealed && Array.isArray(luckyDraw.names)){
+    const wi=Math.max(0,Math.min(luckyDraw.names.length-1,Number(luckyDraw.winnerIndex)||0));
+    luckyWinner=String(luckyDraw.names[wi]||"");
+  }
   luckyListVerified=s.luckyListVerified===true;
   if(Array.isArray(s.gameStatus)&&s.gameStatus.length===games.length) gameStatus=s.gameStatus;
   else {gameStatus=Array(games.length).fill("pending");if(s.gameStarted===true)gameStatus[game]="in_progress";}
