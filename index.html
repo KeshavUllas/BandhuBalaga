@@ -120,7 +120,7 @@ html.tv-mode .soundOverlay .box{max-width:520px}
 @media(max-aspect-ratio:4/3){html.tv-mode main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "lucky" "guide" "winner" "live" "current" "leader" "podium"}}
 
 /* V18 — refined TV / projector / viewer presentation */
-.liveStatusPill{display:inline-flex;align-items:center;justify-content:center;padding:7px 13px;border-radius:999px;background:#123c2e;border:1px solid #258a67;color:#b9f5df;font-weight:950;letter-spacing:.5px}.liveGameTitle{font-size:clamp(30px,4vw,60px);font-weight:1000;margin-top:7px}.liveNowPlaying{margin-top:8px;color:#aeb5cb;font-weight:900;letter-spacing:1.2px}.viewerPrompt{font-size:clamp(38px,6vw,86px);margin:2px 0 0}.current .score,.current #currentHint{display:none}.gameGuideCardHeader{margin-bottom:0}.gameGuideChooser{margin-top:12px}.gameGuideImageWrap{max-height:none}.gameGuideImage{max-height:68vh}.viewer-mode #topControls{display:none}.viewer-mode .hostbar{justify-content:flex-start}.viewer-mode .hero .timer{display:none!important}#viewerTimer,#hostRapidTimer{display:none}.timer{min-width:0;text-align:right}.card{scroll-margin-top:80px}.luckyResultBanner{margin-top:0;order:-1}.luckyResultBanner .luckyWinnerRibbon{font-size:12px}.viewer-mode #gameGuideCard{margin-top:16px}.viewer-mode #viewerLuckyListCard{margin-top:0}.viewer-mode #gameGuideCard .gameGuideCardHeader>div{font-size:24px!important}.viewer-mode #currentCard{display:none!important}
+.liveStatusPill{display:inline-flex;align-items:center;justify-content:center;padding:7px 13px;border-radius:999px;background:#123c2e;border:1px solid #258a67;color:#b9f5df;font-weight:950;letter-spacing:.5px}.liveGameTitle{font-size:clamp(30px,4vw,60px);font-weight:1000;margin-top:7px}.liveNowPlaying{margin-top:8px;color:#aeb5cb;font-weight:900;letter-spacing:1.2px}.viewerPrompt{font-size:clamp(38px,6vw,86px);margin:2px 0 0}.current .score,.current #currentHint{display:none}.gameGuideCardHeader{margin-bottom:0}.gameGuideChooser{margin-top:12px}.gameGuideImageWrap{max-height:none}.gameGuideImage{max-height:68vh}.viewer-mode #topControls{display:none}.viewer-mode .hostbar{justify-content:flex-start}.viewer-mode .hero .timer{display:none!important}#viewerTimer,#hostRapidTimer{display:none}.timer{min-width:0;text-align:right}.card{scroll-margin-top:80px}.luckyResultBanner{margin-top:0;order:-1}.luckyResultBanner .luckyWinnerRibbon{font-size:12px}.viewer-mode #gameGuideCard{margin-top:16px}.viewer-mode #viewerLuckyListCard{margin-top:0}.viewer-mode #viewerTimer{display:block!important;font-size:clamp(52px,9vw,96px);font-weight:1000;line-height:.95;margin:8px 0 0;font-variant-numeric:tabular-nums}.viewer-mode #gameGuideCard .gameGuideCardHeader>div{font-size:24px!important}.viewer-mode #currentCard{display:none!important}
 
 /* Fullscreen: the control itself disappears once browser fullscreen is active. */
 html:fullscreen #topControls{display:none!important}
@@ -161,6 +161,17 @@ html.tv-mode.tv-lucky #viewerLuckyList{grid-template-columns:repeat(2,minmax(0,1
 html.tv-mode.tv-lucky #viewerLuckyReview{font-size:13px}
 html.tv-mode.tv-lucky #luckyWinnerBanner{display:none!important}
 html.tv-mode.tv-lucky #viewerLiveBar,html.tv-mode.tv-lucky #currentCard,html.tv-mode.tv-lucky #leaderCard,html.tv-mode.tv-lucky #podiumCard{display:none!important}
+
+/* TV after lucky-dip: replace the candidate list with the selected winner. */
+html.tv-mode.tv-winner main#screen{grid-template-columns:1fr;grid-template-rows:auto minmax(130px,.45fr) minmax(0,1fr);grid-template-areas:"hero" "winner" "guide"}
+html.tv-mode.tv-winner #viewerLuckyListCard{display:none!important}
+html.tv-mode.tv-winner #luckyWinnerBanner{grid-area:winner;display:flex!important;align-items:center;justify-content:center;margin:0;padding:12px 24px;min-height:0;overflow:hidden;font-size:clamp(22px,2.8vw,44px)}
+html.tv-mode.tv-winner #luckyWinnerBanner .luckyWinnerRibbon{font-size:clamp(11px,1.1vw,18px);margin:0 10px 0 0}
+html.tv-mode.tv-winner #gameGuideCard{grid-area:guide;margin:0;min-height:0;overflow:hidden}
+html.tv-mode.tv-winner #gameGuideGrid{height:calc(100% - 62px)}
+html.tv-mode.tv-winner .gameGuideImageWrap{height:100%;min-height:0}
+html.tv-mode.tv-winner .gameGuideImage{width:100%;height:100%;max-height:none;object-fit:contain}
+html.tv-mode.tv-winner #viewerLiveBar,html.tv-mode.tv-winner #currentCard,html.tv-mode.tv-winner #leaderCard,html.tv-mode.tv-winner #podiumCard{display:none!important}
 
 /* TV live game: no guide, no duplicate timer, leaderboard + current player + Top 6 are always readable. */
 html.tv-mode.tv-live main#screen{grid-template-columns:minmax(210px,.62fr) minmax(0,1.38fr);grid-template-rows:auto minmax(135px,.72fr) minmax(220px,1.45fr) minmax(95px,.55fr);grid-template-areas:"hero hero" "live live" "current leader" "podium podium"}
@@ -209,6 +220,8 @@ html.tv-mode .gameGuideImage,html.tv-mode .tvGuideImage{image-rendering:auto;tra
   html.tv-mode.tv-pregame #gameGuideCard{height:auto;min-height:calc(100vh - 92px)}
   html.tv-mode.tv-lucky main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "lucky" "guide"}
   html.tv-mode.tv-lucky #viewerLuckyListCard,html.tv-mode.tv-lucky #gameGuideCard{height:auto}
+  html.tv-mode.tv-winner main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "winner" "guide"}
+  html.tv-mode.tv-winner #luckyWinnerBanner,html.tv-mode.tv-winner #gameGuideCard{height:auto}
   html.tv-mode.tv-live main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "live" "current" "leader" "podium"}
   html.tv-mode.tv-live-no-top6 main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "live" "current" "leader"}
   html.tv-mode.tv-complete main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "leader" "podium"}
@@ -595,31 +608,46 @@ function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&l
 function fmt(sec){sec=Math.max(0,Math.floor(Number(sec)||0));return String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0");}
 function toast(msg){const t=$("toast");t.textContent=msg;t.style.display="block";clearTimeout(toast._t);toast._t=setTimeout(()=>t.style.display="none",1800);}
 function sorted(){return players.map((name,i)=>({name,total:(scores[i]||[]).reduce((a,b)=>a+(Number(b)||0),0),i})).sort((a,b)=>b.total-a.total||a.name.localeCompare(b.name));}
+// Display order: alphabetical until scoring starts; once any score exists, use live score order.
+// The underlying player indexes remain unchanged so scores and current-player references stay safe.
+function playerDisplayOrder(){
+  const anyScore=players.some((_,i)=>(scores[i]||[]).some(v=>Number(v)||0));
+  return players.map((name,i)=>({name,i,total:(scores[i]||[]).reduce((a,b)=>a+(Number(b)||0),0)}))
+    .sort((a,b)=>anyScore?(b.total-a.total||a.name.localeCompare(b.name)):a.name.localeCompare(b.name));
+}
+function sortedLuckyNames(){return [...luckyNames].sort((a,b)=>a.localeCompare(b,undefined,{sensitivity:"base"}));}
 function renderGameOptions(){$("game").innerHTML=games.map((g,i)=>`<option value="${i}">${g[0]} ${g[1]}</option>`).join("");}
 function renderPlayers(){
   if(viewer)return;
-  $("players").innerHTML=players.map((p,i)=>`<div class="player"><input value="${esc(p)}" onchange="renamePlayer(${i},this.value)"><button class="red" onclick="removePlayer(${i})">×</button></div>`).join("");
-  $("current").innerHTML=players.map((p,i)=>`<option value="${i}" ${i===current?"selected":""}>${esc(p)}</option>`).join("");
-  $("pairA").innerHTML=players.map((p,i)=>`<option value="${i}">${esc(p)}</option>`).join("");
-  $("pairB").innerHTML=players.map((p,i)=>`<option value="${i}">${esc(p)}</option>`).join("");
-  if(players.length>1&&Number($("pairB").value)===Number($("pairA").value))$("pairB").value="1";
+  const order=playerDisplayOrder();
+  $("players").innerHTML=order.map(p=>`<div class="player"><input value="${esc(p.name)}" onchange="renamePlayer(${p.i},this.value)"><button class="red" onclick="removePlayer(${p.i})">×</button></div>`).join("");
+  $("current").innerHTML=order.map(p=>`<option value="${p.i}" ${p.i===current?"selected":""}>${esc(p.name)}</option>`).join("");
+  $("pairA").innerHTML=order.map(p=>`<option value="${p.i}">${esc(p.name)}</option>`).join("");
+  $("pairB").innerHTML=order.map(p=>`<option value="${p.i}">${esc(p.name)}</option>`).join("");
+  if(players.length>1&&Number($("pairB").value)===Number($("pairA").value)){
+    const other=order.find(p=>p.i!==Number($("pairA").value));
+    if(other)$("pairB").value=String(other.i);
+  }
 }
 function syncTvLayout(){
   if(!tvMode)return;
   const completedCount=gameStatus.filter(s=>s==="ended").length;
-  const luckyListActive=!!luckyNames.length && !gameStarted;
+  const luckyDrawActive=!!luckyDraw;
+  const luckyWinnerActive=!!luckyDraw?.winnerRevealed || !!luckyWinner;
+  const luckyListActive=!!luckyNames.length && !gameStarted && !luckyDrawActive && !luckyWinnerActive;
   document.documentElement.classList.toggle("tv-live",!!gameStarted);
   document.documentElement.classList.toggle("tv-live-top6",!!gameStarted && completedCount>0);
   document.documentElement.classList.toggle("tv-complete",!gameStarted && completedCount>0);
   document.documentElement.classList.toggle("tv-lucky",!gameStarted && completedCount===0 && luckyListActive);
-  document.documentElement.classList.toggle("tv-pregame",!gameStarted && completedCount===0 && !luckyListActive);
+  document.documentElement.classList.toggle("tv-winner",!gameStarted && completedCount===0 && luckyWinnerActive);
+  document.documentElement.classList.toggle("tv-pregame",!gameStarted && completedCount===0 && !luckyListActive && !luckyWinnerActive);
 }
 function render(){
   syncTvLayout();
   if($("game"))$("game").value=game;
   renderGameGuide();
   if(tvMode && viewer){
-    const luckyVisible=!!luckyNames.length && !gameStarted && gameStatus.filter(s=>s==="ended").length===0;
+    const luckyVisible=!!luckyNames.length && !gameStarted && !luckyDraw && !luckyWinner && gameStatus.filter(s=>s==="ended").length===0;
     $("viewerLuckyListCard").classList.toggle("hidden",!luckyVisible);
   }
   const completedCount=gameStatus.filter(s=>s==="ended").length;
@@ -664,7 +692,7 @@ function renderGameGuide(){
   const grid=$("gameGuideGrid"),sel=$("gameGuideSelect");if(!grid||!sel)return;
   if(sel.options.length!==games.length)sel.innerHTML=games.map((g,i)=>`<option value="${i}">${g[0]} ${g[1]}</option>`).join("");
   guideGame=Math.max(0,Math.min(games.length-1,Number(guideGame)||0));sel.value=String(guideGame);
-  const luckyListActive=viewer && tvMode && luckyNames.length>0 && !gameStarted;
+  const luckyListActive=viewer && tvMode && luckyNames.length>0 && !gameStarted && !luckyDraw && !luckyWinner;
   if(tvMode && !gameStarted && !luckyListActive){
     grid.innerHTML=games.map((g,i)=>`<div class="tvGuideTile" onclick="openGuideImage(${i})" title="${esc(gameInfo[i]?.title||g[1])}"><img class="tvGuideImage" src="${GAME_GUIDE_IMAGES[i]}" alt="${esc(gameInfo[i]?.title||g[1])}"><div class="tvGuideName">${g[0]} ${esc(g[1])}</div></div>`).join("");
     return;
@@ -781,7 +809,8 @@ function renderViewerLuckyList(){
   const visible=!!luckyNames.length && !luckyDraw;
   $("viewerLuckyListCard").classList.toggle("hidden",!visible);
   $("viewerLuckyReview").classList.toggle("hidden",!visible || !!luckyWinner);
-  $("viewerLuckyList").innerHTML=luckyNames.length?luckyNames.map(n=>`<div class="viewerLuckyName">${esc(n)}</div>`).join(""):"";
+  const displayNames=sortedLuckyNames();
+  $("viewerLuckyList").innerHTML=displayNames.length?displayNames.map(n=>`<div class="viewerLuckyName">${esc(n)}</div>`).join(""):"";
   if(visible){
     const existing=$("viewerLuckyVerified");
     if(existing)existing.remove();
@@ -800,7 +829,8 @@ function renderLuckyWinner(){
 
 function renderLuckyNames(){
   if(viewer||!$("luckyNamesList"))return;
-  $("luckyNamesList").innerHTML=luckyNames.length?luckyNames.map((n,i)=>`<div class="player"><input value="${esc(n)}" onchange="renameLuckyName(${i},this.value)"><button class="red" onclick="removeLuckyName(${i})">×</button></div>`).join(""):'<div class="notice">No potential hosts added yet.</div>';
+  const displayNames=sortedLuckyNames();
+  $("luckyNamesList").innerHTML=displayNames.length?displayNames.map(n=>{const i=luckyNames.indexOf(n);return `<div class="player"><input value="${esc(n)}" onchange="renameLuckyName(${i},this.value)"><button class="red" onclick="removeLuckyName(${i})">×</button></div>`}).join(""):'<div class="notice">No potential hosts added yet.</div>';
   const verified=!!luckyListVerified&&luckyNames.length>=2;
   if($("luckyVerifyBadge")){
     $("luckyVerifyBadge").className=verified?"luckyVerified":"luckyUnverified";
