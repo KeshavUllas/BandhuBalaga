@@ -119,10 +119,101 @@ html.tv-mode .imageLightboxInner{width:min(1500px,94vw);max-height:92vh}
 html.tv-mode .soundOverlay .box{max-width:520px}
 @media(max-aspect-ratio:4/3){html.tv-mode main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "lucky" "guide" "winner" "live" "current" "leader" "podium"}}
 
-/* V16 — consolidated elite experience */
-.liveStatusPill{display:inline-flex;align-items:center;justify-content:center;padding:8px 14px;border-radius:999px;background:#123c2e;border:1px solid #258a67;color:#b9f5df;font-weight:950;letter-spacing:.5px}.liveGameTitle{font-size:clamp(32px,5vw,64px);font-weight:1000;margin-top:10px}.liveNowPlaying{margin-top:14px;color:#aeb5cb;font-weight:900;letter-spacing:1.5px}.viewerPrompt{font-size:clamp(42px,7vw,92px);margin:4px 0 0}.current .score,.current #currentHint{display:none}.gameGuideCardHeader{margin-bottom:0}.gameGuideChooser{margin-top:12px}.gameGuideImageWrap{max-height:none}.gameGuideImage{max-height:68vh}.viewer-mode #topControls{display:none}.viewer-mode .hostbar{justify-content:flex-start}.viewer-mode .hero .timer{font-size:clamp(52px,9vw,110px)}#viewerTimer,#hostRapidTimer{display:none!important}.timer{min-width:0;text-align:right}.card{scroll-margin-top:80px}.luckyResultBanner{margin-top:0;order:-1}.luckyResultBanner .luckyWinnerRibbon{font-size:12px}.viewer-mode #gameGuideCard{margin-top:16px}.viewer-mode #viewerLuckyListCard{margin-top:0}.viewer-mode #gameGuideCard .gameGuideCardHeader>div{font-size:24px!important}.viewer-mode #currentCard{display:none!important}
-html.tv-mode body{overflow:hidden}html.tv-mode .hostbar{position:relative;height:70px}.tv-mode main#screen{min-height:calc(100vh - 70px);padding:18px 28px 24px;max-width:none;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(420px,.9fr);grid-template-areas:"hero hero" "winner winner" "live live" "current leader" "podium podium" "guide guide";gap:14px;align-content:start}.tv-mode .hero{grid-area:hero;position:relative;min-height:72px}.tv-mode #luckyWinnerBanner{grid-area:winner;margin-top:0}.tv-mode #viewerLiveBar{grid-area:live;margin-top:0;min-height:240px;display:flex;flex-direction:column;justify-content:center}.tv-mode #currentCard{grid-area:current;margin-top:0;min-height:240px;display:flex;flex-direction:column;justify-content:center}.tv-mode #leaderCard{grid-area:leader;margin-top:0;min-height:240px}.tv-mode #podiumCard{grid-area:podium;margin-top:0}.tv-mode #gameGuideCard{grid-area:guide;margin-top:0}.tv-mode .hero{position:absolute;top:10px;left:28px;right:28px;z-index:2}.tv-mode .hero .title{font-size:clamp(24px,2.4vw,44px)}.tv-mode .hero .timer{font-size:clamp(48px,5vw,80px)}.tv-mode #viewerLuckyListCard{display:none!important}.tv-mode #gameGuideCard{margin-top:0}.tv-mode #gameGuideCard .gameGuideCardHeader{display:block}.tv-mode #gameGuideCard .gameGuideCardHeader>div{font-size:22px!important}.tv-mode .gameGuideChooser{max-width:420px}.tv-mode .gameGuideImageWrap{max-height:42vh}.tv-mode .gameGuideImage{max-height:42vh}.tv-mode .liveGameTitle{font-size:clamp(38px,4vw,68px)}.tv-mode .viewerPrompt{font-size:clamp(46px,5.5vw,90px)}.tv-mode #leaderboard{max-height:260px;overflow:hidden}.tv-mode #leaderboard table{font-size:clamp(14px,1vw,18px)}.tv-mode #podiumCard{min-height:130px}.tv-mode .podium{grid-template-columns:repeat(6,1fr)}.tv-mode .pod{padding:10px 6px}.tv-mode .pts{font-size:clamp(22px,2vw,34px)}.tv-mode #soundOverlay .box{max-width:520px}.tv-mode #topControls{display:flex}.tv-mode #topControls button:not(:first-child){display:none}.tv-mode.tv-live #gameGuideCard{display:none!important}.tv-mode.tv-live main#screen{grid-template-areas:"winner winner" "live live" "current leader" "podium podium"}.tv-mode.tv-live #currentCard{min-height:300px}.tv-mode.tv-live #viewerLiveBar{min-height:300px}.tv-mode.tv-live #luckyWinnerBanner{position:static!important}.tv-mode.tv-live .hero{position:relative;grid-column:1/-1;grid-row:1;opacity:.95}.tv-mode.tv-live main#screen{grid-template-areas:"winner winner" "live live" "current leader" "podium podium"}.tv-mode.tv-live #luckyWinnerBanner{grid-area:winner}.tv-mode.tv-live #viewerLiveBar{grid-area:live}.tv-mode.tv-live #currentCard{grid-area:current}.tv-mode.tv-live #leaderCard{grid-area:leader}.tv-mode.tv-live #podiumCard{grid-area:podium}
-@media(max-aspect-ratio:4/3){.tv-mode main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "winner" "live" "current" "leader" "podium" "guide";overflow:auto}.tv-mode body{overflow:auto}.tv-mode .hero{position:relative}.tv-mode.tv-live #gameGuideCard{display:none!important}}
+/* V18 — refined TV / projector / viewer presentation */
+.liveStatusPill{display:inline-flex;align-items:center;justify-content:center;padding:7px 13px;border-radius:999px;background:#123c2e;border:1px solid #258a67;color:#b9f5df;font-weight:950;letter-spacing:.5px}.liveGameTitle{font-size:clamp(30px,4vw,60px);font-weight:1000;margin-top:7px}.liveNowPlaying{margin-top:8px;color:#aeb5cb;font-weight:900;letter-spacing:1.2px}.viewerPrompt{font-size:clamp(38px,6vw,86px);margin:2px 0 0}.current .score,.current #currentHint{display:none}.gameGuideCardHeader{margin-bottom:0}.gameGuideChooser{margin-top:12px}.gameGuideImageWrap{max-height:none}.gameGuideImage{max-height:68vh}.viewer-mode #topControls{display:none}.viewer-mode .hostbar{justify-content:flex-start}.viewer-mode .hero .timer{display:none!important}#viewerTimer,#hostRapidTimer{display:none}.timer{min-width:0;text-align:right}.card{scroll-margin-top:80px}.luckyResultBanner{margin-top:0;order:-1}.luckyResultBanner .luckyWinnerRibbon{font-size:12px}.viewer-mode #gameGuideCard{margin-top:16px}.viewer-mode #viewerLuckyListCard{margin-top:0}.viewer-mode #gameGuideCard .gameGuideCardHeader>div{font-size:24px!important}.viewer-mode #currentCard{display:none!important}
+
+/* Fullscreen: the control itself disappears once browser fullscreen is active. */
+html:fullscreen #topControls{display:none!important}
+html:-webkit-full-screen #topControls{display:none!important}
+
+/* TV base — intentionally lightweight for Chromecast/tab casting. */
+html.tv-mode body{overflow:hidden;background:#080b16}
+html.tv-mode .hostbar{position:relative;height:62px;padding:8px 22px;background:#101427;border-bottom:1px solid var(--line);backdrop-filter:none}
+html.tv-mode .hostbar .brand{font-size:clamp(17px,1.35vw,23px)}
+html.tv-mode .layout{display:block;min-height:calc(100vh - 62px)}
+html.tv-mode #hostPanel{display:none!important}
+html.tv-mode main#screen{min-height:calc(100vh - 62px);padding:12px 22px 18px;max-width:none;width:100%;display:grid;gap:12px;align-content:start;overflow:hidden}
+html.tv-mode .hero{grid-area:hero;min-height:54px;display:flex;align-items:center}
+html.tv-mode .title{font-size:clamp(22px,2.2vw,40px);white-space:nowrap}
+html.tv-mode .hero .timer{display:none!important}
+
+/* TV waiting room: six game cards, 3 x 2, using the full landscape canvas. */
+html.tv-mode.tv-pregame main#screen{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto 1fr;grid-template-areas:"hero hero hero" "guide guide guide"}
+html.tv-mode.tv-pregame #gameGuideCard{grid-area:guide;margin:0;padding:10px 12px;height:calc(100vh - 92px);overflow:hidden}
+html.tv-mode.tv-pregame #gameGuideCard .gameGuideCardHeader,html.tv-mode.tv-pregame #gameGuideCard .gameGuideChooser{display:none!important}
+html.tv-mode.tv-pregame #gameGuideGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:10px;height:100%;margin:0}
+html.tv-mode.tv-pregame .tvGuideTile{background:#151a2d;border:1px solid #303650;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-height:0}
+html.tv-mode.tv-pregame .tvGuideTile .tvGuideImage{width:100%;height:calc(100% - 42px);object-fit:cover;display:block;background:#0b0f1d}
+html.tv-mode.tv-pregame .tvGuideTile .tvGuideName{height:42px;display:flex;align-items:center;justify-content:center;padding:4px 8px;font-size:clamp(15px,1.3vw,23px);font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html.tv-mode.tv-pregame #viewerLuckyListCard,html.tv-mode.tv-pregame #luckyWinnerBanner,html.tv-mode.tv-pregame #viewerLiveBar,html.tv-mode.tv-pregame #currentCard,html.tv-mode.tv-pregame #leaderCard,html.tv-mode.tv-pregame #podiumCard{display:none!important}
+
+/* TV state after the host enters the Lucky Dip list: list + one selected guide. */
+html.tv-mode.tv-lucky main#screen{grid-template-columns:minmax(280px,.72fr) minmax(0,1.28fr);grid-template-rows:auto minmax(0,1fr);grid-template-areas:"hero hero" "lucky guide"}
+html.tv-mode.tv-lucky #viewerLuckyListCard{grid-area:lucky;display:block!important;margin:0;min-height:0;height:calc(100vh - 92px);overflow:hidden}
+html.tv-mode.tv-lucky #gameGuideCard{grid-area:guide;margin:0;height:calc(100vh - 92px);overflow:hidden}
+html.tv-mode.tv-lucky #gameGuideCard .gameGuideCardHeader{display:block}
+html.tv-mode.tv-lucky #gameGuideCard .gameGuideChooser{display:flex;max-width:100%;margin-top:8px}
+html.tv-mode.tv-lucky #gameGuideSelect{width:100%;max-width:none}
+html.tv-mode.tv-lucky #gameGuideGrid{margin-top:8px;height:calc(100% - 62px)}
+html.tv-mode.tv-lucky .gameGuideImageWrap{height:100%;min-height:0;max-height:none}
+html.tv-mode.tv-lucky .gameGuideImage{width:100%;height:100%;max-height:none;object-fit:contain}
+html.tv-mode.tv-lucky #viewerLuckyList{grid-template-columns:repeat(2,minmax(0,1fr));max-height:calc(100% - 65px);overflow:auto}
+html.tv-mode.tv-lucky #viewerLuckyReview{font-size:13px}
+html.tv-mode.tv-lucky #luckyWinnerBanner{display:none!important}
+html.tv-mode.tv-lucky #viewerLiveBar,html.tv-mode.tv-lucky #currentCard,html.tv-mode.tv-lucky #leaderCard,html.tv-mode.tv-lucky #podiumCard{display:none!important}
+
+/* TV live game: no guide, no duplicate timer, leaderboard + current player + Top 6 are always readable. */
+html.tv-mode.tv-live main#screen{grid-template-columns:minmax(210px,.62fr) minmax(0,1.38fr);grid-template-rows:auto minmax(135px,.72fr) minmax(220px,1.45fr) minmax(95px,.55fr);grid-template-areas:"hero hero" "live live" "current leader" "podium podium"}
+html.tv-mode.tv-live #viewerLuckyListCard,html.tv-mode.tv-live #gameGuideCard,html.tv-mode.tv-live #luckyWinnerBanner{display:none!important}
+html.tv-mode.tv-live #viewerLiveBar{grid-area:live;margin:0;min-height:0;padding:12px 18px;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden}
+html.tv-mode.tv-live #viewerGameTitle{font-size:clamp(23px,2.3vw,36px)!important;margin-top:3px}
+html.tv-mode.tv-live .viewerPrompt{font-size:clamp(32px,4.2vw,64px);line-height:1.05;margin:0}
+html.tv-mode.tv-live .liveNowPlaying{margin-top:3px;font-size:12px}
+html.tv-mode.tv-live #viewerTimer{display:block!important;font-size:clamp(48px,5.3vw,76px);font-weight:1000;font-variant-numeric:tabular-nums;line-height:1;margin-top:4px}
+html.tv-mode.tv-live #viewerRoundStatus{font-size:12px;min-height:14px}
+html.tv-mode.tv-live #currentCard{grid-area:current;margin:0;min-height:0;padding:14px;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden}
+html.tv-mode.tv-live #currentCard .playername{font-size:clamp(28px,3vw,48px)}
+html.tv-mode.tv-live #leaderCard{grid-area:leader;margin:0;min-height:0;padding:12px 14px;overflow:hidden}
+html.tv-mode.tv-live #leaderCard h2{font-size:clamp(18px,1.7vw,26px);margin:0 0 5px}
+html.tv-mode.tv-live #leaderboard{max-height:none;height:calc(100% - 32px);overflow:hidden}
+html.tv-mode.tv-live #leaderboard table{font-size:clamp(11px,.9vw,16px);width:100%;border-collapse:collapse}
+html.tv-mode.tv-live #leaderboard th,html.tv-mode.tv-live #leaderboard td{padding:5px 5px;white-space:nowrap}
+html.tv-mode.tv-live-no-top6 main#screen{grid-template-rows:auto minmax(135px,.72fr) minmax(240px,1.9fr);grid-template-areas:"hero hero" "live live" "current leader"}
+html.tv-mode.tv-live-no-top6 #podiumCard{display:none!important}
+html.tv-mode.tv-live #podiumCard{grid-area:podium;margin:0;min-height:0;padding:9px 12px;overflow:hidden}
+html.tv-mode.tv-live #podiumCard h2{font-size:clamp(17px,1.5vw,23px);margin:0 0 5px}
+html.tv-mode.tv-live .podium{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+html.tv-mode.tv-live .pod{padding:6px 4px;min-height:0;font-size:clamp(11px,.85vw,15px)}
+html.tv-mode.tv-live .pod .pts{font-size:clamp(18px,1.6vw,28px)}
+
+/* Completed-game TV state: focus on results and reclaim the screen from game instructions. */
+html.tv-mode.tv-complete main#screen{grid-template-columns:minmax(0,1.55fr) minmax(300px,.8fr);grid-template-rows:auto minmax(0,1fr);grid-template-areas:"hero hero" "leader podium"}
+html.tv-mode.tv-complete #viewerLuckyListCard,html.tv-mode.tv-complete #gameGuideCard,html.tv-mode.tv-complete #luckyWinnerBanner,html.tv-mode.tv-complete #viewerLiveBar,html.tv-mode.tv-complete #currentCard{display:none!important}
+html.tv-mode.tv-complete #leaderCard{grid-area:leader;margin:0;min-height:0;overflow:hidden;padding:16px}
+html.tv-mode.tv-complete #leaderboard{height:calc(100% - 40px);overflow:hidden}
+html.tv-mode.tv-complete #leaderboard table{font-size:clamp(14px,1.15vw,20px)}
+html.tv-mode.tv-complete #leaderboard th,html.tv-mode.tv-complete #leaderboard td{padding:9px 7px}
+html.tv-mode.tv-complete #podiumCard{grid-area:podium;margin:0;min-height:0;overflow:hidden;padding:16px}
+html.tv-mode.tv-complete .podium{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+html.tv-mode.tv-complete .pod{padding:12px 8px;min-height:0}
+html.tv-mode.tv-complete .pod .pts{font-size:clamp(24px,2.3vw,38px)}
+
+/* Prevent expensive visual effects during Chromecast presentation. */
+html.tv-mode .card{box-shadow:none;backdrop-filter:none}
+html.tv-mode .gameGuideImage,html.tv-mode .tvGuideImage{image-rendering:auto;transform:none;filter:none}
+
+@media(max-aspect-ratio:4/3){
+  html.tv-mode main#screen{overflow:auto;grid-template-columns:1fr;grid-template-areas:"hero" "guide" "lucky" "live" "current" "leader" "podium"}
+  html.tv-mode.tv-pregame main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "guide"}
+  html.tv-mode.tv-pregame #gameGuideGrid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr))}
+  html.tv-mode.tv-pregame #gameGuideCard{height:auto;min-height:calc(100vh - 92px)}
+  html.tv-mode.tv-lucky main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "lucky" "guide"}
+  html.tv-mode.tv-lucky #viewerLuckyListCard,html.tv-mode.tv-lucky #gameGuideCard{height:auto}
+  html.tv-mode.tv-live main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "live" "current" "leader" "podium"}
+  html.tv-mode.tv-live-no-top6 main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "live" "current" "leader"}
+  html.tv-mode.tv-complete main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "leader" "podium"}
+  html.tv-mode body{overflow:auto}
+}
 </style>
 </head>
 <body>
@@ -351,6 +442,7 @@ if(viewer){
   $("hostPanel").classList.add("hidden");
   $("topControls").innerHTML=tvMode?'<button onclick="toggleFullscreen()">⛶ Fullscreen</button>':"";
   $("soundOverlay").classList.remove("hidden");
+  syncFullscreenUi();
 }
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
@@ -368,12 +460,22 @@ function renderPlayers(){
 }
 function syncTvLayout(){
   if(!tvMode)return;
+  const completedCount=gameStatus.filter(s=>s==="ended").length;
+  const luckyListActive=!!luckyNames.length && !gameStarted;
   document.documentElement.classList.toggle("tv-live",!!gameStarted);
+  document.documentElement.classList.toggle("tv-live-top6",!!gameStarted && completedCount>0);
+  document.documentElement.classList.toggle("tv-complete",!gameStarted && completedCount>0);
+  document.documentElement.classList.toggle("tv-lucky",!gameStarted && completedCount===0 && luckyListActive);
+  document.documentElement.classList.toggle("tv-pregame",!gameStarted && completedCount===0 && !luckyListActive);
 }
 function render(){
   syncTvLayout();
   if($("game"))$("game").value=game;
   renderGameGuide();
+  if(tvMode && viewer){
+    const luckyVisible=!!luckyNames.length && !gameStarted && gameStatus.filter(s=>s==="ended").length===0;
+    $("viewerLuckyListCard").classList.toggle("hidden",!luckyVisible);
+  }
   const completedCount=gameStatus.filter(s=>s==="ended").length;
   const showLive=!!gameStarted;
   if($("currentCard"))$("currentCard").classList.toggle("hidden",!showLive);
@@ -416,6 +518,11 @@ function renderGameGuide(){
   const grid=$("gameGuideGrid"),sel=$("gameGuideSelect");if(!grid||!sel)return;
   if(sel.options.length!==games.length)sel.innerHTML=games.map((g,i)=>`<option value="${i}">${g[0]} ${g[1]}</option>`).join("");
   guideGame=Math.max(0,Math.min(games.length-1,Number(guideGame)||0));sel.value=String(guideGame);
+  const luckyListActive=viewer && tvMode && luckyNames.length>0 && !gameStarted;
+  if(tvMode && !gameStarted && !luckyListActive){
+    grid.innerHTML=games.map((g,i)=>`<div class="tvGuideTile" onclick="openGuideImage(${i})" title="${esc(gameInfo[i]?.title||g[1])}"><img class="tvGuideImage" src="${GAME_GUIDE_IMAGES[i]}" alt="${esc(gameInfo[i]?.title||g[1])}"><div class="tvGuideName">${g[0]} ${esc(g[1])}</div></div>`).join("");
+    return;
+  }
   const g=gameInfo[guideGame]||gameInfo[0];
   grid.innerHTML=`<div class="gameGuideImageWrap" onclick="openGuideImage(${guideGame})" title="Open game guide full screen"><img class="gameGuideImage" src="${GAME_GUIDE_IMAGES[guideGame]}" alt="${esc(g.title)} game instructions"><span class="gameGuideZoomHint">🔍</span></div>`;
 }
@@ -448,6 +555,7 @@ function updateViewer(){
   $("viewerPrompt").textContent=rapidRound?rapidDisplay().prompt:p;
   $("viewerTimer").textContent=rapidRound?fmt(rapidDisplay().time):fmt(seconds);
   $("viewerRoundStatus").textContent=rapidRound?rapidDisplay().status:"";
+  $("timer").textContent=viewer?"":(rapidRound?fmt(rapidDisplay().time):(gameStarted?fmt(seconds):""));
   renderLuckyWinner();
 }
 function selectGame(v){if(viewer)return;game=Number(v);draft=0;render();pushState();}
@@ -758,7 +866,7 @@ function resetTimer(){pauseTimer();seconds=60;updateTimer();if(!viewer)pushState
 function setTime(v){pauseTimer();seconds=Number(v)||60;updateTimer();if(!viewer)pushState();}
 function updateTimer(){
   const t=rapidRound?fmt(rapidDisplay().time):(gameStarted?fmt(seconds):"");
-  $("timer").textContent=t;
+  $("timer").textContent=viewer?"":t;
   if(viewer)$("viewerTimer").textContent=t;
   if($('hostRapidTimer'))$('hostRapidTimer').textContent="";
 }
@@ -783,9 +891,23 @@ function openTvDisplay(){
   const url=location.href.split("?")[0]+"?view=1&tv=1&session="+encodeURIComponent(sessionId||"sept-2026");
   const w=window.open(url,"bandhuBalagaTV","noopener,noreferrer");
   if(!w){toast("Please allow pop-ups for the TV display");return;}
-  toast("📺 TV display opened — use Fullscreen there");
+  toast("📺 TV display opened");
 }
-function toggleFullscreen(){document.documentElement.requestFullscreen?.();}
+async function toggleFullscreen(){
+  try{
+    if(document.fullscreenElement){await document.exitFullscreen();}
+    else await document.documentElement.requestFullscreen();
+  }catch(e){console.warn("Fullscreen unavailable",e);}
+  syncFullscreenUi();
+}
+function syncFullscreenUi(){
+  const fs=!!document.fullscreenElement;
+  document.documentElement.classList.toggle("is-fullscreen",fs);
+  if(viewer && tvMode && $("topControls")){
+    $("topControls").innerHTML=fs?"":'<button onclick="toggleFullscreen()">⛶ Fullscreen</button>';
+  }
+}
+document.addEventListener("fullscreenchange",syncFullscreenUi);
 async function copyViewerLink(){const url=location.href.split("?")[0]+"?view=1&session="+encodeURIComponent(sessionId||"sept-2026");try{await navigator.clipboard.writeText(url);}catch(e){}toast("Viewer link copied");}
 
 function localState(){return {players,scores,current,game,seconds,pairRecords,rapidRound,luckyNames,luckyDraw,luckyWinner,luckyListVerified,gameStarted,gameStatus};}
@@ -881,7 +1003,7 @@ window.applyPairScore=applyPairScore;window.clearPair=clearPair;window.startRapi
 
 // Start with the lucky-dip overlay closed. A fresh draw will open it through renderLuckyOverlay().
 $("luckyOverlay").classList.add("hidden");
-renderGameOptions();renderPlayers();renderLuckyNames();renderViewerLuckyList();renderGameGuide();renderLuckyWinner();render();updateTimer();setupFirebase();
+renderGameOptions();renderPlayers();renderLuckyNames();renderViewerLuckyList();renderGameGuide();renderLuckyWinner();render();updateTimer();syncFullscreenUi();setupFirebase();
 
 setInterval(()=>{if(rapidRound)tickRapid();if(luckyDraw)tickLucky();},100);
 setInterval(()=>{if(viewer&&rapidRound)updateViewer();},250);
