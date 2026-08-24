@@ -16,7 +16,7 @@ label{display:block;color:var(--muted);font-size:12px;margin:12px 0 6px}input,se
 table{width:100%;border-collapse:collapse}th,td{padding:10px 7px;border-bottom:1px solid var(--line);text-align:left}th:last-child,td:last-child{text-align:right}.leader{overflow:auto}.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.pod{text-align:center;background:#222844;border-radius:14px;padding:15px}.pts{font-size:28px;font-weight:950}.toast{position:fixed;right:18px;bottom:18px;background:#fff;color:#111;border-radius:13px;padding:12px 16px;font-weight:900;display:none;z-index:30}
 #viewerLiveBar{border:2px solid rgba(255,255,255,.18);text-align:center}.viewerPrompt{font-size:clamp(48px,10vw,110px);font-weight:950;line-height:1;margin:12px 0}.viewerRoundTimer{font-size:clamp(42px,8vw,78px);font-weight:950;font-variant-numeric:tabular-nums}.promptList{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.viewerLuckyList{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px}.viewerLuckyName{background:#222844;border:1px solid #343d62;border-radius:12px;padding:10px 12px;font-weight:850;text-align:center}.promptItem{background:#222844;border-radius:10px;padding:9px}.urgent{animation:pulse .7s infinite alternate}@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.04)}}
 .pairGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pairRow{display:flex;gap:7px;align-items:center;padding:8px;border-bottom:1px solid var(--line)}.pairRow select{flex:1}
-.luckyOverlay{position:fixed;inset:0;background:radial-gradient(circle at center,#2b315d 0,#080b16 72%);z-index:35;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px}.luckyBox{width:min(1100px,96vw);padding:35px;border:1px solid #59618a;border-radius:28px;background:#11162bef;box-shadow:0 30px 100px #0009}.luckyKicker{font-size:18px;font-weight:900;color:#aeb8ff;letter-spacing:2px;text-transform:uppercase}.luckyTitle{font-size:clamp(34px,6vw,76px);font-weight:1000;line-height:1;margin:8px 0 18px}.luckyName{font-size:clamp(52px,12vw,150px);font-weight:1000;min-height:1.1em;line-height:1.05;letter-spacing:-2px}.luckyTimer{display:none}.luckyResultBanner{margin:18px 0 0;padding:16px 20px;border:2px solid #8f9cff;border-radius:18px;background:#202844;font-size:clamp(20px,3vw,34px);font-weight:950;text-align:center;animation:bannerGlow 1.5s ease-in-out infinite alternate}@keyframes bannerGlow{from{box-shadow:0 0 8px #6978ff55}to{box-shadow:0 0 30px #6978ffaa}}.gameGuideGrid{display:block}.gameGuideChooser{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px}.gameGuideChooser label{margin:0;font-size:13px;font-weight:850;color:#c8cde0}.gameGuideSelect{max-width:420px;background:#0c1020;border:1px solid #4a5479;color:#fff;border-radius:12px;padding:12px 14px;font-weight:850}.gameGuideDisplay{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:18px;align-items:stretch;margin-top:16px}.gameGuideImageWrap{background:#0b0f1d;border:1px solid #303650;border-radius:18px;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:280px}.gameGuideImage{display:block;width:100%;height:auto;max-height:58vh;object-fit:contain}.gameGuideMeta{background:linear-gradient(145deg,#1a2037,#101426);border:1px solid #303650;border-radius:18px;padding:22px;display:flex;flex-direction:column;justify-content:center}.gameGuideMeta h3{font-size:clamp(22px,3vw,34px);margin:0 0 10px}.gameGuideMeta p{margin:0;color:#c9cee0;line-height:1.55}.gameGuideMeta .how{margin-top:14px;padding-top:14px;border-top:1px solid #303650;color:#fff;line-height:1.5}.gameGuideHint{color:#aeb5cb;font-size:13px;margin-top:8px}@media(max-width:900px){.gameGuideDisplay{grid-template-columns:1fr}.gameGuideImageWrap{min-height:0}.gameGuideImage{max-height:none}.gameGuideMeta{padding:17px}}.luckySub{color:#c0c7df;font-size:18px;margin-top:12px}.luckySpark{font-size:clamp(28px,5vw,60px);margin:10px}.winnerPop{animation:winnerPop 1s cubic-bezier(.2,.9,.2,1)}@keyframes winnerPop{0%{transform:scale(.4);opacity:.1}60%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}.luckySpin{animation:luckySpin .18s linear infinite alternate}@keyframes luckySpin{from{transform:translateY(-3px) rotate(-1deg)}to{transform:translateY(3px) rotate(1deg)}}
+.luckyOverlay{position:fixed;inset:0;background:radial-gradient(circle at center,#2b315d 0,#080b16 72%);z-index:35;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px}.luckyBox{width:min(1100px,96vw);padding:35px;border:1px solid #59618a;border-radius:28px;background:#11162bef;box-shadow:0 30px 100px #0009}.luckyKicker{font-size:18px;font-weight:900;color:#aeb8ff;letter-spacing:2px;text-transform:uppercase}.luckyTitle{font-size:clamp(34px,6vw,76px);font-weight:1000;line-height:1;margin:8px 0 18px}.luckyName{font-size:clamp(52px,12vw,150px);font-weight:1000;min-height:1.1em;line-height:1.05;letter-spacing:-2px}.luckyTimer{display:none}.luckyResultBanner{margin:18px 0 0;position:relative;z-index:12;padding:16px 20px;border:2px solid #8f9cff;border-radius:18px;background:#202844;font-size:clamp(20px,3vw,34px);font-weight:950;text-align:center;animation:bannerGlow 1.5s ease-in-out infinite alternate}@keyframes bannerGlow{from{box-shadow:0 0 8px #6978ff55}to{box-shadow:0 0 30px #6978ffaa}}.gameGuideGrid{display:block}.gameGuideChooser{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px}.gameGuideChooser label{margin:0;font-size:13px;font-weight:850;color:#c8cde0}.gameGuideSelect{max-width:420px;background:#0c1020;border:1px solid #4a5479;color:#fff;border-radius:12px;padding:12px 14px;font-weight:850}.gameGuideDisplay{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:18px;align-items:stretch;margin-top:16px}.gameGuideImageWrap{background:#0b0f1d;border:1px solid #303650;border-radius:18px;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:280px}.gameGuideImage{display:block;width:100%;height:auto;max-height:58vh;object-fit:contain}.gameGuideMeta{background:linear-gradient(145deg,#1a2037,#101426);border:1px solid #303650;border-radius:18px;padding:22px;display:flex;flex-direction:column;justify-content:center}.gameGuideMeta h3{font-size:clamp(22px,3vw,34px);margin:0 0 10px}.gameGuideMeta p{margin:0;color:#c9cee0;line-height:1.55}.gameGuideMeta .how{margin-top:14px;padding-top:14px;border-top:1px solid #303650;color:#fff;line-height:1.5}.gameGuideHint{color:#aeb5cb;font-size:13px;margin-top:8px}@media(max-width:900px){.gameGuideDisplay{grid-template-columns:1fr}.gameGuideImageWrap{min-height:0}.gameGuideImage{max-height:none}.gameGuideMeta{padding:17px}}.luckySub{color:#c0c7df;font-size:18px;margin-top:12px}.luckySpark{font-size:clamp(28px,5vw,60px);margin:10px}.winnerPop{animation:winnerPop 1s cubic-bezier(.2,.9,.2,1)}@keyframes winnerPop{0%{transform:scale(.4);opacity:.1}60%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}.luckySpin{animation:luckySpin .18s linear infinite alternate}@keyframes luckySpin{from{transform:translateY(-3px) rotate(-1deg)}to{transform:translateY(3px) rotate(1deg)}}
 .soundOverlay{position:fixed;inset:0;background:#080b16ee;z-index:40;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px}.soundOverlay .box{max-width:430px;background:#151a2d;border:1px solid var(--line);border-radius:22px;padding:28px}
 @media(max-width:900px){.layout{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line)}.scorebuttons{grid-template-columns:repeat(3,1fr)}.hero{align-items:center}.timer{font-size:34px}.promptList{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.podium{grid-template-columns:repeat(2,1fr)}.pairGrid{grid-template-columns:1fr}.viewerPrompt{font-size:54px}}
@@ -66,9 +66,62 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px 7px;border-bottom:1
 .gameGuideZoomHint{position:absolute;right:12px;bottom:12px;background:#090b16dd;border:1px solid #59618a;border-radius:999px;padding:7px 9px;font-size:14px;font-weight:850;color:#fff}
 .gameGuideMeta,.guideNavHint{display:none!important}
 @media(max-width:900px){.gameGuideImageWrap{min-height:0}.gameGuideImage{max-height:none}}
+.luckyRedoButton{background:#3a2d13;border:1px solid #8d6b26;color:#ffe6a1}
+#viewerLuckyListCard{order:-10}
+@media(max-width:900px){#viewerLuckyListCard{order:-10}}
+
+/* V13 — dedicated 16:9 TV / projector presentation mode */
+html.tv-mode body{background:radial-gradient(circle at top,#20264a 0,#080b16 68%);overflow-x:hidden}
+html.tv-mode .hostbar{height:68px;padding:10px 24px;font-size:clamp(16px,1.4vw,22px)}
+html.tv-mode .hostbar .brand{font-size:clamp(18px,1.5vw,24px)}
+html.tv-mode .layout{display:block;min-height:calc(100vh - 68px)}
+html.tv-mode #hostPanel{display:none!important}
+html.tv-mode main#screen{max-width:none;width:100%;padding:18px 28px 28px;display:grid;grid-template-columns:minmax(0,1.55fr) minmax(360px,.95fr);grid-template-areas:
+  "hero hero"
+  "lucky guide"
+  "winner winner"
+  "live live"
+  "current leader"
+  "podium podium";gap:16px;align-items:stretch}
+html.tv-mode .hero{grid-area:hero;min-height:70px}
+html.tv-mode .title{font-size:clamp(28px,3.2vw,54px);white-space:nowrap}
+html.tv-mode .timer{font-size:clamp(42px,5vw,78px);min-width:150px;text-align:right}
+html.tv-mode #viewerLuckyListCard{grid-area:lucky;margin-top:0}
+html.tv-mode #gameGuideCard{grid-area:guide;margin-top:0}
+html.tv-mode #luckyWinnerBanner{grid-area:winner;margin-top:0}
+html.tv-mode #viewerLiveBar{grid-area:live;margin-top:0;min-height:150px;display:flex;flex-direction:column;justify-content:center}
+html.tv-mode #currentCard{grid-area:current;margin-top:0;min-height:250px;display:flex;flex-direction:column;justify-content:center}
+html.tv-mode #leaderCard{grid-area:leader;margin-top:0;min-height:250px}
+html.tv-mode #podiumCard{grid-area:podium;margin-top:0}
+html.tv-mode .viewerPrompt{font-size:clamp(58px,8vw,120px);margin:10px 0}
+html.tv-mode .viewerRoundTimer{font-size:clamp(44px,5vw,78px)}
+html.tv-mode #viewerGameTitle{font-size:clamp(24px,2.5vw,42px)!important}
+html.tv-mode .current .playername{font-size:clamp(34px,4vw,62px)}
+html.tv-mode .score{font-size:clamp(72px,8vw,120px)}
+html.tv-mode table{font-size:clamp(14px,1.15vw,20px)}
+html.tv-mode th,html.tv-mode td{padding:10px 8px}
+html.tv-mode .podium{grid-template-columns:repeat(6,1fr)}
+html.tv-mode .pod{padding:14px 8px;min-height:100px}
+html.tv-mode .pts{font-size:clamp(24px,2.2vw,38px)}
+html.tv-mode .gameGuideImageWrap{min-height:0;max-height:58vh}
+html.tv-mode .gameGuideImage{max-height:58vh;width:100%;object-fit:contain}
+html.tv-mode .card{border-radius:18px;padding:18px}
+html.tv-mode #gameGuideCard .gameGuideCardHeader{display:none}
+html.tv-mode #gameGuideCard .gameGuideChooser{margin-top:0}
+html.tv-mode #gameGuideGrid{margin-top:12px}
+html.tv-mode #gameGuideSelect{max-width:none;width:100%}
+html.tv-mode.tv-live #gameGuideCard,html.tv-mode.tv-live #viewerLuckyListCard{display:none!important}
+html.tv-mode.tv-live #viewerLiveBar{min-height:180px}
+html.tv-mode.tv-live #currentCard,html.tv-mode.tv-live #leaderCard{min-height:280px}
+html.tv-mode.tv-live #podiumCard{min-height:150px}
+html.tv-mode.tv-live #luckyWinnerBanner{position:fixed;left:4vw;right:4vw;top:13vh;z-index:50;font-size:clamp(24px,3vw,44px);padding:24px;background:#11162bf7}
+html.tv-mode .imageLightboxInner{width:min(1500px,94vw);max-height:92vh}
+html.tv-mode .soundOverlay .box{max-width:520px}
+@media(max-aspect-ratio:4/3){html.tv-mode main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "lucky" "guide" "winner" "live" "current" "leader" "podium"}}
 </style>
 </head>
 <body>
+<script>if(new URLSearchParams(location.search).get("tv")==="1")document.documentElement.classList.add("tv-mode");</script>
 <div class="app">
 <header class="hostbar">
   <div class="brand">🎉 ಬಂಧು ಬಳಗ (Kitty) - Sept 2026 <span id="modeBadge"></span></div>
@@ -135,7 +188,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px 7px;border-bottom:1
         <button onclick="verifyLuckyList()">✓ List verified</button>
         <span id="luckyVerifyBadge" class="luckyUnverified">⚠ Review the list first</span>
       </div>
-      <div class="row" style="margin-top:8px"><button id="luckyDrawButton" class="gold luckyDrawBtn" onclick="startLuckyDraw()" disabled>🎲 Pick Next Kitty Host</button><button onclick="clearLuckyNames()">Clear list</button></div>
+      <div class="row" style="margin-top:8px"><button id="luckyDrawButton" class="gold luckyDrawBtn" onclick="startLuckyDraw()" disabled>🎲 Pick Next Kitty Host</button><button id="luckyRedoButton" class="hidden" onclick="redoLuckyDraw()">↩ Cancel pick &amp; redo</button><button onclick="clearLuckyNames()">Clear list</button></div>
       <div class="notice" id="luckyStatus">Add names, review them with everyone, then mark the list verified before starting the lucky dip.</div>
     </div>
 
@@ -155,6 +208,12 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px 7px;border-bottom:1
     <div class="timer" id="timer"></div>
   </div>
 
+  <div id="viewerLuckyListCard" class="card hidden">
+    <div style="font-size:24px;font-weight:950">🎲 Next Kitty host — Lucky Dip List</div>
+    <div id="viewerLuckyReview" class="muted" style="margin-top:6px">Please review this list. If anyone is missing, tell the host before the lucky dip starts.</div>
+    <div id="viewerLuckyList" class="viewerLuckyList"></div>
+  </div>
+
   <div id="gameGuideCard" class="card">
     <div class="gameGuideCardHeader">
       <div>
@@ -168,12 +227,6 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px 7px;border-bottom:1
       <select id="gameGuideSelect" class="gameGuideSelect" onchange="selectGuideGame(this.value)"></select>
     </div>
     <div id="gameGuideGrid" class="gameGuideGrid"></div>
-  </div>
-
-  <div id="viewerLuckyListCard" class="card hidden">
-    <div style="font-size:24px;font-weight:950">🎲 Next Kitty host — Lucky Dip List</div>
-    <div id="viewerLuckyReview" class="muted" style="margin-top:6px">Please review this list. If anyone is missing, tell the host before the lucky dip starts.</div>
-    <div id="viewerLuckyList" class="viewerLuckyList"></div>
   </div>
 
   <div id="luckyWinnerBanner" class="luckyResultBanner hidden"></div>
@@ -273,12 +326,13 @@ let pairRecords=[],rapidRound=null,luckyNames=[],luckyDraw=null,luckyWinner="",l
 let db=null,dbRef=null,sessionId=null,firebaseListenerStarted=false;
 let soundEnabled=false,audioCtx=null,lastTimerSecond=null,lastRapidSecond=null,lastLuckySecond=null,lastViewerTimerSecond=null;
 const viewer=new URLSearchParams(location.search).get("view")==="1";
+const tvMode=new URLSearchParams(location.search).get("tv")==="1";
 const $=id=>document.getElementById(id);
 
 $("modeBadge").innerHTML=viewer?"":'<span class="viewer-badge">HOST</span>';
 if(viewer){
   $("hostPanel").classList.add("hidden");
-  $("topControls").innerHTML='<button onclick="toggleFullscreen()">⛶ Fullscreen</button>';
+  $("topControls").innerHTML=tvMode?'<button onclick="toggleFullscreen()">⛶ Fullscreen</button>':"";
   $("soundOverlay").classList.remove("hidden");
 }
 
@@ -295,7 +349,12 @@ function renderPlayers(){
   $("pairB").innerHTML=players.map((p,i)=>`<option value="${i}">${esc(p)}</option>`).join("");
   if(players.length>1&&Number($("pairB").value)===Number($("pairA").value))$("pairB").value="1";
 }
+function syncTvLayout(){
+  if(!tvMode)return;
+  document.documentElement.classList.toggle("tv-live",!!gameStarted);
+}
 function render(){
+  syncTvLayout();
   if($("game"))$("game").value=game;
   renderGameGuide();
   if($("currentCard"))$("currentCard").classList.toggle("hidden",viewer&&!gameStarted);
@@ -361,6 +420,7 @@ function closeGuideImage(e){
   $("imageLightbox").classList.add("hidden");
 }
 function updateViewer(){
+  syncTvLayout();
   if(!viewer)return;
   $("viewerLiveBar").classList.toggle("hidden",!gameStarted);
   $("currentCard").classList.toggle("hidden",!gameStarted);
@@ -415,8 +475,16 @@ function renderLuckyNames(){
     $("luckyVerifyBadge").className=verified?"luckyVerified":"luckyUnverified";
     $("luckyVerifyBadge").textContent=verified?"✓ List verified — ready to draw":"⚠ Review the list first";
   }
-  if($("luckyDrawButton"))$("luckyDrawButton").disabled=!verified||!!luckyDraw;
-  $("luckyStatus").textContent=luckyDraw?"Lucky dip is in progress…":verified?"✓ Everyone has reviewed the list. You can start the lucky dip.":"Add names, review them with everyone, then mark the list verified before starting the lucky dip.";
+  const active=!!luckyDraw&&!luckyDraw.winnerRevealed;
+  const completed=!!luckyDraw&&!!luckyDraw.winnerRevealed;
+  if($("luckyDrawButton")){
+    $("luckyDrawButton").disabled=!verified||active||completed;
+    $("luckyDrawButton").classList.toggle("hidden",completed);
+  }
+  if($("luckyRedoButton")){
+    $("luckyRedoButton").classList.toggle("hidden",!completed);
+  }
+  if($("luckyStatus"))$("luckyStatus").textContent=active?"Lucky dip is in progress…":completed?"Winner selected. A new draw is locked until you cancel this pick and choose to redo the lucky dip.":verified?"✓ Everyone has reviewed the list. You can start the lucky dip.":"Add names, review them with everyone, then mark the list verified before starting the lucky dip.";
 }
 function addLuckyName(){if(viewer||luckyDraw)return;const n=$("luckyNewName").value.trim();if(!n)return;if(luckyNames.some(x=>x.toLowerCase()===n.toLowerCase())){toast("That name is already on the list");return;}luckyNames.push(n);luckyListVerified=false;$("luckyNewName").value="";renderLuckyNames();pushState();}
 function renameLuckyName(i,n){if(viewer||luckyDraw)return;n=n.trim();if(!n)return;if(luckyNames.some((x,j)=>j!==i&&x.toLowerCase()===n.toLowerCase())){toast("That name is already on the list");renderLuckyNames();return;}luckyNames[i]=n;luckyListVerified=false;renderLuckyNames();pushState();}
@@ -438,6 +506,19 @@ function startLuckyDraw(){
   if(!soundEnabled)tryEnableHostSound();
   toast("🎲 Next Kitty host draw started!");
 }
+function redoLuckyDraw(){
+  if(viewer||!luckyDraw||!luckyDraw.winnerRevealed)return;
+  if(!confirm("Cancel the current winner and redo the lucky dip?"))return;
+  luckyDraw=null;
+  luckyWinner="";
+  lastLuckySecond=null;
+  renderLuckyOverlay();
+  renderLuckyWinner();
+  renderLuckyNames();
+  renderViewerLuckyList();
+  pushState();
+  toast("↩ First pick cancelled. Review the list and run the lucky dip again.");
+}
 function tryEnableHostSound(){try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();audioCtx.resume();soundEnabled=true;}catch(e){}}
 function luckyDisplay(){
   if(!luckyDraw)return {left:0,done:true,name:"",status:""};
@@ -452,7 +533,7 @@ function renderLuckyOverlay(){
   $("luckyOverlayTimer").textContent="";
   $("luckyOverlayName").textContent=d.name;
   $("luckyOverlaySub").textContent=d.status;
-  if(d.done){$("luckyOverlayTitle").textContent="Congratulations!";$("luckyOverlayName").classList.add("winnerPop");$("luckyOverlayName").classList.remove("luckySpin");}
+  if(d.done){$("luckyOverlayTitle").textContent="The Next Kitty Host";$("luckyOverlayName").classList.add("winnerPop");$("luckyOverlayName").classList.remove("luckySpin");$("luckyOverlaySub").textContent="";}
   else{$("luckyOverlayTitle").textContent="And the next host is...";$("luckyOverlayName").classList.remove("winnerPop");$("luckyOverlayName").classList.add("luckySpin");}
 }
 function tickLucky(){
@@ -465,7 +546,10 @@ function tickLucky(){
     if(d.done && !luckyDraw.winnerRevealed){
       luckyDraw.winnerRevealed=true;luckyWinner=d.name;renderLuckyOverlay();renderLuckyWinner();playCelebration();toast("🎉 Congratulations — "+d.name+"!");
       if(!viewer)pushState();
-      setTimeout(()=>{if(luckyDraw){luckyDraw=null;renderLuckyOverlay();renderViewerLuckyList();renderLuckyWinner();if(!viewer)pushState();}},4500);
+      // Keep the completed draw locked so the host must explicitly cancel/redo it.
+      // Hide the full-screen reveal after the celebration, but retain the winner state/banner.
+      setTimeout(()=>{if(luckyDraw&&luckyDraw.winnerRevealed){renderLuckyOverlay();$("luckyOverlay").classList.add("hidden");}},4500);
+      if(!viewer){renderLuckyNames();pushState();}
     }
     lastLuckySecond=soundBucket;
   }
@@ -680,7 +764,7 @@ window.hostLogin=hostLogin;window.hostLogout=hostLogout;window.selectGame=select
 window.changeScore=changeScore;window.saveScore=saveScore;window.undo=undo;window.addPlayer=addPlayer;window.removePlayer=removePlayer;window.renamePlayer=renamePlayer;
 window.nextGame=nextGame;window.newGame=newGame;window.startTimer=startTimer;window.pauseTimer=pauseTimer;window.resetTimer=resetTimer;window.setTime=setTime;
 window.toggleFullscreen=toggleFullscreen;window.openTvDisplay=openTvDisplay;window.copyViewerLink=copyViewerLink;window.enableSounds=enableSounds;window.openGuideImage=openGuideImage;window.closeGuideImage=closeGuideImage;window.verifyLuckyList=verifyLuckyList;
-window.applyPairScore=applyPairScore;window.clearPair=clearPair;window.startRapidRound=startRapidRound;window.stopRapidRound=stopRapidRound;window.addLuckyName=addLuckyName;window.renameLuckyName=renameLuckyName;window.removeLuckyName=removeLuckyName;window.clearLuckyNames=clearLuckyNames;window.startLuckyDraw=startLuckyDraw;
+window.applyPairScore=applyPairScore;window.clearPair=clearPair;window.startRapidRound=startRapidRound;window.stopRapidRound=stopRapidRound;window.addLuckyName=addLuckyName;window.renameLuckyName=renameLuckyName;window.removeLuckyName=removeLuckyName;window.clearLuckyNames=clearLuckyNames;window.startLuckyDraw=startLuckyDraw;window.redoLuckyDraw=redoLuckyDraw;
 
 renderGameOptions();renderPlayers();renderLuckyNames();renderViewerLuckyList();renderGameGuide();renderLuckyWinner();render();updateTimer();setupFirebase();
 
