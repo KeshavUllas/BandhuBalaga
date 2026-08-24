@@ -214,6 +214,152 @@ html.tv-mode .gameGuideImage,html.tv-mode .tvGuideImage{image-rendering:auto;tra
   html.tv-mode.tv-complete main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "leader" "podium"}
   html.tv-mode body{overflow:auto}
 }
+
+
+/* V19 — TV live layout: compact Now Playing on left, full-height leaderboard on right, Top 6 below */
+html.tv-mode.tv-live main#screen{
+  grid-template-columns:minmax(360px,.78fr) minmax(0,1.22fr);
+  grid-template-rows:minmax(125px,150px) minmax(0,1fr);
+  grid-template-areas:"live leader" "podium leader";
+  gap:12px;
+  padding:12px 22px 18px;
+}
+html.tv-mode.tv-live .hero{
+  display:none!important;
+}
+html.tv-mode.tv-live #currentCard{
+  display:none!important;
+}
+html.tv-mode.tv-live #viewerLiveBar{
+  grid-area:live;
+  margin:0;
+  min-height:0;
+  height:auto;
+  padding:10px 16px;
+  justify-content:center;
+  overflow:hidden;
+  border-radius:16px;
+}
+html.tv-mode.tv-live #viewerLiveBar .liveStatusPill{
+  font-size:10px;
+  line-height:1;
+  padding:4px 9px;
+  margin:0 0 3px;
+}
+html.tv-mode.tv-live #viewerGameTitle{
+  font-size:clamp(18px,1.8vw,28px)!important;
+  line-height:1.05;
+  margin:0;
+}
+html.tv-mode.tv-live .liveNowPlaying{
+  font-size:9px;
+  letter-spacing:1.4px;
+  line-height:1;
+  margin:2px 0 0;
+}
+html.tv-mode.tv-live .viewerPrompt{
+  font-size:clamp(25px,2.7vw,42px);
+  line-height:1;
+  margin:2px 0;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:100%;
+}
+html.tv-mode.tv-live #viewerTimer{
+  font-size:clamp(38px,4vw,60px);
+  line-height:.95;
+  margin:2px 0 0;
+}
+html.tv-mode.tv-live #viewerRoundStatus{
+  font-size:10px;
+  min-height:11px;
+  line-height:1.1;
+}
+html.tv-mode.tv-live #leaderCard{
+  grid-area:leader;
+  margin:0;
+  min-height:0;
+  height:auto;
+  padding:12px 14px;
+  overflow:hidden;
+}
+html.tv-mode.tv-live #leaderCard h2{
+  font-size:clamp(18px,1.55vw,25px);
+  line-height:1;
+  margin:0 0 6px;
+}
+html.tv-mode.tv-live #leaderboard{
+  height:calc(100% - 31px);
+  max-height:none;
+  overflow:hidden;
+}
+html.tv-mode.tv-live #leaderboard table{
+  width:100%;
+  table-layout:auto;
+  font-size:clamp(10px,.85vw,15px);
+}
+html.tv-mode.tv-live #leaderboard th,
+html.tv-mode.tv-live #leaderboard td{
+  padding:4px 5px;
+  line-height:1.05;
+  white-space:nowrap;
+}
+html.tv-mode.tv-live #podiumCard{
+  grid-area:podium;
+  margin:0;
+  min-height:0;
+  height:auto;
+  padding:10px 12px;
+  overflow:hidden;
+}
+html.tv-mode.tv-live #podiumCard h2{
+  font-size:clamp(17px,1.4vw,22px);
+  line-height:1;
+  margin:0 0 6px;
+}
+html.tv-mode.tv-live .podium{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:6px;
+  height:calc(100% - 29px);
+}
+html.tv-mode.tv-live .pod{
+  padding:6px 4px;
+  min-height:0;
+  font-size:clamp(10px,.75vw,14px);
+  overflow:hidden;
+}
+html.tv-mode.tv-live .pod .pts{
+  font-size:clamp(18px,1.5vw,27px);
+}
+
+/* If Top 6 is not yet eligible, keep the compact Now Playing on the left and let the leaderboard use the full right column. */
+html.tv-mode.tv-live-no-top6 #podiumCard{
+  display:none!important;
+}
+html.tv-mode.tv-live-no-top6 main#screen{
+  grid-template-columns:minmax(360px,.78fr) minmax(0,1.22fr);
+  grid-template-rows:minmax(125px,150px) minmax(0,1fr);
+  grid-template-areas:"live leader" ". leader";
+}
+
+@media(max-aspect-ratio:4/3){
+  html.tv-mode.tv-live main#screen,
+  html.tv-mode.tv-live-no-top6 main#screen{
+    grid-template-columns:1fr;
+    grid-template-rows:auto auto minmax(0,1fr);
+    grid-template-areas:"live" "podium" "leader";
+  }
+  html.tv-mode.tv-live-no-top6 main#screen{
+    grid-template-areas:"live" "leader";
+  }
+}
+
+/* V20 — TV welcome screen polish: show complete game guide artwork + welcoming title */
+html.tv-mode.tv-pregame .hero .title{font-size:0!important;white-space:nowrap}
+html.tv-mode.tv-pregame .hero .title::after{content:"Welcome Everyone";font-size:clamp(28px,2.5vw,46px);font-weight:1000;white-space:nowrap}
+html.tv-mode.tv-pregame .tvGuideTile .tvGuideImage{object-fit:contain!important;width:100%;height:calc(100% - 42px);background:#f6f1e7}
+html.tv-mode.tv-pregame .tvGuideTile{background:#151a2d}
 </style>
 </head>
 <body>
