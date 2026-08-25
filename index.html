@@ -137,6 +137,14 @@ html.tv-mode .hero{grid-area:hero;min-height:54px;display:flex;align-items:cente
 html.tv-mode .title{font-size:clamp(22px,2.2vw,40px);white-space:nowrap}
 html.tv-mode .hero .timer{display:none!important}
 
+/* V27: dedicated persistent TV lucky-dip result layer. This is independent of the main grid so a state/layout transition can never leave a blank winner panel. */
+html.tv-mode #luckyWinnerBanner:not(.hidden){position:fixed!important;left:2vw!important;right:2vw!important;top:78px!important;z-index:80!important;display:flex!important;align-items:center!important;justify-content:center!important;min-height:72px!important;margin:0!important;padding:10px 24px!important;border-radius:18px!important;background:#11162bf7!important;border:2px solid #8f9cff!important;box-shadow:0 10px 45px #0008!important;font-size:clamp(20px,2.4vw,38px)!important;line-height:1.15!important;text-align:center!important;}
+html.tv-mode #luckyWinnerBanner.hidden{display:none!important;}
+html.tv-mode.tv-live #luckyWinnerBanner:not(.hidden),html.tv-mode.tv-complete #luckyWinnerBanner:not(.hidden){display:flex!important;}
+html.tv-mode.tv-winner main#screen{grid-template-rows:auto minmax(0,1fr)!important;grid-template-areas:"hero" "guide"!important;}
+html.tv-mode.tv-winner #luckyWinnerBanner:not(.hidden){grid-area:auto!important;}
+html.tv-mode.tv-winner #gameGuideCard{grid-area:guide!important;height:calc(100vh - 92px)!important;}
+
 /* TV waiting room: six game cards, 3 x 2, using the full landscape canvas. */
 html.tv-mode.tv-pregame main#screen{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto 1fr;grid-template-areas:"hero hero hero" "guide guide guide"}
 html.tv-mode.tv-pregame #gameGuideCard{grid-area:guide;margin:0;padding:10px 12px;height:calc(100vh - 92px);overflow:hidden}
@@ -165,9 +173,9 @@ html.tv-mode.tv-lucky #luckyWinnerBanner{display:none!important}
 html.tv-mode.tv-lucky #viewerLiveBar,html.tv-mode.tv-lucky #currentCard,html.tv-mode.tv-lucky #leaderCard,html.tv-mode.tv-lucky #podiumCard{display:none!important}
 
 /* TV after lucky-dip: replace the candidate list with the selected winner. */
-html.tv-mode.tv-winner main#screen{grid-template-columns:1fr;grid-template-rows:auto minmax(130px,.45fr) minmax(0,1fr);grid-template-areas:"hero" "winner" "guide"}
+html.tv-mode.tv-winner main#screen{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);grid-template-areas:"hero" "guide"}
 html.tv-mode.tv-winner #viewerLuckyListCard{display:none!important}
-html.tv-mode.tv-winner #luckyWinnerBanner:not(.hidden){grid-area:winner;display:flex!important;align-items:center;justify-content:center;margin:0;padding:12px 24px;min-height:0;overflow:hidden;font-size:clamp(22px,2.8vw,44px)}
+html.tv-mode.tv-winner #luckyWinnerBanner:not(.hidden){display:flex!important;}
 html.tv-mode.tv-winner #luckyWinnerBanner .luckyWinnerRibbon{font-size:clamp(11px,1.1vw,18px);margin:0 10px 0 0}
 html.tv-mode.tv-winner #gameGuideCard{grid-area:guide;margin:0;min-height:0;overflow:hidden}
 html.tv-mode.tv-winner #gameGuideGrid{height:calc(100% - 62px)}
@@ -177,7 +185,7 @@ html.tv-mode.tv-winner #viewerLiveBar,html.tv-mode.tv-winner #currentCard,html.t
 
 /* TV live game: no guide, no duplicate timer, leaderboard + current player + Top 6 are always readable. */
 html.tv-mode.tv-live main#screen{grid-template-columns:minmax(210px,.62fr) minmax(0,1.38fr);grid-template-rows:auto minmax(135px,.72fr) minmax(220px,1.45fr) minmax(95px,.55fr);grid-template-areas:"hero hero" "live live" "current leader" "podium podium"}
-html.tv-mode.tv-live #viewerLuckyListCard,html.tv-mode.tv-live #gameGuideCard,html.tv-mode.tv-live #luckyWinnerBanner{display:none!important}
+html.tv-mode.tv-live #viewerLuckyListCard,html.tv-mode.tv-live #gameGuideCard{display:none!important}
 html.tv-mode.tv-live #viewerLiveBar{grid-area:live;margin:0;min-height:0;padding:12px 18px;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden}
 html.tv-mode.tv-live #viewerGameTitle{font-size:clamp(23px,2.3vw,36px)!important;margin-top:3px}
 html.tv-mode.tv-live .viewerPrompt{font-size:clamp(32px,4.2vw,64px);line-height:1.05;margin:0}
@@ -375,6 +383,49 @@ html.tv-mode.tv-pregame .hero .title{font-size:0!important;white-space:nowrap}
 html.tv-mode.tv-pregame .hero .title::after{content:"Welcome Everyone";font-size:clamp(28px,2.5vw,46px);font-weight:1000;white-space:nowrap}
 html.tv-mode.tv-pregame .tvGuideTile .tvGuideImage{object-fit:contain!important;width:100%;height:calc(100% - 42px);background:#f6f1e7}
 html.tv-mode.tv-pregame .tvGuideTile{background:#151a2d}
+
+/* V28 — hard-isolated TV presentation surface. The TV no longer depends on the
+   normal viewer grid/cards for its layout, eliminating stale/empty TV panels. */
+html.tv-mode #screen{display:none!important}
+html.tv-mode .layout{display:block!important;min-height:calc(100vh - 62px)!important}
+.tvPresentation{display:none}
+html.tv-mode .tvPresentation{display:block;position:fixed;left:0;right:0;top:62px;bottom:0;z-index:20;overflow:hidden;background:radial-gradient(circle at top,#20264a 0,#080b16 68%);padding:14px 22px 18px;color:#fff}
+.tvp-title{font-size:clamp(22px,2.2vw,40px);font-weight:1000;white-space:nowrap;margin:0 0 10px}
+.tvp-grid{height:calc(100% - 44px);display:grid;gap:12px;min-height:0}
+.tvp-pregame{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr))}
+.tvp-tile{min-width:0;min-height:0;border:1px solid #303650;border-radius:14px;overflow:hidden;background:#151a2d;display:flex;flex-direction:column;box-shadow:0 8px 25px #0004}
+.tvp-tile img{width:100%;height:calc(100% - 38px);object-fit:contain;display:block;background:#0b0f1d}
+.tvp-tile .name{height:38px;display:flex;align-items:center;justify-content:center;font-size:clamp(15px,1.25vw,22px);font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:4px 8px}
+.tvp-lucky{height:calc(100% - 44px);display:grid;grid-template-columns:minmax(260px,.7fr) minmax(0,1.3fr);gap:14px;min-height:0}
+.tvp-card{border:1px solid #303650;border-radius:18px;background:#11162bf2;min-height:0;overflow:hidden;padding:16px}
+.tvp-card h2{margin:0 0 10px;font-size:clamp(18px,1.7vw,28px)}
+.tvp-names{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;overflow:auto;max-height:calc(100% - 50px)}
+.tvp-name{padding:8px 10px;border-radius:10px;background:#202844;border:1px solid #39446a;text-align:center;font-weight:900;font-size:clamp(13px,1vw,18px)}
+.tvp-guide{height:100%;display:flex;align-items:center;justify-content:center;background:#0b0f1d;border:1px solid #303650;border-radius:14px;overflow:hidden}
+.tvp-guide img{width:100%;height:100%;object-fit:contain;display:block}
+.tvp-winner{height:calc(100% - 44px);display:grid;grid-template-rows:auto minmax(0,1fr);gap:12px;min-height:0}
+.tvp-winner-banner{border:2px solid #8f9cff;border-radius:18px;background:#202844;box-shadow:0 0 30px #6978ff55;padding:12px 20px;text-align:center;font-size:clamp(22px,2.5vw,42px);font-weight:1000;line-height:1.15;animation:bannerGlow 1.5s ease-in-out infinite alternate}
+.tvp-winner-banner small{display:block;font-size:clamp(11px,1vw,16px);letter-spacing:2px;color:#aeb8ff;margin-bottom:5px}
+.tvp-live{height:calc(100% - 44px);display:grid;grid-template-columns:minmax(230px,.62fr) minmax(0,1.38fr);grid-template-rows:minmax(125px,.65fr) minmax(210px,1.55fr) minmax(90px,.55fr);grid-template-areas:"current leader" "current leader" "podium leader";gap:12px;min-height:0}
+.tvp-current{grid-area:current;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.tvp-current .status{display:inline-flex;align-items:center;justify-content:center;padding:6px 12px;border-radius:999px;background:#123c2e;border:1px solid #258a67;color:#b9f5df;font-weight:950;font-size:clamp(11px,1vw,16px)}
+.tvp-current .game{font-size:clamp(20px,2.2vw,36px);font-weight:1000;margin-top:7px}
+.tvp-current .playing{font-size:11px;color:#aeb5cb;font-weight:900;letter-spacing:1px;margin-top:7px}
+.tvp-current .player{font-size:clamp(30px,3.6vw,58px);font-weight:1000;line-height:1.05;margin-top:4px}
+.tvp-current .timer{font-size:clamp(48px,5.2vw,78px);font-weight:1000;line-height:1;margin-top:5px;font-variant-numeric:tabular-nums}
+.tvp-leader{grid-area:leader;min-height:0;overflow:hidden}
+.tvp-leader h2,.tvp-podium h2{margin:0 0 7px;font-size:clamp(17px,1.5vw,25px)}
+.tvp-leader-table{height:calc(100% - 34px);overflow:hidden}
+.tvp-leader table{width:100%;border-collapse:collapse;font-size:clamp(11px,.9vw,16px)}
+.tvp-leader th,.tvp-leader td{padding:5px 5px;border-bottom:1px solid #303650;white-space:nowrap;text-align:center}
+.tvp-leader th:nth-child(2),.tvp-leader td:nth-child(2){text-align:left}
+.tvp-podium{grid-area:podium;min-height:0;overflow:hidden}
+.tvp-pods{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.tvp-pod{padding:7px 4px;background:#151a2d;border:1px solid #303650;border-radius:10px;text-align:center;font-size:clamp(10px,.8vw,14px);min-width:0;overflow:hidden}
+.tvp-pod .pts{font-size:clamp(18px,1.5vw,28px);font-weight:1000;margin-top:2px}
+.tvp-complete{height:calc(100% - 44px);display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.8fr);gap:12px;min-height:0}
+.tvp-complete .tvp-leader,.tvp-complete .tvp-podium{min-height:0}
+@media(max-aspect-ratio:4/3){html.tv-mode .tvPresentation{padding:10px}.tvp-pregame{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr))}.tvp-live{grid-template-columns:1fr;grid-template-rows:minmax(150px,.7fr) minmax(220px,1.5fr) minmax(100px,.6fr);grid-template-areas:"current" "leader" "podium"}.tvp-lucky{grid-template-columns:1fr 1fr}.tvp-complete{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -530,6 +581,9 @@ html.tv-mode.tv-pregame .tvGuideTile{background:#151a2d}
   </div>
 </div>
 
+<!-- V28 dedicated TV presentation surface: completely independent of the normal screen grid. -->
+<div id="tvPresentation" class="tvPresentation" aria-live="polite"></div>
+
 <div id="imageLightbox" class="imageLightbox hidden" onclick="closeGuideImage(event)">
   <div class="imageLightboxInner">
     <div class="imageLightboxTop">
@@ -635,6 +689,7 @@ function resolveLuckyWinner(){
   // The winner is part of luckyDraw itself. Do not depend on luckyWinner being
   // synchronized as a separate Firebase property.
   let w=String(luckyWinner||"").trim();
+  if(!w && luckyDraw && luckyDraw.winnerRevealed) w=String(luckyDraw.winnerName||"").trim();
   if(!w && luckyDraw && luckyDraw.winnerRevealed && Array.isArray(luckyDraw.names) && luckyDraw.names.length){
     const wi=Math.max(0,Math.min(luckyDraw.names.length-1,Number(luckyDraw.winnerIndex)||0));
     w=String(luckyDraw.names[wi]||"").trim();
@@ -663,6 +718,7 @@ function syncTvLayout(){
 }
 function render(){
   syncTvLayout();
+  renderTvPresentation();
   if($("game"))$("game").value=game;
   renderGameGuide();
   if(tvMode && viewer){
@@ -891,7 +947,7 @@ function startLuckyDraw(){
   if(luckyNames.length<2){toast("Add at least 2 potential hosts");return;}
   if(!luckyListVerified){toast("Review the list and click “List verified” first");return;}
   const winnerIndex=Math.floor(Math.random()*luckyNames.length);
-  luckyDraw={names:[...luckyNames],winnerIndex,startAt:Date.now(),duration:20000,winnerRevealed:false,revealAt:0,phase:"running"};
+  luckyDraw={names:[...luckyNames],winnerIndex,winnerName:luckyNames[winnerIndex],startAt:Date.now(),duration:20000,winnerRevealed:false,revealAt:0,phase:"running"};
   luckyWinner="";
   lastLuckySecond=null;
   if(!soundEnabled)tryEnableHostSound();
@@ -1142,6 +1198,7 @@ function applyState(s){
   // V24 safety: if a viewer receives a completed lucky-dip state without the
   // separate luckyWinner field, derive the winner from the synchronized draw
   // record so TV never renders an empty winner panel.
+  if(!luckyWinner && luckyDraw && luckyDraw.winnerRevealed && luckyDraw.winnerName) luckyWinner=String(luckyDraw.winnerName||"");
   if(!luckyWinner && luckyDraw && luckyDraw.winnerRevealed && Array.isArray(luckyDraw.names)){
     const wi=Math.max(0,Math.min(luckyDraw.names.length-1,Number(luckyDraw.winnerIndex)||0));
     luckyWinner=String(luckyDraw.names[wi]||"");
@@ -1151,7 +1208,7 @@ function applyState(s){
   else {gameStatus=Array(games.length).fill("pending");if(s.gameStarted===true)gameStatus[game]="in_progress";}
   gameStarted=gameStatus[game]==="in_progress";
   if(!viewer){renderPlayers();renderPairHistory();renderLuckyNames();}
-  renderViewerLuckyList();renderLuckyOverlay();renderLuckyWinner();render();updateTimer();
+  renderViewerLuckyList();renderLuckyOverlay();renderLuckyWinner();render();renderTvPresentation();updateTimer();
 }
 let pushLock=false;
 async function pushState(){
@@ -1216,7 +1273,42 @@ window.applyPairScore=applyPairScore;window.clearPair=clearPair;window.startRapi
 
 // Start with the lucky-dip overlay closed. A fresh draw will open it through renderLuckyOverlay().
 $("luckyOverlay").classList.add("hidden");
-renderGameOptions();renderPlayers();renderLuckyNames();renderViewerLuckyList();renderGameGuide();renderLuckyWinner();render();updateTimer();syncFullscreenUi();setupFirebase();
+
+function renderTvPresentation(){
+  if(!tvMode)return;
+  const root=$('tvPresentation'); if(!root)return;
+  const escv=v=>esc(v);
+  const completedCount=gameStatus.filter(s=>s==='ended').length;
+  const winner=resolveLuckyWinner();
+  const drawDone=!!(luckyDraw&&luckyDraw.winnerRevealed);
+  const anyLive=!!gameStarted;
+  const orderedPlayers=playerDisplayOrder();
+  const currentGame=games[game]||games[0];
+  const guideImg=GAME_GUIDE_IMAGES[guideGame]||GAME_GUIDE_IMAGES[0];
+  const guideTitle=(gameInfo[guideGame]&&gameInfo[guideGame].title)||currentGame[1];
+  const title='ಬಂಧು ಬಳಗ (Kitty) - Sept 2026';
+  let body='';
+  if(anyLive){
+    const rows=sorted().map((p,r)=>`<tr><td>${r<3?['🥇','🥈','🥉'][r]:r+1}</td><td><b>${escv(p.name)}</b></td>${games.map((_,gi)=>`<td>${Number(scores[p.i]?.[gi]||0)}</td>`).join('')}<td><b>${p.total}</b></td></tr>`).join('');
+    const pods=sorted().slice(0,6).map((p,i)=>`<div class="tvp-pod"><div>${['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣'][i]}</div><b>${escv(p.name)}</b><div class="pts">${p.total}</div></div>`).join('');
+    body=`<div class="tvp-title">${title}</div><div class="tvp-live"><section class="tvp-card tvp-current"><div class="status">🟢 GAME IN PROGRESS</div><div class="game">${escv(currentGame[1])}</div><div class="playing">NOW PLAYING</div><div class="player">${escv(players[current]||'—')}</div><div class="timer">${rapidRound?fmt(rapidDisplay().time):fmt(seconds)}</div></section><section class="tvp-card tvp-leader"><h2>🏆 LIVE LEADERBOARD</h2><div class="tvp-leader-table"><table><thead><tr><th>Rank</th><th>Player</th>${games.map(g=>`<th>${g[0]}</th>`).join('')}<th>TOTAL</th></tr></thead><tbody>${rows}</tbody></table></div></section><section class="tvp-card tvp-podium"><h2>⭐ TOP 6</h2><div class="tvp-pods">${completedCount?pods:'<div style="grid-column:1/-1;color:#aeb5cb;text-align:center;padding:12px">Top 6 appears after the first game is completed.</div>'}</div></section></div>`;
+  }else if(completedCount>0){
+    const rows=sorted().map((p,r)=>`<tr><td>${r<3?['🥇','🥈','🥉'][r]:r+1}</td><td><b>${escv(p.name)}</b></td>${games.map((_,gi)=>`<td>${Number(scores[p.i]?.[gi]||0)}</td>`).join('')}<td><b>${p.total}</b></td></tr>`).join('');
+    const pods=sorted().slice(0,6).map((p,i)=>`<div class="tvp-pod"><div>${['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣'][i]}</div><b>${escv(p.name)}</b><div class="pts">${p.total}</div></div>`).join('');
+    body=`<div class="tvp-title">${title}</div><div class="tvp-complete"><section class="tvp-card tvp-leader"><h2>🏆 LIVE LEADERBOARD</h2><div class="tvp-leader-table"><table><thead><tr><th>Rank</th><th>Player</th>${games.map(g=>`<th>${g[0]}</th>`).join('')}<th>TOTAL</th></tr></thead><tbody>${rows}</tbody></table></div></section><section class="tvp-card tvp-podium"><h2>⭐ TOP 6</h2><div class="tvp-pods">${pods}</div></section></div>`;
+  }else if(drawDone&&winner){
+    body=`<div class="tvp-title">${title}</div><div class="tvp-winner"><div class="tvp-winner-banner"><small>NEXT KITTY HOST</small>🎉 The Lucky winner is ${escv(winner)}, Congratulations!! 🎉</div><div class="tvp-guide"><img src="${guideImg}" alt="${escv(guideTitle)}"></div></div>`;
+  }else if(luckyNames.length){
+    const names=sortedLuckyNames().map(n=>`<div class="tvp-name">${escv(n)}</div>`).join('');
+    body=`<div class="tvp-title">${title}</div><div class="tvp-lucky"><section class="tvp-card"><h2>🎲 Next Kitty host — Lucky Dip List</h2><div class="tvp-names">${names}</div></section><section class="tvp-card"><div class="tvp-guide"><img src="${guideImg}" alt="${escv(guideTitle)}"></div></section></div>`;
+  }else{
+    const tiles=games.map((g,i)=>`<div class="tvp-tile"><img src="${GAME_GUIDE_IMAGES[i]}" alt="${escv(gameInfo[i]?.title||g[1])}"><div class="name">${g[0]} ${escv(g[1])}</div></div>`).join('');
+    body=`<div class="tvp-title">${title}</div><div class="tvp-grid tvp-pregame">${tiles}</div>`;
+  }
+  root.innerHTML=body;
+}
+
+renderGameOptions();renderPlayers();renderLuckyNames();renderViewerLuckyList();renderGameGuide();renderLuckyWinner();render();updateTimer();syncFullscreenUi();renderTvPresentation();setupFirebase();
 
 setInterval(()=>{if(rapidRound)tickRapid();if(luckyDraw)tickLucky();},100);
 setInterval(()=>{if(viewer&&rapidRound)updateViewer();},250);
