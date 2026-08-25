@@ -137,6 +137,7 @@ html.tv-mode .hero{grid-area:hero;min-height:54px;display:flex;align-items:cente
 html.tv-mode .title{font-size:clamp(22px,2.2vw,40px);white-space:nowrap}
 html.tv-mode .hero .timer{display:none!important}
 
+html.tv-mode .tvp-review{margin:8px 0 12px;color:#c0c7df;font-size:clamp(12px,1.25vw,17px);line-height:1.4;text-align:left}html.tv-mode .tvp-verify{display:inline-flex;align-items:center;gap:6px;margin-top:12px;border-radius:999px;padding:7px 12px;font-weight:900;font-size:clamp(11px,.95vw,14px)}html.tv-mode .tvp-verify.luckyVerified{background:#123c2e;border:1px solid #258a67;color:#b9f5df}html.tv-mode .tvp-verify.luckyUnverified{background:#3a2d13;border:1px solid #8d6b26;color:#ffe6a1}
 /* V27: dedicated persistent TV lucky-dip result layer. This is independent of the main grid so a state/layout transition can never leave a blank winner panel. */
 html.tv-mode #luckyWinnerBanner:not(.hidden){position:fixed!important;left:2vw!important;right:2vw!important;top:78px!important;z-index:80!important;display:flex!important;align-items:center!important;justify-content:center!important;min-height:72px!important;margin:0!important;padding:10px 24px!important;border-radius:18px!important;background:#11162bf7!important;border:2px solid #8f9cff!important;box-shadow:0 10px 45px #0008!important;font-size:clamp(20px,2.4vw,38px)!important;line-height:1.15!important;text-align:center!important;}
 html.tv-mode #luckyWinnerBanner.hidden{display:none!important;}
@@ -1300,7 +1301,10 @@ function renderTvPresentation(){
     body=`<div class="tvp-title">${title}</div><div class="tvp-winner"><div class="tvp-winner-banner"><small>NEXT KITTY HOST</small>🎉 The Lucky winner is ${escv(winner)}, Congratulations!! 🎉</div><div class="tvp-guide"><img src="${guideImg}" alt="${escv(guideTitle)}"></div></div>`;
   }else if(luckyNames.length){
     const names=sortedLuckyNames().map(n=>`<div class="tvp-name">${escv(n)}</div>`).join('');
-    body=`<div class="tvp-title">${title}</div><div class="tvp-lucky"><section class="tvp-card"><h2>🎲 Next Kitty host — Lucky Dip List</h2><div class="tvp-names">${names}</div></section><section class="tvp-card"><div class="tvp-guide"><img src="${guideImg}" alt="${escv(guideTitle)}"></div></section></div>`;
+    const reviewText='Please review this list. If anyone is missing, tell the host before the lucky dip starts.';
+    const verifyText=luckyListVerified?'✓ Host has marked this list verified':'⚠ List is awaiting host verification';
+    const verifyClass=luckyListVerified?'luckyVerified':'luckyUnverified';
+    body=`<div class="tvp-title">${title}</div><div class="tvp-lucky"><section class="tvp-card"><h2>🎲 Next Kitty host — Lucky Dip List</h2><div class="tvp-review">${reviewText}</div><div class="tvp-names">${names}</div><div class="tvp-verify ${verifyClass}">${verifyText}</div></section><section class="tvp-card"><div class="tvp-guide"><img src="${guideImg}" alt="${escv(guideTitle)}"></div></section></div>`;
   }else{
     const tiles=games.map((g,i)=>`<div class="tvp-tile"><img src="${GAME_GUIDE_IMAGES[i]}" alt="${escv(gameInfo[i]?.title||g[1])}"><div class="name">${g[0]} ${escv(g[1])}</div></div>`).join('');
     body=`<div class="tvp-title">${title}</div><div class="tvp-grid tvp-pregame">${tiles}</div>`;
