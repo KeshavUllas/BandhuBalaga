@@ -21,6 +21,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px 7px;border-bottom:1
 @media(max-width:900px){.layout{grid-template-columns:1fr}aside{border-right:0;border-bottom:1px solid var(--line)}.scorebuttons{grid-template-columns:repeat(3,1fr)}.hero{align-items:center}.timer{font-size:34px}.promptList{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.podium{grid-template-columns:repeat(2,1fr)}.pairGrid{grid-template-columns:1fr}.viewerPrompt{font-size:54px}}
 
+/* V1.1 hotfix — fix module initialization so all inline controls are registered */
 /* V10 visual polish */
 .gameGuideCardHeader{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .gameGuideBadge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#202844;border:1px solid #3b4670;color:#cbd2ff;font-size:12px;font-weight:900}
@@ -678,7 +679,6 @@ let current=0,game=0,draft=0,seconds=60,timerId=null,history=[];
 let pairRecords=[],rapidRound=null,luckyNames=[],luckyDraw=null,luckyWinner="",luckyListVerified=false;
 let db=null,dbRef=null,sessionId=null,firebaseListenerStarted=false;
 let soundEnabled=false,audioCtx=null,lastTimerSecond=null,lastRapidSecond=null,lastLuckySecond=null,lastViewerTimerSecond=null;
-  celebrationAt=0;celebrationGame=-1;activePair=null;hideCelebration();
 const viewer=new URLSearchParams(location.search).get("view")==="1";
 const tvMode=new URLSearchParams(location.search).get("tv")==="1";
 const REACTION_EMOJIS=["😂","👏","🎉","👀","❤️","😮"];
