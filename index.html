@@ -9,12 +9,12 @@
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#20264a 0,#090b16 58%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:10px 13px;background:#2a3150;color:#fff;font-weight:800}button:hover{filter:brightness(1.1)}button.primary{background:var(--accent)}button.green{background:var(--green)}button.gold{background:var(--gold)}button.red{background:var(--red)}button:disabled{opacity:.45;cursor:not-allowed}
 .hidden{display:none!important}.app{min-height:100vh}.hostbar{position:sticky;top:0;z-index:10;background:#101427ee;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:10px;align-items:center;justify-content:space-between}.brand{font-weight:950}.host-controls{display:flex;gap:7px;flex-wrap:wrap}
-.layout{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 58px)}aside{background:#12162a;border-right:1px solid var(--line);padding:16px;overflow:auto}main{padding:24px;max-width:1500px;width:100%;margin:auto}
+.layout{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 58px)}aside{background:#12162a;border-right:1px solid var(--line);padding:16px;overflow:auto;display:flex;flex-direction:column}aside #luckyBox{order:90}main{padding:24px;max-width:1500px;width:100%;margin:auto}
 label{display:block;color:var(--muted);font-size:12px;margin:12px 0 6px}input,select{width:100%;background:#0c1020;border:1px solid #3a4261;color:#fff;border-radius:10px;padding:10px}.row{display:flex;gap:7px}.row>*{flex:1}.card{background:#151a2dca;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 18px 60px #0004;margin-top:16px}.notice{padding:11px 13px;border-radius:12px;background:#222944;color:#dfe3ff;margin-top:10px}.muted{color:var(--muted)}.viewer-badge{background:#26305a;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900}
 .hero{display:flex;justify-content:space-between;align-items:center;gap:20px}.kicker{color:#8f9cff;font-weight:900}.title{font-size:clamp(28px,5vw,58px);font-weight:950;letter-spacing:-1px}.timer{font-size:48px;font-weight:950;font-variant-numeric:tabular-nums}
 .current{text-align:center}.current .playername{font-size:clamp(28px,5vw,48px);font-weight:950}.score{font-size:clamp(60px,10vw,100px);font-weight:950;line-height:1}.scorebuttons{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}.players .player{display:flex;gap:6px;margin:7px 0}.players .player input{flex:1}
 table{width:100%;border-collapse:collapse}th,td{padding:10px 7px;border-bottom:1px solid var(--line);text-align:left}th:last-child,td:last-child{text-align:right}.leader{overflow:auto}.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.pod{text-align:center;background:#222844;border-radius:14px;padding:15px}.pts{font-size:28px;font-weight:950}.toast{position:fixed;right:18px;bottom:18px;background:#fff;color:#111;border-radius:13px;padding:12px 16px;font-weight:900;display:none;z-index:30}
-#viewerLiveBar{border:2px solid rgba(255,255,255,.18);text-align:center}.viewerPrompt{font-size:clamp(48px,10vw,110px);font-weight:950;line-height:1;margin:12px 0}.viewerRoundTimer{font-size:clamp(42px,8vw,78px);font-weight:950;font-variant-numeric:tabular-nums}.promptList{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.viewerLuckyList{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px}.viewerLuckyName{background:#222844;border:1px solid #343d62;border-radius:12px;padding:10px 12px;font-weight:850;text-align:center}.promptItem{background:#222844;border-radius:10px;padding:9px}.urgent{animation:pulse .7s infinite alternate}@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.04)}}
+#viewerLiveBar{border:2px solid rgba(255,255,255,.18);text-align:center}#viewerLiveBar .viewerRoundTimer{display:block!important;visibility:visible!important}.viewerPrompt{font-size:clamp(48px,10vw,110px);font-weight:950;line-height:1;margin:12px 0}.viewerRoundTimer{font-size:clamp(42px,8vw,78px);font-weight:950;font-variant-numeric:tabular-nums}.promptList{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.viewerLuckyList{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px}.viewerLuckyName{background:#222844;border:1px solid #343d62;border-radius:12px;padding:10px 12px;font-weight:850;text-align:center}.promptItem{background:#222844;border-radius:10px;padding:9px}.urgent{animation:pulse .7s infinite alternate}@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.04)}}
 .pairGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pairRow{display:flex;gap:7px;align-items:center;padding:8px;border-bottom:1px solid var(--line)}.pairRow select{flex:1}
 .luckyOverlay{position:fixed;inset:0;background:radial-gradient(circle at center,#2b315d 0,#080b16 72%);z-index:35;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px}.luckyBox{width:min(1100px,96vw);padding:35px;border:1px solid #59618a;border-radius:28px;background:#11162bef;box-shadow:0 30px 100px #0009}.luckyKicker{font-size:18px;font-weight:900;color:#aeb8ff;letter-spacing:2px;text-transform:uppercase}.luckyTitle{font-size:clamp(34px,6vw,76px);font-weight:1000;line-height:1;margin:8px 0 18px}.luckyName{font-size:clamp(52px,12vw,150px);font-weight:1000;min-height:1.1em;line-height:1.05;letter-spacing:-2px}.luckyTimer{display:none}.luckyResultBanner{margin:18px 0 0;position:relative;z-index:12;padding:16px 20px;border:2px solid #8f9cff;border-radius:18px;background:#202844;font-size:clamp(20px,3vw,34px);font-weight:950;text-align:center;animation:bannerGlow 1.5s ease-in-out infinite alternate}@keyframes bannerGlow{from{box-shadow:0 0 8px #6978ff55}to{box-shadow:0 0 30px #6978ffaa}}.gameGuideGrid{display:block}.gameGuideChooser{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px}.gameGuideChooser label{margin:0;font-size:13px;font-weight:850;color:#c8cde0}.gameGuideSelect{max-width:420px;background:#0c1020;border:1px solid #4a5479;color:#fff;border-radius:12px;padding:12px 14px;font-weight:850}.gameGuideDisplay{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:18px;align-items:stretch;margin-top:16px}.gameGuideImageWrap{background:#0b0f1d;border:1px solid #303650;border-radius:18px;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:280px}.gameGuideImage{display:block;width:100%;height:auto;max-height:58vh;object-fit:contain}.gameGuideMeta{background:linear-gradient(145deg,#1a2037,#101426);border:1px solid #303650;border-radius:18px;padding:22px;display:flex;flex-direction:column;justify-content:center}.gameGuideMeta h3{font-size:clamp(22px,3vw,34px);margin:0 0 10px}.gameGuideMeta p{margin:0;color:#c9cee0;line-height:1.55}.gameGuideMeta .how{margin-top:14px;padding-top:14px;border-top:1px solid #303650;color:#fff;line-height:1.5}.gameGuideHint{color:#aeb5cb;font-size:13px;margin-top:8px}@media(max-width:900px){.gameGuideDisplay{grid-template-columns:1fr}.gameGuideImageWrap{min-height:0}.gameGuideImage{max-height:none}.gameGuideMeta{padding:17px}}.luckySub{color:#c0c7df;font-size:18px;margin-top:12px}.luckySpark{font-size:clamp(28px,5vw,60px);margin:10px}.winnerPop{animation:winnerPop 1s cubic-bezier(.2,.9,.2,1)}@keyframes winnerPop{0%{transform:scale(.4);opacity:.1}60%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}.luckySpin{animation:luckySpin .18s linear infinite alternate}@keyframes luckySpin{from{transform:translateY(-3px) rotate(-1deg)}to{transform:translateY(3px) rotate(1deg)}} .luckyOverlay{overflow:hidden}.luckyOverlay::before{content:"";position:absolute;width:58vmin;height:58vmin;border-radius:50%;border:2px solid #6978ff44;box-shadow:0 0 80px #6978ff22, inset 0 0 80px #6978ff18;animation:luckyOrbit 3s linear infinite}.luckyOverlay::after{content:"🎉  ✨  🎲  ✨  🎉";position:absolute;top:7vh;left:50%;transform:translateX(-50%);font-size:clamp(24px,4vw,52px);letter-spacing:14px;opacity:.75;animation:luckySparkle 1s ease-in-out infinite alternate}.luckyBox{position:relative;overflow:hidden;animation:luckyBoxPulse 1.1s ease-in-out infinite alternate}.luckyBox::before{content:"";position:absolute;inset:-2px;border-radius:30px;padding:2px;background:conic-gradient(from 0deg,#6978ff55,#ffffff22,#6978ff99,#ffffff22,#6978ff55);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:luckyBorderSpin 2.5s linear infinite;pointer-events:none}.luckyBox>*{position:relative;z-index:1}.luckyTitle{animation:luckyTitlePulse .8s ease-in-out infinite alternate}.luckyName{transition:transform .08s ease,filter .08s ease;text-shadow:0 0 24px #8f9cff55}.luckySub::after{content:" • • •";animation:luckyDots .8s steps(3,end) infinite}.luckyDots{display:flex;justify-content:center;gap:10px;margin:18px 0 0}.luckyDots span{width:10px;height:10px;border-radius:50%;background:#aeb8ff;box-shadow:0 0 14px #6978ff;animation:luckyDot 1s infinite ease-in-out}.luckyDots span:nth-child(2){animation-delay:.16s}.luckyDots span:nth-child(3){animation-delay:.32s}.luckyDots span:nth-child(4){animation-delay:.48s}.luckyDots span:nth-child(5){animation-delay:.64s}@keyframes luckyOrbit{to{transform:rotate(360deg)}}@keyframes luckySparkle{from{opacity:.3;transform:translateX(-50%) scale(.94)}to{opacity:.9;transform:translateX(-50%) scale(1.04)}}@keyframes luckyBoxPulse{from{box-shadow:0 30px 100px #0009,0 0 20px #6978ff11}to{box-shadow:0 30px 100px #0009,0 0 55px #6978ff33}}@keyframes luckyBorderSpin{to{transform:rotate(360deg)}}@keyframes luckyTitlePulse{from{transform:scale(1);opacity:.8}to{transform:scale(1.035);opacity:1}}@keyframes luckyDots{from{opacity:.35}to{opacity:1}}@keyframes luckyDot{0%,100%{transform:translateY(0) scale(.75);opacity:.4}50%{transform:translateY(-8px) scale(1.15);opacity:1}} .luckyName.shufflePulse{animation:shufflePulse .12s ease-out}@keyframes shufflePulse{0%{transform:scale(.92);filter:blur(3px)}60%{transform:scale(1.05);filter:blur(0)}100%{transform:scale(1);filter:blur(0)}}
 .soundOverlay{position:fixed;inset:0;background:#080b16ee;z-index:40;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px}.soundOverlay .box{max-width:430px;background:#151a2d;border:1px solid var(--line);border-radius:22px;padding:28px}
@@ -427,6 +427,15 @@ html.tv-mode .tvPresentation{display:block;position:fixed;left:0;right:0;top:62p
 .tvp-complete{height:calc(100% - 44px);display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.8fr);gap:12px;min-height:0}
 .tvp-complete .tvp-leader,.tvp-complete .tvp-podium{min-height:0}
 @media(max-aspect-ratio:4/3){html.tv-mode .tvPresentation{padding:10px}.tvp-pregame{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr))}.tvp-live{grid-template-columns:1fr;grid-template-rows:minmax(150px,.7fr) minmax(220px,1.5fr) minmax(100px,.6fr);grid-template-areas:"current" "leader" "podium"}.tvp-lucky{grid-template-columns:1fr 1fr}.tvp-complete{grid-template-columns:1fr}}
+
+/* V1.0 live viewer reactions */
+.reactionBar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:10px}.reactionBtn{font-size:22px;line-height:1;padding:8px 10px;border-radius:999px;background:#222844;border:1px solid #343d62;cursor:pointer;transition:transform .15s}.reactionBtn:active{transform:scale(.88)}.reactionBtn:disabled{opacity:.5;cursor:default}.reactionLayer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:120}.floatingReaction{position:absolute;bottom:8%;font-size:clamp(28px,4vw,58px);animation:floatReaction 2.7s ease-out forwards;filter:drop-shadow(0 4px 10px #0008)}@keyframes floatReaction{0%{transform:translate3d(0,0,0) scale(.7) rotate(-6deg);opacity:0}12%{opacity:1}100%{transform:translate3d(var(--drift),-72vh,0) scale(1.15) rotate(var(--rot));opacity:0}}
+html.tv-mode .reactionLayer{z-index:500}.tvp-reactionHint{font-size:clamp(10px,.8vw,14px);opacity:.65;margin-top:5px}
+
+/* V1.0 polish: score editor, game-complete celebration, compact TV results */
+.scoreEditor{border-color:#39446a}.scoreEditorGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.editResult{margin-top:9px;padding:9px 11px;border-radius:10px;background:#222844;color:#dfe3ff}.celebrationOverlay{position:fixed;inset:0;z-index:140;display:flex;align-items:center;justify-content:center;text-align:center;pointer-events:none;background:radial-gradient(circle at center,#2d3564aa 0,#080b1600 65%);animation:celebrateFade 4.2s ease forwards}.celebrateTitle{font-size:clamp(38px,8vw,110px);font-weight:1000;line-height:1}.celebrateSub{font-size:clamp(20px,3vw,40px);font-weight:900;margin-top:12px}.spark{position:absolute;font-size:clamp(26px,4vw,64px);animation:sparkFly 3.5s ease-out forwards}.spark:nth-child(1){left:8%;top:72%}.spark:nth-child(2){left:18%;top:20%}.spark:nth-child(3){left:35%;top:75%}.spark:nth-child(4){left:52%;top:18%}.spark:nth-child(5){left:70%;top:70%}.spark:nth-child(6){left:84%;top:24%}@keyframes sparkFly{0%{transform:translateY(80px) scale(.2) rotate(0);opacity:0}18%{opacity:1}100%{transform:translateY(-220px) scale(1.3) rotate(180deg);opacity:0}}@keyframes celebrateFade{0%,78%{opacity:1}100%{opacity:0}}
+html.tv-mode .celebrationOverlay{z-index:800}.tvp-live .tvp-current .player{font-size:clamp(22px,2.5vw,42px)}.tvp-live .tvp-current .playing{font-size:clamp(13px,1vw,18px)}
+html.tv-mode.tv-complete .tvp-podium{min-width:0}.tvp-pods{min-height:0}
 </style>
 </head>
 <body>
@@ -486,7 +495,24 @@ html.tv-mode .tvPresentation{display:block;position:fixed;left:0;right:0;top:62p
       <div id="pairHistory" class="notice"></div>
     </div>
 
-    <div id="rapidBox" class="card hidden">
+        <div id="scoreEditor" class="card scoreEditor">
+      <h3 style="margin-top:0">🛠️ Score Management</h3>
+      <div class="muted">Correct any player's score for any game. Changes recalculate the live totals and rankings.</div>
+      <div class="scoreEditorGrid" style="margin-top:8px">
+        <div><label>Player</label><select id="editPlayer" onchange="renderScoreEditor()"></select></div>
+        <div><label>Game</label><select id="editGame" onchange="renderScoreEditor()"></select></div>
+      </div>
+      <label>Correct score</label><input id="editScore" type="number" step="0.5" placeholder="Enter exact score">
+      <button class="green" style="width:100%;margin-top:8px" onclick="saveEditedScore()">✓ Save Score Correction</button>
+      <div id="editResult" class="editResult hidden"></div>
+      <div id="pairEditArea" class="hidden" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line)">
+        <label>Rapid Draw pair record</label><select id="editPairRecord" onchange="renderScoreEditor()"></select>
+        <label>Correct pair score</label><input id="editPairScore" type="number" min="0" step="0.5" placeholder="Enter pair score">
+        <button class="gold" style="width:100%;margin-top:8px" onclick="saveEditedPairScore()">✓ Save Pair Score Correction</button>
+      </div>
+    </div>
+
+<div id="rapidBox" class="card hidden">
       <h3 style="margin-top:0">✏️ Rapid Draw — 60 seconds</h3>
       <div class="muted">15 random prompts, one every 4 seconds. The same locked sequence is shown to host and viewers.</div>
       <div class="row" style="margin-top:10px"><button class="primary" onclick="startRapidRound()">▶ Start Rapid Draw</button><button onclick="stopRapidRound()">⏹ Stop</button></div>
@@ -524,6 +550,8 @@ html.tv-mode .tvPresentation{display:block;position:fixed;left:0;right:0;top:62p
   </div>
 </aside>
 
+<div id="reactionLayer" class="reactionLayer" aria-hidden="true"></div>
+<div id="celebrationOverlay" class="celebrationOverlay hidden" aria-live="polite"></div>
 <main id="screen">
   <div class="hero">
     <div><div class="kicker" id="gameLabel"></div><div class="title">ಬಂಧು ಬಳಗ (Kitty) - Sept 2026</div></div>
@@ -545,6 +573,7 @@ html.tv-mode .tvPresentation{display:block;position:fixed;left:0;right:0;top:62p
     <div id="viewerPrompt" class="viewerPrompt">Player</div>
     <div id="viewerTimer" class="viewerRoundTimer"></div>
     <div id="viewerRoundStatus" class="muted"></div>
+    <div id="reactionBar" class="reactionBar hidden" aria-label="Live reactions"></div>
   </div>
 
   <div id="currentCard" class="card current hidden">
@@ -649,8 +678,13 @@ let current=0,game=0,draft=0,seconds=60,timerId=null,history=[];
 let pairRecords=[],rapidRound=null,luckyNames=[],luckyDraw=null,luckyWinner="",luckyListVerified=false;
 let db=null,dbRef=null,sessionId=null,firebaseListenerStarted=false;
 let soundEnabled=false,audioCtx=null,lastTimerSecond=null,lastRapidSecond=null,lastLuckySecond=null,lastViewerTimerSecond=null;
+  celebrationAt=0;celebrationGame=-1;activePair=null;hideCelebration();
 const viewer=new URLSearchParams(location.search).get("view")==="1";
 const tvMode=new URLSearchParams(location.search).get("tv")==="1";
+const REACTION_EMOJIS=["😂","👏","🎉","👀","❤️","😮"];
+let reactionListenerStarted=false; let reactionLastSent=0; let reactionSeq=0;
+let celebrationAt=0; let celebrationGame=-1; let celebrationTimer=null;
+let activePair=null;
 const $=id=>document.getElementById(id);
 
 $("modeBadge").innerHTML=viewer?"":'<span class="viewer-badge">HOST</span>';
@@ -678,7 +712,7 @@ function renderPlayers(){
   if(viewer)return;
   const order=playerDisplayOrder();
   $("players").innerHTML=order.map(p=>`<div class="player"><input value="${esc(p.name)}" onchange="renamePlayer(${p.i},this.value)"><button class="red" onclick="removePlayer(${p.i})">×</button></div>`).join("");
-  $("current").innerHTML=order.map(p=>`<option value="${p.i}" ${p.i===current?"selected":""}>${esc(p.name)}</option>`).join("");
+  $("current").innerHTML=`<option value="-1" ${current<0?"selected":""}>— Select player —</option>`+order.map(p=>`<option value="${p.i}" ${p.i===current?"selected":""}>${esc(p.name)}</option>`).join("");
   $("pairA").innerHTML=order.map(p=>`<option value="${p.i}">${esc(p.name)}</option>`).join("");
   $("pairB").innerHTML=order.map(p=>`<option value="${p.i}">${esc(p.name)}</option>`).join("");
   if(players.length>1&&Number($("pairB").value)===Number($("pairA").value)){
@@ -718,6 +752,8 @@ function syncTvLayout(){
   root.classList.toggle("tv-pregame",!gameStarted && completedCount===0 && !luckyListActive && !luckyWinnerActive);
 }
 function render(){
+  renderReactionBar();
+  renderCelebration();
   syncTvLayout();
   renderTvPresentation();
   if($("game"))$("game").value=game;
@@ -732,7 +768,7 @@ function render(){
   if($("leaderCard"))$("leaderCard").classList.toggle("hidden",!(showLive||completedCount>0));
   if($("podiumCard"))$("podiumCard").classList.toggle("hidden",completedCount<1);
   if($("current"))$("current").value=current;
-  const activeName=players[current]||"—";
+  const activeName=current>=0&&players[current]?players[current]:"— Select player —";
   const activeGame=games[game]||games[0];
   $("gameLabel").textContent=showLive?(activeGame[0]+"  "+activeGame[1]):"";
   $("currentName").textContent=activeName;
@@ -743,8 +779,41 @@ function render(){
   $("leaderboard").innerHTML=`<table><thead><tr><th>Rank</th><th>Player</th>${games.map(g=>`<th>${g[0]}</th>`).join("")}<th>TOTAL</th></tr></thead><tbody>`+t.map((p,r)=>`<tr><td>${r<3?["🥇","🥈","🥉"][r]:r+1}</td><td><b>${esc(p.name)}</b></td>${games.map((_,gi)=>`<td>${Number(scores[p.i]?.[gi]||0)}</td>`).join("")}<td><b>${p.total}</b></td></tr>`).join("")+"</tbody></table>";
   $("podium").innerHTML=t.slice(0,6).map((p,i)=>`<div class="pod"><div style="font-size:28px">${["🥇","🥈","🥉","4️⃣","5️⃣","6️⃣"][i]}</div><b>${esc(p.name)}</b><div class="pts">${p.total}</div></div>`).join("");
   updateGamePanels();
+  renderScoreEditor();
   updateViewer();
 }
+function renderScoreEditor(){
+  if(viewer)return;
+  const ep=$("editPlayer"),eg=$("editGame"),er=$("editPairRecord");if(!ep||!eg||!er)return;
+  const order=playerDisplayOrder();
+  ep.innerHTML=order.map(p=>`<option value="${p.i}">${esc(p.name)}</option>`).join("");
+  if(!order.length)ep.innerHTML='<option value="-1">No players yet</option>';
+  const oldGame=Number(eg.value);
+  eg.innerHTML=games.map((g,i)=>`<option value="${i}">${g[0]} ${g[1]}</option>`).join("");
+  if(Number.isFinite(oldGame)&&oldGame>=0)eg.value=oldGame;
+  const records=pairRecords.filter(r=>r.game===4);
+  er.innerHTML=records.length?records.map((r,idx)=>{const a=players[r.a]||"—",b=players[r.b]||"—";return `<option value="${idx}">${esc(a)} + ${esc(b)} — ${r.pairScore} pts</option>`}).join(""):'<option value="-1">No pair records yet</option>';
+  $("pairEditArea").classList.toggle("hidden",Number(eg.value)!==4||!records.length);
+  if(records.length){const r=records[Number(er.value)||0];if(r&&document.activeElement!==$("editPairScore"))$("editPairScore").value=r.pairScore;}
+  const pi=Number(ep.value);const gi=Number(eg.value);if(pi>=0&&gi>=0&&document.activeElement!==$("editScore"))$("editScore").value=Number(scores[pi]?.[gi]||0);
+}
+function saveEditedScore(){
+  if(viewer)return;const pi=Number($("editPlayer").value),gi=Number($("editGame").value),nv=Number($("editScore").value);
+  if(!Number.isInteger(pi)||pi<0||!players[pi]||!Number.isInteger(gi)||gi<0||gi>=games.length||!Number.isFinite(nv)){toast("Enter a valid player, game and score");return;}
+  const old=Number(scores[pi]?.[gi]||0);scores[pi][gi]=nv;
+  history.push({type:"edit",i:pi,g:gi,oldScore:old,newScore:nv});
+  render();pushState();$("editResult").classList.remove("hidden");$("editResult").textContent=`✓ ${players[pi]} — ${games[gi][1]} corrected from ${old} to ${nv}.`;toast("Score corrected — leaderboard updated");
+}
+function saveEditedPairScore(){
+  if(viewer)return;const idx=Number($("editPairRecord").value),nv=Number($("editPairScore").value),records=pairRecords.filter(r=>r.game===4);
+  if(!Number.isInteger(idx)||!records[idx]||!Number.isFinite(nv)||nv<0){toast("Enter a valid pair score");return;}
+  const r=records[idx],old=Number(r.pairScore)||0,delta=(nv-old)/2;
+  if(players[r.a]!==undefined)scores[r.a][4]=Number(scores[r.a]?.[4]||0)+delta;
+  if(players[r.b]!==undefined)scores[r.b][4]=Number(scores[r.b]?.[4]||0)+delta;
+  r.pairScore=nv;r.each=nv/2;r.editedAt=Date.now();
+  render();pushState();toast(`Pair score corrected: ${old} → ${nv} (+${delta} each)`);
+}
+
 function updateGamePanels(){
   if(viewer)return;
   const rapid=game===4;
@@ -800,16 +869,18 @@ function updateViewer(){
   $("currentCard").classList.add("hidden");
   $("leaderCard").classList.toggle("hidden",!(showLive||completedCount>0));
   $("podiumCard").classList.toggle("hidden",completedCount<1);
-  const g=games[game]||games[0],p=players[current]||"—";
+  const g=games[game]||games[0],p=current>=0?(players[current]||"—"):"—";
   $("viewerGameTitle").textContent=g[1];
-  $("viewerPrompt").textContent=rapidRound?rapidDisplay().prompt:p;
+  if(rapidRound)$("viewerPrompt").textContent=rapidDisplay().prompt;
+  else if(game===4&&activePair)$("viewerPrompt").textContent=(players[activePair.a]||"—")+" & "+(players[activePair.b]||"—");
+  else $("viewerPrompt").textContent=current>=0?p:"Waiting for player selection";
   $("viewerTimer").textContent=rapidRound?fmt(rapidDisplay().time):fmt(seconds);
   $("viewerRoundStatus").textContent=rapidRound?rapidDisplay().status:"";
   $("timer").textContent=viewer?"":(rapidRound?fmt(rapidDisplay().time):(gameStarted?fmt(seconds):""));
   renderLuckyWinner();
 }
-function selectGame(v){if(viewer)return;game=Number(v);draft=0;render();pushState();}
-function selectPlayer(v){if(viewer)return;current=Number(v);draft=0;render();}
+function selectGame(v){if(viewer)return;game=Number(v);current=-1;draft=0;seconds=60;pauseTimer();rapidRound=null;lastRapidSecond=null;render();pushState();}
+function selectPlayer(v){if(viewer)return;current=Number(v);draft=0;render();pushState();}
 function changeScore(n){if(viewer||game===4||gameStatus[game]!=="in_progress")return;draft+=Number(n)||0;render();toast((n>0?"+":"")+n+" points ready to add");}
 function saveScore(){
   if(viewer||game===4)return;
@@ -824,23 +895,36 @@ function saveScore(){
   render();pushState();toast(`${players[current]} +${add} points`);
 }
 function undo(){if(viewer)return;const h=history.pop();if(!h){toast("Nothing to undo");return;}current=h.i;game=h.g;scores[current][game]=h.oldScore;draft=0;render();pushState();toast("↩ Last score undone");}
-function addPlayer(){if(viewer)return;const n=$("newPlayer").value.trim();if(!n)return;players.push(n);scores.push(games.map(()=>0));$("newPlayer").value="";current=players.length-1;draft=0;renderPlayers();render();pushState();}
+function addPlayer(){if(viewer)return;const n=$("newPlayer").value.trim();if(!n)return;players.push(n);scores.push(games.map(()=>0));$("newPlayer").value="";current=-1;draft=0;renderPlayers();render();pushState();}
 function removePlayer(i){if(viewer||players.length<=1)return;if(!confirm("Remove "+players[i]+"?"))return;players.splice(i,1);scores.splice(i,1);current=Math.min(current,players.length-1);draft=0;renderPlayers();render();pushState();}
 function renamePlayer(i,n){if(viewer)return;if(n.trim()){players[i]=n.trim();}render();pushState();}
 function useFreeScore(){if(viewer||game===4||gameStatus[game]!=="in_progress")return;const v=Number($("freeScore").value);if(!Number.isFinite(v)){toast("Enter a valid score");return;}draft=v;render();}
 function startSelectedGame(){
   if(viewer)return;
   if(gameStatus[game]==="ended"){toast("That game is already completed. Select another game.");return;}
+  if(game!==4 && (current<0 || !players[current])){toast("Select the player who is volunteering before starting the game.");return;}
+  if(game===4){const a=Number($("pairA").value),b=Number($("pairB").value);if(!Number.isFinite(a)||!Number.isFinite(b)||a===b){toast("Select two different players for Rapid Draw & Guess.");return;}}
   gameStatus=gameStatus.map((s,i)=>i===game?"in_progress":(s==="in_progress"?"ended":s));
-  gameStarted=true;draft=0;seconds=60;pauseTimer();rapidRound=null;lastRapidSecond=null;
+  gameStarted=true;draft=0;seconds=60;pauseTimer();rapidRound=null;lastRapidSecond=null;activePair=game===4?{a:Number($("pairA").value),b:Number($("pairB").value)}:null;
   render();pushState();toast(`▶ ${games[game][1]} started`);
 }
 function endSelectedGame(){
   if(viewer)return;
   if(gameStatus[game]!=="in_progress"){toast("This game is not in progress");return;}
   gameStatus[game]="ended";gameStarted=false;pauseTimer();rapidRound=null;draft=0;
-  render();pushState();toast(`✓ ${games[game][1]} completed`);
+  celebrationAt=Date.now();celebrationGame=game;
+  render();pushState();showCelebration();toast(`✓ ${games[game][1]} completed`);
 }
+function showCelebration(){
+  const el=$("celebrationOverlay");if(!el)return;
+  const g=games[celebrationGame]||games[game]||games[0];
+  el.innerHTML=`${[1,2,3,4,5,6].map(()=>'<span class="spark">🎆</span>').join('')}<div><div class="celebrateTitle">🎉 GAME COMPLETE!</div><div class="celebrateSub">${esc(g[1])}</div></div>`;
+  el.classList.remove("hidden");
+  clearTimeout(celebrationTimer);celebrationTimer=setTimeout(hideCelebration,4200);
+}
+function hideCelebration(){const el=$("celebrationOverlay");if(el){el.classList.add("hidden");el.innerHTML="";}clearTimeout(celebrationTimer);}
+function renderCelebration(){if(celebrationAt&&Date.now()-celebrationAt<4300)showCelebration();else if(celebrationAt)hideCelebration();}
+
 function nextGame(){if(viewer)return;if(game<games.length-1){if(gameStatus[game]==="in_progress"){toast("End the current game first");return;}game++;draft=0;seconds=60;render();pushState();toast("Next: "+games[game][1]);}else toast("All planned games are listed");}
 function resetEverything(){
   if(viewer)return;
@@ -1173,7 +1257,7 @@ function syncFullscreenUi(){
 document.addEventListener("fullscreenchange",syncFullscreenUi);
 async function copyViewerLink(){const url=location.href.split("?")[0]+"?view=1&session="+encodeURIComponent(sessionId||"sept-2026");try{await navigator.clipboard.writeText(url);}catch(e){}toast("Viewer link copied");}
 
-function localState(){return {players,scores,current,game,seconds,pairRecords,rapidRound,luckyNames,luckyDraw,luckyWinner,luckyListVerified,gameStarted,gameStatus};}
+function localState(){return {players,scores,current,game,seconds,pairRecords,rapidRound,luckyNames,luckyDraw,luckyWinner,luckyListVerified,gameStarted,gameStatus,celebrationAt,celebrationGame,activePair};}
 function applyState(s){
   if(!s)return;
   players=Array.isArray(s.players)?s.players:players;
@@ -1208,6 +1292,8 @@ function applyState(s){
   if(Array.isArray(s.gameStatus)&&s.gameStatus.length===games.length) gameStatus=s.gameStatus;
   else {gameStatus=Array(games.length).fill("pending");if(s.gameStarted===true)gameStatus[game]="in_progress";}
   gameStarted=gameStatus[game]==="in_progress";
+  celebrationAt=Number(s.celebrationAt)||0; celebrationGame=Number.isFinite(Number(s.celebrationGame))?Number(s.celebrationGame):-1;
+  activePair=s.activePair&&Number.isFinite(Number(s.activePair.a))&&Number.isFinite(Number(s.activePair.b))?{a:Number(s.activePair.a),b:Number(s.activePair.b)}:null;
   if(!viewer){renderPlayers();renderPairHistory();renderLuckyNames();}
   renderViewerLuckyList();renderLuckyOverlay();renderLuckyWinner();render();renderTvPresentation();updateTimer();
 }
@@ -1239,17 +1325,45 @@ function startRealtimeListener(){
     console.error(err);if($("syncStatus"))$("syncStatus").textContent="🔴 Firebase connection failed";
   });
 }
+function renderReactionBar(){
+  const bar=$("reactionBar"); if(!bar)return;
+  const show=viewer&&!tvMode&&gameStarted&&!luckyDraw;
+  bar.classList.toggle("hidden",!show);
+  if(!show)return;
+  bar.innerHTML=REACTION_EMOJIS.map(e=>`<button type="button" class="reactionBtn" title="Send ${e}" aria-label="Send ${e}" onclick="sendReaction('${e}')">${e}</button>`).join("");
+}
+function sendReaction(emoji){
+  if(!viewer||tvMode||!window.__push||!db||!dbRef||!sessionId||!gameStarted||luckyDraw)return;
+  const now=Date.now(); if(now-reactionLastSent<1200)return; reactionLastSent=now;
+  window.__push(dbRef(db,"sessions/"+sessionId+"/reactions"),{emoji,at:now,source:"viewer",seq:++reactionSeq}).catch(e=>console.warn("reaction",e));
+}
+function showFloatingReaction(emoji){
+  const layer=$("reactionLayer"); if(!layer)return;
+  const el=document.createElement("span"); el.className="floatingReaction"; el.textContent=emoji;
+  el.style.left=(8+Math.random()*84)+"%"; el.style.setProperty("--drift",((Math.random()-.5)*140)+"px"); el.style.setProperty("--rot",((Math.random()-.5)*28)+"deg");
+  layer.appendChild(el); setTimeout(()=>el.remove(),2900);
+}
+function startReactionListener(){
+  if(!db||!dbRef||!sessionId||!window.__onChildAdded||reactionListenerStarted)return;
+  reactionListenerStarted=true;
+  window.__onChildAdded(dbRef(db,"sessions/"+sessionId+"/reactions"),snap=>{
+    const r=snap.val(); if(!r||!REACTION_EMOJIS.includes(r.emoji))return;
+    const at=Number(r.at)||0; if(at && Date.now()-at>7000)return;
+    showFloatingReaction(r.emoji);
+  });
+}
+
 async function setupFirebase(){
   try{
     const {initializeApp}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js");
-    const {getDatabase,ref,onValue,set}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js");
+    const {getDatabase,ref,onValue,set,push,onChildAdded}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js");
     const {getAuth,signInAnonymously,signInWithEmailAndPassword,onAuthStateChanged}=await import("https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js");
-    const app=initializeApp(FIREBASE_CONFIG);db=getDatabase(app);dbRef=ref;window.__set=set;window.__onValue=onValue;
+    const app=initializeApp(FIREBASE_CONFIG);db=getDatabase(app);dbRef=ref;window.__set=set;window.__push=push;window.__onValue=onValue;window.__onChildAdded=onChildAdded;
     const auth=getAuth(app);window.__auth=auth;window.__signIn=signInWithEmailAndPassword;window.__anon=signInAnonymously;
     sessionId=new URLSearchParams(location.search).get("session")||"sept-2026";
     onAuthStateChanged(auth,async user=>{
       if(viewer){
-        try{if(!user)await signInAnonymously(auth);startRealtimeListener();}catch(e){console.error(e);$("viewerRoundStatus").textContent="Viewer connection failed";}
+        try{if(!user)await signInAnonymously(auth);startRealtimeListener();startReactionListener();}catch(e){console.error(e);$("viewerRoundStatus").textContent="Viewer connection failed";}
       }else if(user&&!user.isAnonymous){
         $("loginArea").classList.add("hidden");$("setupArea").classList.remove("hidden");
         $("topControls").innerHTML='<button onclick="copyViewerLink()">🔗 Copy viewer link</button><button onclick="openTvDisplay()">📺 TV display</button><button onclick="hostLogout()">Log out</button>';
@@ -1292,7 +1406,7 @@ function renderTvPresentation(){
   if(anyLive){
     const rows=sorted().map((p,r)=>`<tr><td>${r<3?['🥇','🥈','🥉'][r]:r+1}</td><td><b>${escv(p.name)}</b></td>${games.map((_,gi)=>`<td>${Number(scores[p.i]?.[gi]||0)}</td>`).join('')}<td><b>${p.total}</b></td></tr>`).join('');
     const pods=sorted().slice(0,6).map((p,i)=>`<div class="tvp-pod"><div>${['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣'][i]}</div><b>${escv(p.name)}</b><div class="pts">${p.total}</div></div>`).join('');
-    body=`<div class="tvp-title">${title}</div><div class="tvp-live"><section class="tvp-card tvp-current"><div class="status">🟢 GAME IN PROGRESS</div><div class="game">${escv(currentGame[1])}</div><div class="playing">NOW PLAYING</div><div class="player">${escv(players[current]||'—')}</div><div class="timer">${rapidRound?fmt(rapidDisplay().time):fmt(seconds)}</div></section><section class="tvp-card tvp-leader"><h2>🏆 LIVE LEADERBOARD</h2><div class="tvp-leader-table"><table><thead><tr><th>Rank</th><th>Player</th>${games.map(g=>`<th>${g[0]}</th>`).join('')}<th>TOTAL</th></tr></thead><tbody>${rows}</tbody></table></div></section><section class="tvp-card tvp-podium"><h2>⭐ TOP 6</h2><div class="tvp-pods">${completedCount?pods:'<div style="grid-column:1/-1;color:#aeb5cb;text-align:center;padding:12px">Top 6 appears after the first game is completed.</div>'}</div></section></div>`;
+    body=`<div class="tvp-title">${title}</div><div class="tvp-live"><section class="tvp-card tvp-current"><div class="status">🟢 GAME IN PROGRESS</div><div class="game">${escv(currentGame[1])}</div><div class="playing">${(rapidRound||activePair)?"PAIR":"NOW PLAYING"}</div><div class="player">${escv((rapidRound||activePair)?((players[(rapidRound||activePair).a]||"—")+" & "+(players[(rapidRound||activePair).b]||"—")):(players[current]||"—"))}</div><div class="timer">${rapidRound?fmt(rapidDisplay().time):fmt(seconds)}</div></section><section class="tvp-card tvp-leader"><h2>🏆 LIVE LEADERBOARD</h2><div class="tvp-leader-table"><table><thead><tr><th>Rank</th><th>Player</th>${games.map(g=>`<th>${g[0]}</th>`).join('')}<th>TOTAL</th></tr></thead><tbody>${rows}</tbody></table></div></section><section class="tvp-card tvp-podium"><h2>⭐ TOP 6</h2><div class="tvp-pods">${completedCount?pods:'<div style="grid-column:1/-1;color:#aeb5cb;text-align:center;padding:12px">Top 6 appears after the first game is completed.</div>'}</div></section></div>`;
   }else if(completedCount>0){
     const rows=sorted().map((p,r)=>`<tr><td>${r<3?['🥇','🥈','🥉'][r]:r+1}</td><td><b>${escv(p.name)}</b></td>${games.map((_,gi)=>`<td>${Number(scores[p.i]?.[gi]||0)}</td>`).join('')}<td><b>${p.total}</b></td></tr>`).join('');
     const pods=sorted().slice(0,6).map((p,i)=>`<div class="tvp-pod"><div>${['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣'][i]}</div><b>${escv(p.name)}</b><div class="pts">${p.total}</div></div>`).join('');
