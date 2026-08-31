@@ -437,6 +437,28 @@ html.tv-mode .reactionLayer{z-index:500}.tvp-reactionHint{font-size:clamp(10px,.
 .scoreEditor{border-color:#39446a}.scoreEditorGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.editResult{margin-top:9px;padding:9px 11px;border-radius:10px;background:#222844;color:#dfe3ff}.celebrationOverlay{position:fixed;inset:0;z-index:140;display:flex;align-items:center;justify-content:center;text-align:center;pointer-events:none;background:radial-gradient(circle at center,#2d3564aa 0,#080b1600 65%);animation:celebrateFade 4.2s ease forwards}.celebrateTitle{font-size:clamp(38px,8vw,110px);font-weight:1000;line-height:1}.celebrateSub{font-size:clamp(20px,3vw,40px);font-weight:900;margin-top:12px}.spark{position:absolute;font-size:clamp(26px,4vw,64px);animation:sparkFly 3.5s ease-out forwards}.spark:nth-child(1){left:8%;top:72%}.spark:nth-child(2){left:18%;top:20%}.spark:nth-child(3){left:35%;top:75%}.spark:nth-child(4){left:52%;top:18%}.spark:nth-child(5){left:70%;top:70%}.spark:nth-child(6){left:84%;top:24%}@keyframes sparkFly{0%{transform:translateY(80px) scale(.2) rotate(0);opacity:0}18%{opacity:1}100%{transform:translateY(-220px) scale(1.3) rotate(180deg);opacity:0}}@keyframes celebrateFade{0%,78%{opacity:1}100%{opacity:0}}
 html.tv-mode .celebrationOverlay{z-index:800}.tvp-live .tvp-current .player{font-size:clamp(22px,2.5vw,42px)}.tvp-live .tvp-current .playing{font-size:clamp(13px,1vw,18px)}
 html.tv-mode.tv-complete .tvp-podium{min-width:0}.tvp-pods{min-height:0}
+
+/* V1.2 priority fixes */
+.reactionBar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:1000;margin:0;padding:7px 9px;border:1px solid #59618a;border-radius:999px;background:#11162bf2;box-shadow:0 12px 35px #0009;backdrop-filter:blur(10px)}
+.reactionBtn{min-width:42px;min-height:42px;font-size:24px}
+.viewer-mode .reactionBar{display:flex!important}
+.tvp-live .tvp-current.rapid-active{justify-content:flex-start;padding-top:14px}
+.tvp-rapid-prompt{font-size:clamp(28px,3vw,52px);font-weight:1000;line-height:1.05;margin:8px 0;text-align:center}
+.tvp-rapid-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;width:100%;margin-top:7px;overflow:hidden}
+.tvp-rapid-item{padding:4px 5px;border-radius:6px;background:#202844;border:1px solid #303650;font-size:clamp(9px,.7vw,13px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
+.tvp-rapid-item.active{border-color:#8f9cff;box-shadow:0 0 12px #6978ff55;font-weight:950}
+.tvp-rapid-item.done{opacity:.48}
+html.tv-mode.tv-complete .tvp-complete{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;height:calc(100% - 44px)}
+html.tv-mode.tv-complete .tvp-complete .tvp-leader{min-height:0;height:100%}
+html.tv-mode.tv-complete .tvp-complete .tvp-podium{height:auto;min-height:105px}
+html.tv-mode.tv-complete .tvp-complete .tvp-pods{grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+html.tv-mode.tv-complete .tvp-complete .tvp-pod{min-height:72px}
+html.tv-mode.tv-winner .tvp-winner{height:calc(100% - 44px);display:flex;align-items:center;justify-content:center}
+html.tv-mode.tv-winner .tvp-winner-banner{width:min(1200px,90vw);padding:34px 28px;font-size:clamp(34px,5vw,78px);box-shadow:0 0 60px #6978ff66}
+html.tv-mode.tv-winner .tvp-winner-banner small{font-size:clamp(14px,1.3vw,22px);margin-bottom:14px}
+html.tv-mode.tv-winner .tvp-winner > .tvp-guide{display:none!important}
+@media(max-aspect-ratio:4/3){.tvp-rapid-list{grid-template-columns:repeat(3,minmax(0,1fr))}.tvp-rapid-item{font-size:10px}.reactionBar{bottom:10px}}
+
 </style>
 </head>
 <body>
@@ -768,8 +790,9 @@ function render(){
   if($("leaderCard"))$("leaderCard").classList.toggle("hidden",!(showLive||completedCount>0));
   if($("podiumCard"))$("podiumCard").classList.toggle("hidden",completedCount<1);
   if($("current"))$("current").value=current;
-  const activeName=current>=0&&players[current]?players[current]:"— Select player —";
   const activeGame=games[game]||games[0];
+  const pairForDisplay=game===4&&activePair&&players[activePair.a]&&players[activePair.b];
+  const activeName=pairForDisplay?players[activePair.a]+" & "+players[activePair.b]:(current>=0&&players[current]?players[current]:"— Select player —");
   $("gameLabel").textContent=showLive?(activeGame[0]+"  "+activeGame[1]):"";
   $("currentName").textContent=activeName;
   $("currentScore").textContent=Number(scores[current]?.[game]||0);
@@ -1191,11 +1214,18 @@ function tickRapid(){
   if(!rapidRound)return;
   const d=rapidDisplay();
   if(!viewer)renderRapidHost(); else updateViewer();
+  if(tvMode)renderTvPresentation();
   const sec=d.time;
   if(sec!==lastRapidSecond){
     if(sec>0 && sec<=10)playTick(true);
     else if(sec>10)playTick(false);
-    if(sec===0){playTimeUp();rapidRound=null; if(!viewer)pushState(); toast("⏰ RAPID DRAW TIME!");}
+    if(sec===0){
+      playTimeUp();
+      rapidRound=null;
+      if(!viewer)pushState();
+      if(tvMode)renderTvPresentation();
+      toast("⏰ RAPID DRAW TIME!");
+    }
     lastRapidSecond=sec;
   }
 }
@@ -1384,7 +1414,7 @@ window.hostLogin=hostLogin;window.hostLogout=hostLogout;window.selectGame=select
 window.changeScore=changeScore;window.saveScore=saveScore;window.undo=undo;window.useFreeScore=useFreeScore;window.startSelectedGame=startSelectedGame;window.endSelectedGame=endSelectedGame;window.addPlayer=addPlayer;window.removePlayer=removePlayer;window.renamePlayer=renamePlayer;
 window.nextGame=nextGame;window.resetEverything=resetEverything;window.startTimer=startTimer;window.pauseTimer=pauseTimer;window.resetTimer=resetTimer;window.setTime=setTime;
 window.toggleFullscreen=toggleFullscreen;window.openTvDisplay=openTvDisplay;window.copyViewerLink=copyViewerLink;window.enableSounds=enableSounds;window.openGuideImage=openGuideImage;window.closeGuideImage=closeGuideImage;window.verifyLuckyList=verifyLuckyList;
-window.applyPairScore=applyPairScore;window.clearPair=clearPair;window.startRapidRound=startRapidRound;window.stopRapidRound=stopRapidRound;window.addLuckyName=addLuckyName;window.renameLuckyName=renameLuckyName;window.removeLuckyName=removeLuckyName;window.clearLuckyNames=clearLuckyNames;window.startLuckyDraw=startLuckyDraw;window.redoLuckyDraw=redoLuckyDraw;
+window.applyPairScore=applyPairScore;window.clearPair=clearPair;window.saveEditedScore=saveEditedScore;window.saveEditedPairScore=saveEditedPairScore;window.startRapidRound=startRapidRound;window.stopRapidRound=stopRapidRound;window.addLuckyName=addLuckyName;window.renameLuckyName=renameLuckyName;window.removeLuckyName=removeLuckyName;window.clearLuckyNames=clearLuckyNames;window.startLuckyDraw=startLuckyDraw;window.redoLuckyDraw=redoLuckyDraw;
 
 // Start with the lucky-dip overlay closed. A fresh draw will open it through renderLuckyOverlay().
 $("luckyOverlay").classList.add("hidden");
@@ -1397,22 +1427,37 @@ function renderTvPresentation(){
   const winner=resolveLuckyWinner();
   const drawDone=!!(luckyDraw&&luckyDraw.winnerRevealed);
   const anyLive=!!gameStarted;
-  const orderedPlayers=playerDisplayOrder();
   const currentGame=games[game]||games[0];
   const guideImg=GAME_GUIDE_IMAGES[guideGame]||GAME_GUIDE_IMAGES[0];
   const guideTitle=(gameInfo[guideGame]&&gameInfo[guideGame].title)||currentGame[1];
   const title='ಬಂಧು ಬಳಗ (Kitty) - Sept 2026';
   let body='';
-  if(anyLive){
+
+  /* Winner announcement always owns the TV screen. No guide, leaderboard or Top 6. */
+  if(!anyLive&&drawDone&&winner){
+    body=`<div class="tvp-title">${title}</div><div class="tvp-winner"><div class="tvp-winner-banner"><small>🎲 NEXT KITTY HOST</small>🎉 ${escv(winner)} 🎉<div style="font-size:.42em;margin-top:14px;letter-spacing:.5px">Congratulations!</div></div></div>`;
+  }else if(anyLive){
     const rows=sorted().map((p,r)=>`<tr><td>${r<3?['🥇','🥈','🥉'][r]:r+1}</td><td><b>${escv(p.name)}</b></td>${games.map((_,gi)=>`<td>${Number(scores[p.i]?.[gi]||0)}</td>`).join('')}<td><b>${p.total}</b></td></tr>`).join('');
     const pods=sorted().slice(0,6).map((p,i)=>`<div class="tvp-pod"><div>${['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣'][i]}</div><b>${escv(p.name)}</b><div class="pts">${p.total}</div></div>`).join('');
-    body=`<div class="tvp-title">${title}</div><div class="tvp-live"><section class="tvp-card tvp-current"><div class="status">🟢 GAME IN PROGRESS</div><div class="game">${escv(currentGame[1])}</div><div class="playing">${(rapidRound||activePair)?"PAIR":"NOW PLAYING"}</div><div class="player">${escv((rapidRound||activePair)?((players[(rapidRound||activePair).a]||"—")+" & "+(players[(rapidRound||activePair).b]||"—")):(players[current]||"—"))}</div><div class="timer">${rapidRound?fmt(rapidDisplay().time):fmt(seconds)}</div></section><section class="tvp-card tvp-leader"><h2>🏆 LIVE LEADERBOARD</h2><div class="tvp-leader-table"><table><thead><tr><th>Rank</th><th>Player</th>${games.map(g=>`<th>${g[0]}</th>`).join('')}<th>TOTAL</th></tr></thead><tbody>${rows}</tbody></table></div></section><section class="tvp-card tvp-podium"><h2>⭐ TOP 6</h2><div class="tvp-pods">${completedCount?pods:'<div style="grid-column:1/-1;color:#aeb5cb;text-align:center;padding:12px">Top 6 appears after the first game is completed.</div>'}</div></section></div>`;
+    const isRapid=!!rapidRound;
+    const pair=activePair||(rapidRound&&{a:rapidRound.a,b:rapidRound.b});
+    const pairName=pair&&players[pair.a]&&players[pair.b]?players[pair.a]+' & '+players[pair.b]:'';
+    let currentMarkup='';
+    if(isRapid){
+      const d=rapidDisplay();
+      const idx=Math.min(14,Math.max(0,Math.floor(Math.max(0,Date.now()-rapidRound.startAt)/4000)));
+      const list=rapidRound.prompts.map((p,i)=>`<div class="tvp-rapid-item ${i===idx?'active':''} ${i<idx?'done':''}">${i+1}. ${escv(p)}</div>`).join('');
+      currentMarkup=`<section class="tvp-card tvp-current rapid-active"><div class="status">🟢 GAME IN PROGRESS</div><div class="game">Rapid Draw &amp; Guess</div><div class="playing">PAIR</div><div class="player">${escv(pairName||'—')}</div><div class="tvp-rapid-prompt">${escv(d.prompt)}</div><div class="timer">${fmt(d.time)}</div><div class="tvp-rapid-list">${list}</div></section>`;
+    }else{
+      const playerName=activePair&&players[activePair.a]&&players[activePair.b]?players[activePair.a]+' & '+players[activePair.b]:(players[current]||'—');
+      const label=game===4?'PAIR':'NOW PLAYING';
+      currentMarkup=`<section class="tvp-card tvp-current"><div class="status">🟢 GAME IN PROGRESS</div><div class="game">${escv(currentGame[1])}</div><div class="playing">${label}</div><div class="player">${escv(playerName)}</div><div class="timer">${fmt(seconds)}</div></section>`;
+    }
+    body=`<div class="tvp-title">${title}</div><div class="tvp-live">${currentMarkup}<section class="tvp-card tvp-leader"><h2>🏆 LIVE LEADERBOARD</h2><div class="tvp-leader-table"><table><thead><tr><th>Rank</th><th>Player</th>${games.map(g=>`<th>${g[0]}</th>`).join('')}<th>TOTAL</th></tr></thead><tbody>${rows}</tbody></table></div></section><section class="tvp-card tvp-podium"><h2>⭐ TOP 6</h2><div class="tvp-pods">${completedCount?pods:'<div style="grid-column:1/-1;color:#aeb5cb;text-align:center;padding:12px">Top 6 appears after the first game is completed.</div>'}</div></section></div>`;
   }else if(completedCount>0){
     const rows=sorted().map((p,r)=>`<tr><td>${r<3?['🥇','🥈','🥉'][r]:r+1}</td><td><b>${escv(p.name)}</b></td>${games.map((_,gi)=>`<td>${Number(scores[p.i]?.[gi]||0)}</td>`).join('')}<td><b>${p.total}</b></td></tr>`).join('');
     const pods=sorted().slice(0,6).map((p,i)=>`<div class="tvp-pod"><div>${['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣'][i]}</div><b>${escv(p.name)}</b><div class="pts">${p.total}</div></div>`).join('');
-    body=`<div class="tvp-title">${title}</div><div class="tvp-complete"><section class="tvp-card tvp-leader"><h2>🏆 LIVE LEADERBOARD</h2><div class="tvp-leader-table"><table><thead><tr><th>Rank</th><th>Player</th>${games.map(g=>`<th>${g[0]}</th>`).join('')}<th>TOTAL</th></tr></thead><tbody>${rows}</tbody></table></div></section><section class="tvp-card tvp-podium"><h2>⭐ TOP 6</h2><div class="tvp-pods">${pods}</div></section></div>`;
-  }else if(drawDone&&winner){
-    body=`<div class="tvp-title">${title}</div><div class="tvp-winner"><div class="tvp-winner-banner"><small>NEXT KITTY HOST</small>🎉 The Lucky winner is ${escv(winner)}, Congratulations!! 🎉</div><div class="tvp-guide"><img src="${guideImg}" alt="${escv(guideTitle)}"></div></div>`;
+    body=`<div class="tvp-title">${title}</div><div class="tvp-complete"><section class="tvp-card tvp-leader"><h2>🏆 FINAL LEADERBOARD</h2><div class="tvp-leader-table"><table><thead><tr><th>Rank</th><th>Player</th>${games.map(g=>`<th>${g[0]}</th>`).join('')}<th>TOTAL</th></tr></thead><tbody>${rows}</tbody></table></div></section><section class="tvp-card tvp-podium"><h2>⭐ TOP 6</h2><div class="tvp-pods">${pods}</div></section></div>`;
   }else if(luckyNames.length){
     const names=sortedLuckyNames().map(n=>`<div class="tvp-name">${escv(n)}</div>`).join('');
     const reviewText='Please review this list. If anyone is missing, tell the host before the lucky dip starts.';
@@ -1425,11 +1470,10 @@ function renderTvPresentation(){
   }
   root.innerHTML=body;
 }
-
 renderGameOptions();renderPlayers();renderLuckyNames();renderViewerLuckyList();renderGameGuide();renderLuckyWinner();render();updateTimer();syncFullscreenUi();renderTvPresentation();setupFirebase();
 
 setInterval(()=>{if(rapidRound)tickRapid();if(luckyDraw)tickLucky();},100);
-setInterval(()=>{if(viewer&&rapidRound)updateViewer();},250);
+setInterval(()=>{if(viewer&&rapidRound)updateViewer();if(tvMode&&rapidRound)renderTvPresentation();},250);
 </script>
 </body>
 </html>
