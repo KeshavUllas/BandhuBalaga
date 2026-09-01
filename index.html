@@ -1366,12 +1366,19 @@ function applyState(s){
   renderViewerLuckyList();renderLuckyOverlay();renderLuckyWinner();render();renderTvPresentation();updateTimer();
 }
 let pushLock=false;
+// V1.8: keep live scoreboard state separate from reaction events.
+// Reactions are intentionally NOT children of the state node. This prevents a
+// reaction tap from firing the scoreboard state listener and resetting the
+// synchronized countdown on Viewer/TV.
+const statePath=()=>dbRef(db,"sessions/"+sessionId+"/state");
+const reactionPath=()=>dbRef(db,"sessions/"+sessionId+"/reactions");
+
 async function pushState(){
   const state=localState();
   localStorage.setItem("familyGameNightState",JSON.stringify(state));
   if(!db||!dbRef||!sessionId||viewer||!window.__set)return;
   try{
-    await window.__set(dbRef(db,"sessions/"+sessionId),state);
+    await window.__set(statePath(),state);
     if($("syncStatus"))$("syncStatus").textContent="🟢 SAVED TO CLOUD — live sync enabled";
   }catch(e){
     console.error(e);
@@ -1382,15 +1389,27 @@ async function pushState(){
 function startRealtimeListener(){
   if(!db||!dbRef||!sessionId||!window.__onValue||firebaseListenerStarted)return;
   firebaseListenerStarted=true;
-  window.__onValue(dbRef(db,"sessions/"+sessionId),snap=>{
+  const applySnapshot=snap=>{
     const data=snap.val();
     if(data){
       applyState(data);
       if($("syncStatus"))$("syncStatus").textContent=viewer?"🟢 LIVE — view only":"🟢 CONNECTED — cloud scores loaded";
     }else if(!viewer)pushState();
     else if($("syncStatus"))$("syncStatus").textContent="🟡 Waiting for host";
-  },err=>{
-    console.error(err);if($("syncStatus"))$("syncStatus").textContent="🔴 Firebase connection failed";
+  };
+  // V1.8+ state lives under /state, so reaction writes can never retrigger
+  // this listener.
+  window.__onValue(statePath(),applySnapshot,err=>{
+    console.error(err);
+    // Backward compatibility: if a session was created by an older build,
+    // try the legacy session root once. New writes always use /state.
+    if(window.__onValue){
+      window.__onValue(dbRef(db,"sessions/"+sessionId),legacy=>{
+        const d=legacy.val();
+        if(d && !d.state && (Array.isArray(d.players)||Array.isArray(d.scores))) applyState(d);
+      },legacyErr=>console.warn("legacy state",legacyErr));
+    }
+    if($("syncStatus"))$("syncStatus").textContent="🔴 Firebase connection failed";
   });
 }
 function renderReactionBar(){
@@ -1411,7 +1430,10 @@ function renderReactionBar(){
 function sendReaction(emoji){
   if(!viewer||tvMode||!window.__push||!db||!dbRef||!sessionId||!gameStarted)return;
   const now=Date.now(); if(now-reactionLastSent<1200)return; reactionLastSent=now;
-  window.__push(dbRef(db,"sessions/"+sessionId+"/reactions"),{emoji,at:now,source:"viewer",seq:++reactionSeq}).catch(e=>console.warn("reaction",e));
+  window.__push(reactionPath(),{emoji,at:now,source:"viewer",seq:++reactionSeq}).then(()=>{
+    // Local confirmation only; the TV/other Viewers receive the same child event
+    // through their dedicated reaction listener.
+  }).catch(e=>{console.warn("reaction",e);toast("Reaction could not be sent");});
 }
 function showFloatingReaction(emoji){
   const layer=$("reactionLayer"); if(!layer)return;
@@ -1424,7 +1446,7 @@ function startReactionListener(){
   if(!db||!dbRef||!sessionId||reactionListenerStarted)return;
   reactionListenerStarted=true;
   reactionListenerStartedAt=Date.now();
-  const reactionRef=dbRef(db,"sessions/"+sessionId+"/reactions");
+  const reactionRef=reactionPath();
   const handleReaction=(key,r)=>{
     if(!key||reactionSeenKeys.has(key))return;
     if(!r||!REACTION_EMOJIS.includes(r.emoji)){reactionSeenKeys.add(key);return;}
