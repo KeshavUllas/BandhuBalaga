@@ -716,7 +716,7 @@ let players=["Player 1","Player 2","Player 3","Player 4"];
 let gameStarted=false;
 let gameStatus=Array(games.length).fill("pending");
 let scores=players.map(()=>games.map(()=>0));
-let current=0,game=0,draft=0,seconds=60,timerId=null,history=[];
+let current=0,game=0,draft=0,seconds=60,timerEndAt=0,timerId=null,history=[];
 let pairRecords=[],rapidRound=null,luckyNames=[],luckyDraw=null,luckyWinner="",luckyListVerified=false;
 let db=null,dbRef=null,sessionId=null,firebaseListenerStarted=false;
 let soundEnabled=false,audioCtx=null,lastTimerSecond=null,lastRapidSecond=null,lastLuckySecond=null,lastViewerTimerSecond=null;
@@ -725,7 +725,7 @@ const tvMode=new URLSearchParams(location.search).get("tv")==="1";
 // V1.3: explicitly mark the document as viewer mode so viewer-only UI (including reactions) is visible.
 document.documentElement.classList.toggle("viewer-mode",viewer&&!tvMode);
 const REACTION_EMOJIS=["😂","👏","🎉","👀","❤️","😮"];
-let reactionListenerStarted=false; let reactionLastSent=0; let reactionSeq=0; let reactionSeenKeys=new Set(); let reactionListenerStartedAt=0; let reactionPollId=null;
+let reactionListenerStarted=false; let reactionLastSent=0; let reactionSeq=0; let reactionSeenKeys=new Set();
 let celebrationAt=0; let celebrationGame=-1; let celebrationTimer=null;
 let activePair=null;
 const $=id=>document.getElementById(id);
@@ -923,7 +923,7 @@ function updateViewer(){
   $("timer").textContent=viewer?"":(rapidRound?fmt(rapidDisplay().time):(gameStarted?fmt(seconds):""));
   renderLuckyWinner();
 }
-function selectGame(v){if(viewer)return;game=Number(v);current=-1;draft=0;seconds=60;pauseTimer();rapidRound=null;lastRapidSecond=null;render();pushState();}
+function selectGame(v){if(viewer)return;game=Number(v);current=-1;draft=0;seconds=60;timerEndAt=0;pauseTimer();rapidRound=null;lastRapidSecond=null;render();pushState();}
 function selectPlayer(v){if(viewer)return;current=Number(v);draft=0;render();pushState();}
 function changeScore(n){if(viewer||game===4||gameStatus[game]!=="in_progress")return;draft+=Number(n)||0;render();toast((n>0?"+":"")+n+" points ready to add");}
 function saveScore(){
@@ -949,13 +949,13 @@ function startSelectedGame(){
   if(game!==4 && (current<0 || !players[current])){toast("Select the player who is volunteering before starting the game.");return;}
   if(game===4){const a=Number($("pairA").value),b=Number($("pairB").value);if(!Number.isFinite(a)||!Number.isFinite(b)||a===b){toast("Select two different players for Rapid Draw & Guess.");return;}}
   gameStatus=gameStatus.map((s,i)=>i===game?"in_progress":(s==="in_progress"?"ended":s));
-  gameStarted=true;draft=0;seconds=60;pauseTimer();rapidRound=null;lastRapidSecond=null;activePair=game===4?{a:Number($("pairA").value),b:Number($("pairB").value)}:null;
+  gameStarted=true;draft=0;seconds=60;timerEndAt=0;pauseTimer();rapidRound=null;lastRapidSecond=null;activePair=game===4?{a:Number($("pairA").value),b:Number($("pairB").value)}:null;
   render();pushState();toast(`▶ ${games[game][1]} started`);
 }
 function endSelectedGame(){
   if(viewer)return;
   if(gameStatus[game]!=="in_progress"){toast("This game is not in progress");return;}
-  gameStatus[game]="ended";gameStarted=false;pauseTimer();rapidRound=null;draft=0;
+  gameStatus[game]="ended";gameStarted=false;timerEndAt=0;pauseTimer();rapidRound=null;draft=0;
   celebrationAt=Date.now();celebrationGame=game;
   render();pushState();showCelebration();toast(`✓ ${games[game][1]} completed`);
 }
@@ -969,7 +969,7 @@ function showCelebration(){
 function hideCelebration(){const el=$("celebrationOverlay");if(el){el.classList.add("hidden");el.innerHTML="";}clearTimeout(celebrationTimer);}
 function renderCelebration(){if(celebrationAt&&Date.now()-celebrationAt<4300)showCelebration();else if(celebrationAt)hideCelebration();}
 
-function nextGame(){if(viewer)return;if(game<games.length-1){if(gameStatus[game]==="in_progress"){toast("End the current game first");return;}game++;draft=0;seconds=60;render();pushState();toast("Next: "+games[game][1]);}else toast("All planned games are listed");}
+function nextGame(){if(viewer)return;if(game<games.length-1){if(gameStatus[game]==="in_progress"){toast("End the current game first");return;}game++;draft=0;seconds=60;timerEndAt=0;render();pushState();toast("Next: "+games[game][1]);}else toast("All planned games are listed");}
 function resetEverything(){
   if(viewer)return;
   if(!confirm("⚠️ RESET THE ENTIRE EVENT?\n\nThis will clear ALL player names, scores, game progress, pair history, lucky-dip names/winner, and timer state for every connected screen.\n\nThis cannot be undone."))return;
@@ -1078,7 +1078,7 @@ function copyLuckyToPlayers(){
     if(!confirm("Replace the current player list with the lucky-dip list? You can remove or edit players afterward."))return;
     players=[...names];
     scores=players.map(()=>games.map(()=>0));
-    current=-1;draft=0;gameStarted=false;gameStatus=Array(games.length).fill("pending");activePair=null;rapidRound=null;seconds=60;pauseTimer();
+    current=-1;draft=0;gameStarted=false;gameStatus=Array(games.length).fill("pending");activePair=null;rapidRound=null;seconds=60;timerEndAt=0;pauseTimer();
   }
   renderPlayers();render();pushState();toast("👥 Lucky-dip names copied to Players");
 }
@@ -1270,16 +1270,36 @@ function tickRapid(){
 
 function startTimer(){
   if(viewer||timerId||!gameStarted||rapidRound)return;
-  if(seconds<=0)seconds=60;lastTimerSecond=seconds+1;playTick(false);pushState();
-  timerId=setInterval(()=>{seconds=Math.max(0,seconds-1);updateTimer();
-    if(seconds>0){playTick(seconds<=10);pushState();}
-    else{pauseTimer();playTimeUp();toast("⏰ TIME!");pushState();}
-  },1000);
+  if(seconds<=0)seconds=60;
+  timerEndAt=Date.now()+seconds*1000;
+  lastTimerSecond=seconds+1;
+  playTick(false);
+  pushState();
+  timerId=setInterval(()=>{
+    const next=Math.max(0,Math.ceil((timerEndAt-Date.now())/1000));
+    if(next!==seconds){seconds=next;updateTimer();playTick(seconds<=10);pushState();}
+    if(seconds<=0){clearInterval(timerId);timerId=null;playTimeUp();toast("⏰ TIME!");pushState();}
+  },200);
 }
-function pauseTimer(){if(timerId){clearInterval(timerId);timerId=null;}updateTimer();if(!viewer)pushState();}
-function resetTimer(){pauseTimer();seconds=60;updateTimer();if(!viewer)pushState();}
-function setTime(v){pauseTimer();seconds=Number(v)||60;updateTimer();if(!viewer)pushState();}
+function pauseTimer(){if(timerId){clearInterval(timerId);timerId=null;}timerEndAt=0;updateTimer();if(!viewer)pushState();}
+function resetTimer(){pauseTimer();seconds=60;timerEndAt=0;updateTimer();if(!viewer)pushState();}
+function setTime(v){pauseTimer();seconds=Number(v)||60;timerEndAt=0;updateTimer();if(!viewer)pushState();}
+function syncWallClockTimer(){
+  if(rapidRound)return;
+  if(!gameStarted||!timerEndAt)return;
+  const next=Math.max(0,Math.ceil((timerEndAt-Date.now())/1000));
+  if(next!==seconds){
+    const prev=seconds; seconds=next; updateTimer();
+    if((viewer||tvMode) && next!==prev){
+      if(next===0)playTimeUp(); else playTick(next<=10);
+    }
+    if(next===0 && !viewer){
+      timerEndAt=0; if(timerId){clearInterval(timerId);timerId=null;} toast("⏰ TIME!");pushState();
+    }
+  }else updateTimer();
+}
 function updateTimer(){
+  if(timerEndAt && gameStarted && !rapidRound){seconds=Math.max(0,Math.ceil((timerEndAt-Date.now())/1000));}
   const t=rapidRound?fmt(rapidDisplay().time):(gameStarted?fmt(seconds):"");
   $("timer").textContent=viewer?"":t;
   if(viewer)$("viewerTimer").textContent=t;
@@ -1325,7 +1345,7 @@ function syncFullscreenUi(){
 document.addEventListener("fullscreenchange",syncFullscreenUi);
 async function copyViewerLink(){const url=location.href.split("?")[0]+"?view=1&session="+encodeURIComponent(sessionId||"sept-2026");try{await navigator.clipboard.writeText(url);}catch(e){}toast("Viewer link copied");}
 
-function localState(){return {players,scores,current,game,seconds,pairRecords,rapidRound,luckyNames,luckyDraw,luckyWinner,luckyListVerified,gameStarted,gameStatus,celebrationAt,celebrationGame,activePair};}
+function localState(){return {players,scores,current,game,seconds,timerEndAt,pairRecords,rapidRound,luckyNames,luckyDraw,luckyWinner,luckyListVerified,gameStarted,gameStatus,celebrationAt,celebrationGame,activePair};}
 function applyState(s){
   if(!s)return;
   players=Array.isArray(s.players)?s.players:players;
@@ -1333,15 +1353,19 @@ function applyState(s){
   scores=players.map((_,i)=>Array.from({length:games.length},(_,gi)=>Number(scores[i]?.[gi]||0)));
   current=Number.isFinite(Number(s.current))?Number(s.current):current;
   game=Number.isFinite(Number(s.game))?Number(s.game):game;
+  timerEndAt=Number(s.timerEndAt)||0;
   const incomingSeconds=s.seconds!==undefined?Math.max(0,Number(s.seconds)||0):seconds;
-  if(viewer&&s.seconds!==undefined){
-    if(lastViewerTimerSecond===null) lastViewerTimerSecond=incomingSeconds;
-    else if(incomingSeconds!==lastViewerTimerSecond){
-      if(incomingSeconds===0) playTimeUp(); else playTick(incomingSeconds<=10);
-      lastViewerTimerSecond=incomingSeconds;
-    }
-  }
   seconds=incomingSeconds;
+  if(timerEndAt>0 && gameStarted){
+    const derived=Math.max(0,Math.ceil((timerEndAt-Date.now())/1000));
+    if(derived!==seconds) seconds=derived;
+  }
+  if(viewer&&seconds!==lastViewerTimerSecond){
+    if(lastViewerTimerSecond!==null){
+      if(seconds===0) playTimeUp(); else playTick(seconds<=10);
+    }
+    lastViewerTimerSecond=seconds;
+  }
   pairRecords=Array.isArray(s.pairRecords)?s.pairRecords:[];
   rapidRound=s.rapidRound||null;
   luckyNames=Array.isArray(s.luckyNames)?s.luckyNames:[];
@@ -1366,9 +1390,9 @@ function applyState(s){
   renderViewerLuckyList();renderLuckyOverlay();renderLuckyWinner();render();renderTvPresentation();updateTimer();
 }
 let pushLock=false;
-// V1.10: reactions use a dedicated Firebase RTDB path. The timer/state stream remains isolated.
+// V1.11: reactions use a dedicated Firebase RTDB event path. The timer/state stream remains isolated.
 // IMPORTANT: the Firebase RTDB rules must allow authenticated anonymous users to write /sessions/$sessionId/reactions.
-// V1.9: keep live scoreboard state separate from reaction events.
+// V1.11: keep live scoreboard state completely separate from reaction events.
 // Reactions are intentionally NOT children of the state node. This prevents a
 // reaction tap from firing the scoreboard state listener and resetting the
 // synchronized countdown on Viewer/TV.
@@ -1470,53 +1494,33 @@ function startReactionListener(){
   reactionListenerStarted=true;
   const reactionRef=reactionPath();
 
+  // V1.11: reactions are an event stream, not application state.
+  // IMPORTANT: do NOT poll or attach onValue to this path. A growing onValue
+  // snapshot can become expensive during an active event and must never compete
+  // with the scoreboard/timer rendering loop.
   const handleReaction=(key,r)=>{
     if(!key||reactionSeenKeys.has(key))return;
-    if(!r||!REACTION_EMOJIS.includes(r.emoji)){reactionSeenKeys.add(key);return;}
     reactionSeenKeys.add(key);
-    // Do not use client clock timestamps to decide whether a reaction is live.
-    // Viewer and TV devices can have different clocks (especially with casting),
-    // which previously caused perfectly valid reactions to be discarded.
+    if(!r||!REACTION_EMOJIS.includes(r.emoji))return;
     showFloatingReaction(r.emoji);
   };
 
-  const processSnapshot=snap=>{
-    const data=snap.val()||{};
-    Object.entries(data).forEach(([key,r])=>handleReaction(key,r));
-  };
-
-  // TV/Chromecast reliability path: establish a baseline first, then poll the
-  // dedicated reaction stream. This is intentionally independent of the game
-  // state listener, so emoji activity can never affect the countdown.
-  if(tvMode && window.__get){
+  // child_added is sufficient for both Viewer and TV. It fires once for existing
+  // children and then once for every newly pushed reaction. We establish a
+  // baseline first so old reactions don't replay when TV/Viewer opens.
+  if(window.__get && window.__onChildAdded){
     window.__get(reactionRef).then(snap=>{
       const data=snap.val()||{};
       Object.keys(data).forEach(key=>reactionSeenKeys.add(key));
-      reactionListenerStartedAt=Date.now();
-      if(reactionPollId)clearInterval(reactionPollId);
-      reactionPollId=setInterval(()=>{
-        window.__get(reactionRef).then(processSnapshot).catch(e=>console.warn("TV reaction poll",e));
-      },500);
-      // Subscribe only after the baseline is known, so existing reactions are
-      // marked as seen before child_added can deliver them.
-      if(window.__onChildAdded){
-        window.__onChildAdded(reactionRef,snap=>handleReaction(snap.key,snap.val()));
-      }
+      window.__onChildAdded(reactionRef,snap=>handleReaction(snap.key,snap.val()));
     }).catch(e=>{
-      console.warn("TV reaction baseline",e);
-      // Still keep the realtime listener as a fallback if the initial read is unavailable.
-      if(window.__onChildAdded)window.__onChildAdded(reactionRef,snap=>handleReaction(snap.key,snap.val()));
+      console.warn('Reaction baseline read failed; subscribing directly',e);
+      window.__onChildAdded(reactionRef,snap=>handleReaction(snap.key,snap.val()));
     });
-    return;
-  }
-
-  // Viewer: realtime child events remain the primary path, with value fallback.
-  if(window.__onChildAdded)window.__onChildAdded(reactionRef,snap=>handleReaction(snap.key,snap.val()));
-  if(window.__onValue){
-    window.__onValue(reactionRef,snap=>processSnapshot(snap),err=>console.warn("reaction stream",err));
+  }else if(window.__onChildAdded){
+    window.__onChildAdded(reactionRef,snap=>handleReaction(snap.key,snap.val()));
   }
 }
-
 
 async function setupFirebase(){
   try{
@@ -1606,7 +1610,7 @@ function renderTvPresentation(){
 }
 renderGameOptions();renderPlayers();renderLuckyNames();renderViewerLuckyList();renderGameGuide();renderLuckyWinner();render();updateTimer();syncFullscreenUi();renderTvPresentation();setupFirebase();
 
-setInterval(()=>{if(rapidRound)tickRapid();if(luckyDraw)tickLucky();},100);
+setInterval(()=>{syncWallClockTimer();if(rapidRound)tickRapid();if(luckyDraw)tickLucky();},100);
 setInterval(()=>{if(viewer&&rapidRound)updateViewer();if(tvMode&&rapidRound)renderTvPresentation();},250);
 </script>
 </body>
