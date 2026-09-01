@@ -463,6 +463,21 @@ html.tv-mode.tv-winner .tvp-winner-banner small{font-size:clamp(14px,1.3vw,22px)
 html.tv-mode.tv-winner .tvp-winner > .tvp-guide{display:none!important}
 @media(max-aspect-ratio:4/3){.tvp-rapid-list{grid-template-columns:repeat(3,minmax(0,1fr))}.tvp-rapid-item{font-size:10px}.reactionBar{bottom:10px}}
 
+
+/* V1.4 — TV is a dedicated presentation surface. Never render the mobile/desktop screen underneath it. */
+html.tv-mode #screen{display:none!important}
+html.tv-mode #tvPresentation{display:block!important;visibility:visible!important;opacity:1!important}
+html.tv-mode.tv-complete #tvPresentation{display:block!important}
+html.tv-mode.tv-complete .tvp-complete{height:calc(100% - 44px)!important;display:grid!important;grid-template-columns:1fr!important;grid-template-rows:minmax(0,1fr) auto!important;grid-template-areas:"leader" "podium"!important;gap:12px!important;}
+html.tv-mode.tv-complete .tvp-complete .tvp-leader{grid-area:leader!important;height:auto!important;min-height:0!important;overflow:hidden!important;}
+html.tv-mode.tv-complete .tvp-complete .tvp-podium{grid-area:podium!important;height:auto!important;min-height:104px!important;overflow:hidden!important;}
+html.tv-mode.tv-complete .tvp-complete .tvp-pods{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:8px!important;}
+html.tv-mode.tv-complete .tvp-complete .tvp-pod{min-height:72px!important;padding:8px 5px!important;}
+html.tv-mode.tv-complete .tvp-complete .tvp-leader-table{height:calc(100% - 34px)!important;overflow:hidden!important;}
+html.tv-mode.tv-complete .tvp-complete .tvp-leader table{font-size:clamp(12px,1.05vw,18px)!important;}
+html.tv-mode.tv-complete .tvp-complete .tvp-leader th,html.tv-mode.tv-complete .tvp-complete .tvp-leader td{padding:7px 6px!important;}
+
+html.viewer-mode .reactionBar::before{content:"React";font-size:11px;font-weight:900;color:#aeb8ff;align-self:center;margin:0 3px 0 2px;letter-spacing:.4px}
 </style>
 </head>
 <body>
@@ -558,7 +573,7 @@ html.tv-mode.tv-winner .tvp-winner > .tvp-guide{display:none!important}
         <button onclick="verifyLuckyList()">✓ List verified</button>
         <span id="luckyVerifyBadge" class="luckyUnverified">⚠ Review the list first</span>
       </div>
-      <div class="row" style="margin-top:8px"><button id="luckyDrawButton" class="gold luckyDrawBtn" onclick="startLuckyDraw()" disabled>🎲 Pick Next Kitty Host</button><button id="luckyRedoButton" class="hidden" onclick="redoLuckyDraw()">↩ Cancel pick &amp; redo</button><button onclick="clearLuckyNames()">Clear list</button></div>
+      <div class="row" style="margin-top:8px"><button id="luckyDrawButton" class="gold luckyDrawBtn" onclick="startLuckyDraw()" disabled>🎲 Pick Next Kitty Host</button><button id="luckyRedoButton" class="hidden" onclick="redoLuckyDraw()">↩ Cancel pick &amp; redo</button><button id="copyLuckyToPlayersButton" onclick="copyLuckyToPlayers()">👥 Copy list to Players</button><button onclick="clearLuckyNames()">Clear list</button></div>
       <div class="notice" id="luckyStatus">Add names, review them with everyone, then mark the list verified before starting the lucky dip.</div>
     </div>
 
@@ -1050,6 +1065,23 @@ function renderLuckyNames(){
 function addLuckyName(){if(viewer||luckyDraw)return;const n=$("luckyNewName").value.trim();if(!n)return;if(luckyNames.some(x=>x.toLowerCase()===n.toLowerCase())){toast("That name is already on the list");return;}luckyNames.push(n);luckyListVerified=false;$("luckyNewName").value="";renderLuckyNames();pushState();}
 function renameLuckyName(i,n){if(viewer||luckyDraw)return;n=n.trim();if(!n)return;if(luckyNames.some((x,j)=>j!==i&&x.toLowerCase()===n.toLowerCase())){toast("That name is already on the list");renderLuckyNames();return;}luckyNames[i]=n;luckyListVerified=false;renderLuckyNames();pushState();}
 function removeLuckyName(i){if(viewer||luckyDraw)return;luckyNames.splice(i,1);luckyListVerified=false;renderLuckyNames();pushState();}
+function copyLuckyToPlayers(){
+  if(viewer)return;
+  if(!luckyNames.length){toast("Add names to the lucky-dip list first");return;}
+  const names=sortedLuckyNames();
+  const hasScores=players.some((_,i)=>(scores[i]||[]).some(v=>Number(v)!==0));
+  if(hasScores){
+    if(!confirm("Scores already exist. Copying will add only missing lucky-dip names and will not remove existing players. Continue?"))return;
+    const existing=new Set(players.map(n=>String(n).trim().toLowerCase()));
+    names.forEach(n=>{if(!existing.has(n.toLowerCase())){players.push(n);scores.push(games.map(()=>0));existing.add(n.toLowerCase());}});
+  }else{
+    if(!confirm("Replace the current player list with the lucky-dip list? You can remove or edit players afterward."))return;
+    players=[...names];
+    scores=players.map(()=>games.map(()=>0));
+    current=-1;draft=0;gameStarted=false;gameStatus=Array(games.length).fill("pending");activePair=null;rapidRound=null;seconds=60;pauseTimer();
+  }
+  renderPlayers();render();pushState();toast("👥 Lucky-dip names copied to Players");
+}
 function clearLuckyNames(){if(viewer||luckyDraw)return;if(!luckyNames.length)return;if(!confirm("Clear the Next Kitty host list?"))return;luckyNames=[];luckyListVerified=false;renderLuckyNames();pushState();}
 function verifyLuckyList(){
   if(viewer||luckyDraw)return;
@@ -1363,13 +1395,13 @@ function startRealtimeListener(){
 }
 function renderReactionBar(){
   const bar=$("reactionBar"); if(!bar)return;
-  const show=viewer&&!tvMode&&gameStarted&&!luckyDraw;
+  const show=viewer&&!tvMode&&gameStarted;
   bar.classList.toggle("hidden",!show);
   if(!show)return;
   bar.innerHTML=REACTION_EMOJIS.map(e=>`<button type="button" class="reactionBtn" title="Send ${e}" aria-label="Send ${e}" onclick="sendReaction('${e}')">${e}</button>`).join("");
 }
 function sendReaction(emoji){
-  if(!viewer||tvMode||!window.__push||!db||!dbRef||!sessionId||!gameStarted||luckyDraw)return;
+  if(!viewer||tvMode||!window.__push||!db||!dbRef||!sessionId||!gameStarted)return;
   const now=Date.now(); if(now-reactionLastSent<1200)return; reactionLastSent=now;
   window.__push(dbRef(db,"sessions/"+sessionId+"/reactions"),{emoji,at:now,source:"viewer",seq:++reactionSeq}).catch(e=>console.warn("reaction",e));
 }
@@ -1420,7 +1452,7 @@ window.hostLogin=hostLogin;window.hostLogout=hostLogout;window.selectGame=select
 window.changeScore=changeScore;window.saveScore=saveScore;window.undo=undo;window.useFreeScore=useFreeScore;window.startSelectedGame=startSelectedGame;window.endSelectedGame=endSelectedGame;window.addPlayer=addPlayer;window.removePlayer=removePlayer;window.renamePlayer=renamePlayer;
 window.nextGame=nextGame;window.resetEverything=resetEverything;window.startTimer=startTimer;window.pauseTimer=pauseTimer;window.resetTimer=resetTimer;window.setTime=setTime;
 window.toggleFullscreen=toggleFullscreen;window.openTvDisplay=openTvDisplay;window.copyViewerLink=copyViewerLink;window.enableSounds=enableSounds;window.openGuideImage=openGuideImage;window.closeGuideImage=closeGuideImage;window.verifyLuckyList=verifyLuckyList;
-window.applyPairScore=applyPairScore;window.clearPair=clearPair;window.saveEditedScore=saveEditedScore;window.saveEditedPairScore=saveEditedPairScore;window.startRapidRound=startRapidRound;window.stopRapidRound=stopRapidRound;window.addLuckyName=addLuckyName;window.renameLuckyName=renameLuckyName;window.removeLuckyName=removeLuckyName;window.clearLuckyNames=clearLuckyNames;window.startLuckyDraw=startLuckyDraw;window.redoLuckyDraw=redoLuckyDraw;
+window.applyPairScore=applyPairScore;window.clearPair=clearPair;window.saveEditedScore=saveEditedScore;window.saveEditedPairScore=saveEditedPairScore;window.startRapidRound=startRapidRound;window.stopRapidRound=stopRapidRound;window.addLuckyName=addLuckyName;window.renameLuckyName=renameLuckyName;window.removeLuckyName=removeLuckyName;window.clearLuckyNames=clearLuckyNames;window.copyLuckyToPlayers=copyLuckyToPlayers;window.startLuckyDraw=startLuckyDraw;window.redoLuckyDraw=redoLuckyDraw;
 
 // Start with the lucky-dip overlay closed. A fresh draw will open it through renderLuckyOverlay().
 $("luckyOverlay").classList.add("hidden");
