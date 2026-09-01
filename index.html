@@ -439,12 +439,12 @@ html.tv-mode .celebrationOverlay{z-index:800}.tvp-live .tvp-current .player{font
 html.tv-mode.tv-complete .tvp-podium{min-width:0}.tvp-pods{min-height:0}
 
 /* V1.3: viewer reactions — fixed, always reachable during a live game. */
-html.viewer-mode .reactionBar{display:flex!important;position:fixed!important;left:50%!important;bottom:18px!important;transform:translateX(-50%)!important;z-index:2000!important;}
+html.viewer-mode .reactionBar{display:flex!important;position:fixed!important;left:50%!important;bottom:18px!important;transform:translateX(-50%)!important;z-index:2000!important;pointer-events:auto!important;touch-action:manipulation!important;}
 html.tv-mode .reactionBar{display:none!important;}
 
 /* V1.2 priority fixes */
-.reactionBar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:1000;margin:0;padding:7px 9px;border:1px solid #59618a;border-radius:999px;background:#11162bf2;box-shadow:0 12px 35px #0009;backdrop-filter:blur(10px)}
-.reactionBtn{min-width:42px;min-height:42px;font-size:24px}
+.reactionBar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:2000;pointer-events:auto!important;touch-action:manipulation;margin:0;padding:7px 9px;border:1px solid #59618a;border-radius:999px;background:#11162bf2;box-shadow:0 12px 35px #0009;backdrop-filter:blur(10px)}
+.reactionBtn{min-width:42px;min-height:42px;font-size:24px;pointer-events:auto!important;position:relative;z-index:2001;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}.reactionBtn.reactionPressed{transform:scale(.86)!important;box-shadow:0 0 0 3px #8f9cff55;transition:transform .08s}
 .viewer-mode .reactionBar{display:flex!important}
 .tvp-live .tvp-current.rapid-active{justify-content:flex-start;padding-top:14px}
 .tvp-rapid-prompt{font-size:clamp(28px,3vw,52px);font-weight:1000;line-height:1.05;margin:8px 0;text-align:center}
@@ -1397,8 +1397,16 @@ function renderReactionBar(){
   const bar=$("reactionBar"); if(!bar)return;
   const show=viewer&&!tvMode&&gameStarted;
   bar.classList.toggle("hidden",!show);
-  if(!show)return;
-  bar.innerHTML=REACTION_EMOJIS.map(e=>`<button type="button" class="reactionBtn" title="Send ${e}" aria-label="Send ${e}" onclick="sendReaction('${e}')">${e}</button>`).join("");
+  if(!show){bar.innerHTML="";return;}
+  // Use real DOM listeners rather than inline onclick handlers so touch/click works
+  // reliably on mobile browsers and cannot be swallowed by surrounding UI.
+  bar.innerHTML=REACTION_EMOJIS.map((e,i)=>`<button type="button" class="reactionBtn" data-reaction-index="${i}" title="Send ${e}" aria-label="Send ${e}">${e}</button>`).join("");
+  bar.querySelectorAll(".reactionBtn").forEach(btn=>{
+    const e=REACTION_EMOJIS[Number(btn.dataset.reactionIndex)];
+    const fire=(ev)=>{ev.preventDefault();ev.stopPropagation();sendReaction(e);btn.classList.remove("reactionPressed");void btn.offsetWidth;btn.classList.add("reactionPressed");};
+    btn.addEventListener("pointerup",fire,{passive:false});
+    btn.addEventListener("click",fire,{passive:false});
+  });
 }
 function sendReaction(emoji){
   if(!viewer||tvMode||!window.__push||!db||!dbRef||!sessionId||!gameStarted)return;
