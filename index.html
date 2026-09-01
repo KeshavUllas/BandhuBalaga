@@ -725,7 +725,7 @@ const tvMode=new URLSearchParams(location.search).get("tv")==="1";
 // V1.3: explicitly mark the document as viewer mode so viewer-only UI (including reactions) is visible.
 document.documentElement.classList.toggle("viewer-mode",viewer&&!tvMode);
 const REACTION_EMOJIS=["😂","👏","🎉","👀","❤️","😮"];
-let reactionListenerStarted=false; let reactionLastSent=0; let reactionSeq=0;
+let reactionListenerStarted=false; let reactionLastSent=0; let reactionSeq=0; let reactionSeenKeys=new Set(); let reactionListenerStartedAt=0;
 let celebrationAt=0; let celebrationGame=-1; let celebrationTimer=null;
 let activePair=null;
 const $=id=>document.getElementById(id);
@@ -1421,17 +1421,34 @@ function showFloatingReaction(emoji){
   layer.appendChild(el); setTimeout(()=>el.remove(),2900);
 }
 function startReactionListener(){
-  if(!db||!dbRef||!sessionId||!window.__onChildAdded||reactionListenerStarted)return;
+  if(!db||!dbRef||!sessionId||reactionListenerStarted)return;
   reactionListenerStarted=true;
+  reactionListenerStartedAt=Date.now();
   const reactionRef=dbRef(db,"sessions/"+sessionId+"/reactions");
-  window.__onChildAdded(reactionRef,snap=>{
-    const r=snap.val(); if(!r||!REACTION_EMOJIS.includes(r.emoji))return;
+  const handleReaction=(key,r)=>{
+    if(!key||reactionSeenKeys.has(key))return;
+    if(!r||!REACTION_EMOJIS.includes(r.emoji)){reactionSeenKeys.add(key);return;}
+    reactionSeenKeys.add(key);
     const at=Number(r.at)||0;
-    // Ignore only stale reactions when the display first connects; live reactions
-    // are shown on both Viewer and dedicated TV presentation screens.
-    if(at && Date.now()-at>7000)return;
+    // Do not replay an old reaction when a Viewer/TV page first connects, but
+    // allow normal network/casting latency. Anything created after the listener
+    // starts (or within the previous 3 seconds) is treated as live.
+    if(at && at < reactionListenerStartedAt-3000)return;
     showFloatingReaction(r.emoji);
-  });
+  };
+  // Primary live stream.
+  if(window.__onChildAdded){
+    window.__onChildAdded(reactionRef,snap=>handleReaction(snap.key,snap.val()));
+  }
+  // Firebase onValue is used as a reliability fallback for TV/Chromecast
+  // sessions. It also recovers reactions if a child event is missed during
+  // connection/reconnection. The key-based de-duplication prevents doubles.
+  if(window.__onValue){
+    window.__onValue(reactionRef,snap=>{
+      const data=snap.val()||{};
+      Object.entries(data).forEach(([key,r])=>handleReaction(key,r));
+    },err=>console.warn("reaction stream",err));
+  }
 }
 
 async function setupFirebase(){
