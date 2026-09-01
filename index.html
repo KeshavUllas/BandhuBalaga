@@ -431,7 +431,7 @@ html.tv-mode .tvPresentation{display:block;position:fixed;left:0;right:0;top:62p
 
 /* V1.0 live viewer reactions */
 .reactionBar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:10px}.reactionBtn{font-size:22px;line-height:1;padding:8px 10px;border-radius:999px;background:#222844;border:1px solid #343d62;cursor:pointer;transition:transform .15s}.reactionBtn:active{transform:scale(.88)}.reactionBtn:disabled{opacity:.5;cursor:default}.reactionLayer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:120}.floatingReaction{position:absolute;bottom:8%;font-size:clamp(28px,4vw,58px);animation:floatReaction 2.7s ease-out forwards;filter:drop-shadow(0 4px 10px #0008)}@keyframes floatReaction{0%{transform:translate3d(0,0,0) scale(.7) rotate(-6deg);opacity:0}12%{opacity:1}100%{transform:translate3d(var(--drift),-72vh,0) scale(1.15) rotate(var(--rot));opacity:0}}
-html.tv-mode .reactionLayer{z-index:500}.tvp-reactionHint{font-size:clamp(10px,.8vw,14px);opacity:.65;margin-top:5px}
+html.tv-mode .reactionLayer{z-index:99999!important;position:fixed!important;inset:0!important;display:block!important;pointer-events:none!important;overflow:hidden!important}.tvp-reactionHint{font-size:clamp(10px,.8vw,14px);opacity:.65;margin-top:5px}
 
 /* V1.0 polish: score editor, game-complete celebration, compact TV results */
 .scoreEditor{border-color:#39446a}.scoreEditorGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.editResult{margin-top:9px;padding:9px 11px;border-radius:10px;background:#222844;color:#dfe3ff}.celebrationOverlay{position:fixed;inset:0;z-index:140;display:flex;align-items:center;justify-content:center;text-align:center;pointer-events:none;background:radial-gradient(circle at center,#2d3564aa 0,#080b1600 65%);animation:celebrateFade 4.2s ease forwards}.celebrateTitle{font-size:clamp(38px,8vw,110px);font-weight:1000;line-height:1}.celebrateSub{font-size:clamp(20px,3vw,40px);font-weight:900;margin-top:12px}.spark{position:absolute;font-size:clamp(26px,4vw,64px);animation:sparkFly 3.5s ease-out forwards}.spark:nth-child(1){left:8%;top:72%}.spark:nth-child(2){left:18%;top:20%}.spark:nth-child(3){left:35%;top:75%}.spark:nth-child(4){left:52%;top:18%}.spark:nth-child(5){left:70%;top:70%}.spark:nth-child(6){left:84%;top:24%}@keyframes sparkFly{0%{transform:translateY(80px) scale(.2) rotate(0);opacity:0}18%{opacity:1}100%{transform:translateY(-220px) scale(1.3) rotate(180deg);opacity:0}}@keyframes celebrateFade{0%,78%{opacity:1}100%{opacity:0}}
@@ -1415,6 +1415,7 @@ function sendReaction(emoji){
 }
 function showFloatingReaction(emoji){
   const layer=$("reactionLayer"); if(!layer)return;
+  if(tvMode){layer.style.zIndex="99999";layer.style.display="block";layer.style.pointerEvents="none";}
   const el=document.createElement("span"); el.className="floatingReaction"; el.textContent=emoji;
   el.style.left=(8+Math.random()*84)+"%"; el.style.setProperty("--drift",((Math.random()-.5)*140)+"px"); el.style.setProperty("--rot",((Math.random()-.5)*28)+"deg");
   layer.appendChild(el); setTimeout(()=>el.remove(),2900);
@@ -1422,9 +1423,13 @@ function showFloatingReaction(emoji){
 function startReactionListener(){
   if(!db||!dbRef||!sessionId||!window.__onChildAdded||reactionListenerStarted)return;
   reactionListenerStarted=true;
-  window.__onChildAdded(dbRef(db,"sessions/"+sessionId+"/reactions"),snap=>{
+  const reactionRef=dbRef(db,"sessions/"+sessionId+"/reactions");
+  window.__onChildAdded(reactionRef,snap=>{
     const r=snap.val(); if(!r||!REACTION_EMOJIS.includes(r.emoji))return;
-    const at=Number(r.at)||0; if(at && Date.now()-at>7000)return;
+    const at=Number(r.at)||0;
+    // Ignore only stale reactions when the display first connects; live reactions
+    // are shown on both Viewer and dedicated TV presentation screens.
+    if(at && Date.now()-at>7000)return;
     showFloatingReaction(r.emoji);
   });
 }
