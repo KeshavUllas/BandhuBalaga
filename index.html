@@ -438,6 +438,10 @@ html.tv-mode .reactionLayer{z-index:500}.tvp-reactionHint{font-size:clamp(10px,.
 html.tv-mode .celebrationOverlay{z-index:800}.tvp-live .tvp-current .player{font-size:clamp(22px,2.5vw,42px)}.tvp-live .tvp-current .playing{font-size:clamp(13px,1vw,18px)}
 html.tv-mode.tv-complete .tvp-podium{min-width:0}.tvp-pods{min-height:0}
 
+/* V1.3: viewer reactions — fixed, always reachable during a live game. */
+html.viewer-mode .reactionBar{display:flex!important;position:fixed!important;left:50%!important;bottom:18px!important;transform:translateX(-50%)!important;z-index:2000!important;}
+html.tv-mode .reactionBar{display:none!important;}
+
 /* V1.2 priority fixes */
 .reactionBar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:1000;margin:0;padding:7px 9px;border:1px solid #59618a;border-radius:999px;background:#11162bf2;box-shadow:0 12px 35px #0009;backdrop-filter:blur(10px)}
 .reactionBtn{min-width:42px;min-height:42px;font-size:24px}
@@ -703,6 +707,8 @@ let db=null,dbRef=null,sessionId=null,firebaseListenerStarted=false;
 let soundEnabled=false,audioCtx=null,lastTimerSecond=null,lastRapidSecond=null,lastLuckySecond=null,lastViewerTimerSecond=null;
 const viewer=new URLSearchParams(location.search).get("view")==="1";
 const tvMode=new URLSearchParams(location.search).get("tv")==="1";
+// V1.3: explicitly mark the document as viewer mode so viewer-only UI (including reactions) is visible.
+document.documentElement.classList.toggle("viewer-mode",viewer&&!tvMode);
 const REACTION_EMOJIS=["😂","👏","🎉","👀","❤️","😮"];
 let reactionListenerStarted=false; let reactionLastSent=0; let reactionSeq=0;
 let celebrationAt=0; let celebrationGame=-1; let celebrationTimer=null;
@@ -1434,7 +1440,7 @@ function renderTvPresentation(){
   let body='';
 
   /* Winner announcement always owns the TV screen. No guide, leaderboard or Top 6. */
-  if(!anyLive&&drawDone&&winner){
+  if(!anyLive&&completedCount===0&&drawDone&&winner){
     body=`<div class="tvp-title">${title}</div><div class="tvp-winner"><div class="tvp-winner-banner"><small>🎲 NEXT KITTY HOST</small>🎉 ${escv(winner)} 🎉<div style="font-size:.42em;margin-top:14px;letter-spacing:.5px">Congratulations!</div></div></div>`;
   }else if(anyLive){
     const rows=sorted().map((p,r)=>`<tr><td>${r<3?['🥇','🥈','🥉'][r]:r+1}</td><td><b>${escv(p.name)}</b></td>${games.map((_,gi)=>`<td>${Number(scores[p.i]?.[gi]||0)}</td>`).join('')}<td><b>${p.total}</b></td></tr>`).join('');
@@ -1446,8 +1452,7 @@ function renderTvPresentation(){
     if(isRapid){
       const d=rapidDisplay();
       const idx=Math.min(14,Math.max(0,Math.floor(Math.max(0,Date.now()-rapidRound.startAt)/4000)));
-      const list=rapidRound.prompts.map((p,i)=>`<div class="tvp-rapid-item ${i===idx?'active':''} ${i<idx?'done':''}">${i+1}. ${escv(p)}</div>`).join('');
-      currentMarkup=`<section class="tvp-card tvp-current rapid-active"><div class="status">🟢 GAME IN PROGRESS</div><div class="game">Rapid Draw &amp; Guess</div><div class="playing">PAIR</div><div class="player">${escv(pairName||'—')}</div><div class="tvp-rapid-prompt">${escv(d.prompt)}</div><div class="timer">${fmt(d.time)}</div><div class="tvp-rapid-list">${list}</div></section>`;
+      currentMarkup=`<section class="tvp-card tvp-current rapid-active"><div class="status">🟢 GAME IN PROGRESS</div><div class="game">Rapid Draw &amp; Guess</div><div class="playing">PAIR</div><div class="player">${escv(pairName||'—')}</div><div class="tvp-rapid-prompt">${escv(d.prompt)}</div><div class="timer">${fmt(d.time)}</div></section>`;
     }else{
       const playerName=activePair&&players[activePair.a]&&players[activePair.b]?players[activePair.a]+' & '+players[activePair.b]:(players[current]||'—');
       const label=game===4?'PAIR':'NOW PLAYING';
