@@ -158,11 +158,11 @@ html.tv-mode.tv-pregame .tvGuideTile .tvGuideName{height:42px;display:flex;align
 html.tv-mode.tv-pregame #viewerLuckyListCard,html.tv-mode.tv-pregame #luckyWinnerBanner,html.tv-mode.tv-pregame #viewerLiveBar,html.tv-mode.tv-pregame #currentCard,html.tv-mode.tv-pregame #leaderCard,html.tv-mode.tv-pregame #podiumCard{display:none!important}
 
 /* TV state after the host enters the Lucky Dip list: list + one selected guide. */
-html.tv-mode.tv-lucky main#screen{grid-template-columns:minmax(280px,.72fr) minmax(0,1.28fr);grid-template-rows:auto minmax(0,1fr);grid-template-areas:"hero hero" "lucky guide"}
+html.tv-mode.tv-lucky main#screen{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);grid-template-areas:"hero" "lucky"}html.tv-mode.tv-lucky .tvp-lucky{grid-template-columns:1fr!important}html.tv-mode.tv-lucky .tvp-lucky>.tvp-card:first-child{width:100%;max-width:none}html.tv-mode.tv-lucky .tvp-lucky>.tvp-card:nth-child(2){display:none!important}html.tv-mode.tv-lucky .tvp-names{grid-template-columns:repeat(4,minmax(0,1fr));max-height:none;overflow:hidden;gap:10px}html.tv-mode.tv-lucky .tvp-name{font-size:clamp(16px,1.45vw,26px);padding:10px 12px}html.tv-mode.tv-lucky .tvp-card h2{font-size:clamp(22px,2.2vw,36px)}
 html.tv-mode.tv-lucky #viewerLuckyListCard{grid-area:lucky;display:block!important;margin:0;min-height:0;height:calc(100vh - 92px);overflow:hidden}
 html.tv-mode.tv-lucky #viewerLuckyListCard.hidden{display:block!important}
 html.tv-mode.tv-winner #viewerLuckyListCard.hidden{display:none!important}
-html.tv-mode.tv-lucky #gameGuideCard{grid-area:guide;margin:0;height:calc(100vh - 92px);overflow:hidden}
+html.tv-mode.tv-lucky #gameGuideCard{display:none!important}
 html.tv-mode.tv-lucky #gameGuideCard .gameGuideCardHeader{display:block}
 html.tv-mode.tv-lucky #gameGuideCard .gameGuideChooser{display:flex;max-width:100%;margin-top:8px}
 html.tv-mode.tv-lucky #gameGuideSelect{width:100%;max-width:none}
@@ -230,8 +230,8 @@ html.tv-mode .gameGuideImage,html.tv-mode .tvGuideImage{image-rendering:auto;tra
   html.tv-mode.tv-pregame main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "guide"}
   html.tv-mode.tv-pregame #gameGuideGrid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr))}
   html.tv-mode.tv-pregame #gameGuideCard{height:auto;min-height:calc(100vh - 92px)}
-  html.tv-mode.tv-lucky main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "lucky" "guide"}
-  html.tv-mode.tv-lucky #viewerLuckyListCard,html.tv-mode.tv-lucky #gameGuideCard{height:auto}
+  html.tv-mode.tv-lucky main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "lucky"}
+  html.tv-mode.tv-lucky #viewerLuckyListCard{height:auto}
   html.tv-mode.tv-winner main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "winner" "guide"}
   html.tv-mode.tv-winner #luckyWinnerBanner,html.tv-mode.tv-winner #gameGuideCard{height:auto}
   html.tv-mode.tv-live main#screen{grid-template-columns:1fr;grid-template-areas:"hero" "live" "current" "leader" "podium"}
@@ -1601,7 +1601,7 @@ function renderTvPresentation(){
     const reviewText='Please review this list. If anyone is missing, tell the host before the lucky dip starts.';
     const verifyText=luckyListVerified?'✓ Host has marked this list verified':'⚠ List is awaiting host verification';
     const verifyClass=luckyListVerified?'luckyVerified':'luckyUnverified';
-    body=`<div class="tvp-title">${title}</div><div class="tvp-lucky"><section class="tvp-card"><h2>🎲 Next Kitty host — Lucky Dip List</h2><div class="tvp-review">${reviewText}</div><div class="tvp-names">${names}</div><div class="tvp-verify ${verifyClass}">${verifyText}</div></section><section class="tvp-card"><div class="tvp-guide"><img src="${guideImg}" alt="${escv(guideTitle)}"></div></section></div>`;
+    body=`<div class="tvp-title">${title}</div><div class="tvp-lucky"><section class="tvp-card"><h2>🎲 Next Kitty Host — Lucky Dip List</h2><div class="tvp-review">${reviewText}</div><div class="tvp-names">${names}</div><div class="tvp-verify ${verifyClass}">${verifyText}</div></section></div>`;
   }else{
     const tiles=games.map((g,i)=>`<div class="tvp-tile"><img src="${GAME_GUIDE_IMAGES[i]}" alt="${escv(gameInfo[i]?.title||g[1])}"><div class="name">${g[0]} ${escv(g[1])}</div></div>`).join('');
     body=`<div class="tvp-title">${title}</div><div class="tvp-grid tvp-pregame">${tiles}</div>`;
